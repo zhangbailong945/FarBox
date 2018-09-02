@@ -1,0 +1,45 @@
+---
+date: 2018-08-06 20:39
+status: public
+title: 2018-08-06-3控件13QFontDialog
+---
+
+## 定义
+* QFontDialog控件是一个常用的字体选择对话框，可以让用户选择所显示文本的字号大小，样式和格式。QFontDialog是QDialog标准对话框的一部分。使用QFontDialog类的静态方法getFont()，可以从字体选择对话框中选择文本的显示字号大小、样式和格式。
+
+## 继承关系
+QFontDialog《QDialog《QWidget《QObject/QPaintDevice
+
+## 代码
+```python
+from PyQt5.QtGui import QFont
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QPushButton,QLabel,QFontDialog
+import sys
+
+
+class FontDialog(QWidget):
+    def __init__(self,parent=None):
+        super(FontDialog,self).__init__(parent)
+        layout=QVBoxLayout()
+        self.fontBtn=QPushButton("选择字体")
+        self.fontBtn.clicked.connect(self.getFont)
+        layout.addWidget(self.fontBtn)
+        self.fontLabel=QLabel("Hello,测试字体")
+        layout.addWidget(self.fontLabel)
+        self.setLayout(layout)
+        self.setWindowTitle("QFontDialog例子")
+        self.resize(300,100)
+    
+    def getFont(self):
+        font,ok=QFontDialog.getFont()
+        if ok:
+            self.fontLabel.setFont(font)
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    fontW=FontDialog()
+    fontW.show()
+    sys.exit(app.exec_())
+```

@@ -1,0 +1,138 @@
+---
+date: 2018-04-14 17:03
+status: public
+title: Django-contrib-comments开发实战
+---
+
+##什么是Django-contrib-comments？
+comments翻译出来是评论，所有这个模块是为django网站提供一个简单的评论系统。
+##django-contrib-comments开发实战
+>创建简单博客
+
+ 首先用virtualenv为项目新建一个虚拟坏境，然后按照django,和django-contrib-comments.
+ 1.创建虚拟坏境
+```python
+python -m virtualenv pythonzh_env
+````
+2.激活虚拟坏境
+```shell
+cd pythonzh_env
+cd scripts
+activate
+```
+3.安装django和django-contrib-comments
+```python
+python -m pip install django
+python -m pip install django-contrib-comments
+```
+4.用django创建博客项目
+```python
+django-admin startproject djComments  //创建项目
+cd djComments
+django-admin startapp blog //创建博客app
+```
+5.setting配置INSTALLED_APP下加入
+```python
+'blog', //将博客app引入
+```
+6.创建博客模型用于ORM，在目录blog/models.py下
+```python
+from django.db import models
+from django.contrib.auth.models import User
+# Create your models here.
+#创建博客文章Category模型
+class Category(models.Model):
+    name=models.CharField(max_length=80)
+    def __str__(self):
+        return self.name
+
+
+#创建博客文章Tags模型
+class Tags(models.Model):
+    name=models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+#创建博客文章Post模型
+class Post(models.Model):
+    #标题
+    title=models.CharField(max_length=70)
+    #内容
+    body=models.TextField()
+    #发表时间
+    created_time=models.DateTimeField()
+    #修改时间
+    modified_time=models.DateTimeField()
+    #分类外键
+    category=models.ForeignKey(Category,on_delete=models.CASCADE)
+    #与标签Tags建立多对多关系
+    tags=models.ManyToManyField(Tags,blank=True)
+    #与用户建立外键
+    author=models.ForeignKey(User,on_delete=models.CASCADE)
+    #建立模型对象管理
+    objects=models.Manager()
+    
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-created_time']    #建立模型对象管理
+    objects=models.Manager()
+```
+7.用ORM机制将模型映射到sqlite数据当中
+```python
+python manage.py migrate
+````
+8.编写blog应用的首页视图/blog/views.py
+```python
+from django.shortcuts import render
+from .models import Post
+# Create your views here.
+
+def index(request):
+    blog_list=Post.objects.all().order_by('-created_time')
+    return render(request,'blog/index.html',context={'blog_list':blog_list})
+```
+9.创建模板文件,并修改setting.py的TEMPLATES 
+在项目根目录创建templates/blog/index.html文件
+```html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>博客列表</title>
+	</head>
+	<body>
+		
+	</body>
+</html>
+```
+```python
+'DIRS': [os.path.join(BASE_DIR,'templates')],
+```
+> 创建超级管理员，添加文章数据
+
+1.创建后台超级管理员
+```python
+python manage.py createsuperuser
+```
+2.登录后台http://127.0.0.1:8000，注册数据模型/blog/admin.py
+```python
+from django.contrib import admin
+from .models import Post,Category,Tags
+# Register your models here.
+admin.site.register(Post)
+admin.site.register(Category)
+admin.site.register(Tags)
+```
+2.启动django服务器
+```python
+python manage.py runserver
+```
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+---
+date: 2018-04-01 17:27
+status: public
+title: Django实现github第三方社交账号登录
+---
+
+##Django-allauth
+1.Django-allauth一个很强大的库，主要用来帮助django实现各大主流社交平台的账号登录。因此你不必构建自己的社交账户系统，django-allauth能够帮你轻松网罗各大社交平台的用户。这样既方便了用户，也成就了自己的网站，何乐而不用？
+2.Django-allauth支持很多社交平台，大概有60多个，包括国外的有Facebook、Github、Google、Twitter等;国内的有百度、微信、支付宝、微博等。
+3.Django-allauth文档地址：[Django-allauth文档地址](http://django-allauth.readthedocs.io/en/latest/installation.html)
+##Django-allauth配置
+1.在virtualenv坏境下创建一个名叫githubLogin的项目。
+```python
+django-admin startproject githublogin
+```
+2.安装Django-allauth库
+```python
+pip install django-allatuh
+```
+3.进入githublogin项目里创建app名为github
+```python
+python manage.py startapp github
+```
+4.修改项目settings.py
+```python
+#INSTALLED_APPS下加入
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github'
+
+```
+5.在settings.py末尾加上
+```python
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+```
+6.修改urls.py的urlpattern下加上如下代码
+```python
+re_path(r'^accounts/', include('allauth.urls')),
+```
+7.将配置好的django-allauth应用到sqlite数据库,并创建后台超级管理员账号
+```python
+python manage.py makemigrations #记录等model的修改操作
+```
+```python
+python manage.py migrate #对修改的model，直接应用到数据库
+```
+```python
+python manage.py createsuperuser #创建后台超级管理员
+```
+8.github配置
+创建application,[create app registration](https://github.com/settings/applications/new)
+
+
+

@@ -1,0 +1,66 @@
+---
+date: 2018-08-06 20:37
+status: public
+title: 2018-08-06PyQt5控件14-QFileDialog
+---
+
+## 定义
+* QFileDialog用于打开和保存文件的标准对话框。QFileDialog类继承自QDialog类。QFileDialog在打开文件时使用了文件过滤器，用于显示指定扩展名的文件。也可以设置使用QFileDialog打开文件时的起始目录和指定扩展名的文件。
+
+## 继承关系
+QFileDialog《QDialog《QWidget《QObject/QPaintDevice
+
+## 方法
+方法 | 描述
+------|-------
+getOpenFileName() | 返回用户选择文件的名称，并打开该文件
+getSaveFileName() | 使用用户选择的文件名并保存文件
+setFileMode() | 可以选择的文件类型，枚举常量是：QFileDialog.AnyFile,任何文件；QFileDialogExistingFile,已存在的文件；QFileDialog.Directory,文件目录；QFileDialog.ExistingFiles,已经存在的多个文件。
+
+## 代码
+```python
+import sys
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+
+class FileDialog(QWidget):
+    def __init__(self,parent=None):
+        super(FileDialog,self).__init__(parent)
+        layout=QVBoxLayout()
+        self.loadPicBtn=QPushButton("加载图片")
+        self.loadPicBtn.clicked.connect(self.getPic)
+        layout.addWidget(self.loadPicBtn)
+        self.picLabel=QLabel("")
+        layout.addWidget(self.picLabel)
+        self.loadFileBtn=QPushButton("加载文件")
+        self.loadFileBtn.clicked.connect(self.getFile)
+        layout.addWidget(self.loadFileBtn)
+        self.fileTextEdit=QTextEdit()
+        layout.addWidget(self.fileTextEdit)
+        self.setLayout(layout)
+        self.resize(300,400)
+        self.setWindowTitle("QFileDialog例子")
+    
+    def getPic(self):
+        fname,_=QFileDialog.getOpenFileName(self,'请选择图片','C:\\',"Image files (*.jpg *.gif)")
+        self.picLabel.setPixmap(QPixmap(fname))
+    
+    def getFile(self):
+        dlg=QFileDialog()
+        dlg.setFileMode(QFileDialog.AnyFile)
+        dlg.setFilter(QDir.Files)
+        if dlg.exec_():
+            filename=dlg.selectedFiles()
+            f=open(filename[0],'r')
+            with f:
+                data=f.read()
+                self.fileTextEdit.setText(data)
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    fileW=FileDialog()
+    fileW.show()
+    sys.exit(app.exec_())
+```

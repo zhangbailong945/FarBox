@@ -1,0 +1,55 @@
+---
+date: 2018-08-22 22:50
+status: public
+title: 2018-08-22QPixmap
+---
+
+## 定义
+* QPixmap类用于绘图设备的图像显示，他可以作为一个QPaintDevice对象，也可以加载到一个控件中，通常是标签或按钮，用于标签或按钮上显示图像。
+* QPixmap可以读取的图像文件类型有BMP、GIF、JPG、JPEG、PNG、PBM、PGM、PPM、XBM、XPM等。
+
+## 继承关系
+QPximap<-QPaintDevice
+
+## 方法
+方法 | 描述
+-----|-------
+copy() | 从Rect对象复制到QPixmap对象
+fromImage() | 从QImage对象转换为QPixmap对象
+grabWidget() | 从给定的窗口小控件创建一个像素图
+grabWindow | 在窗口中创建数据的像素图
+load() | 加载图像文件作为QPixmap对象
+save() | 将QPixmap对象保存为文件
+toImage() | 将QPixmap对象转换为QImage对象
+
+## 代码
+```python
+import sys
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont,QPixmap
+from PyQt5.QtWidgets import QApplication,QWidget,QLabel,QVBoxLayout
+
+
+class PixmapWidget(QWidget):
+
+    def __init__(self,parent=None):
+        super(PixmapWidget,self).__init__(parent)
+        self.setupUi()
+    
+    def setupUi(self):
+        layout=QVBoxLayout()
+        picLabel=QLabel()
+        picLabel.setPixmap(QPixmap("F:/NovelScrapy/images/mushenji.jpg"))
+        layout.addWidget(picLabel)
+        self.setLayout(layout)
+        self.setWindowTitle("QPixmap例子")
+        
+
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    pixmapW=PixmapWidget()
+    pixmapW.show()
+    sys.exit(app.exec_())
+```

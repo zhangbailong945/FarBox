@@ -1,0 +1,46 @@
+---
+date: 2018-06-14 22:26
+status: public
+title: 2018-06-14PyQt5控件2-文本框类控件
+---
+
+##定义
+QLineEdit类是一个单行文本控件，可以输入单行字符串。
+
+##继承关系
+QLindeEdit继承QWidget
+
+##常用方法
+
+方法|描述
+------------|----------
+clear()|清楚文本框内容
+setEchoMode()|设置文本显示格式：QLineEdit.Normal,正常显示输入的字符，默认选项；QLineEdit.NoEcho，不显示任何输入的字符，常用于密码类型的输入，而且密码长度也是保密。QLineEdit.Passwod，显示与平台相关的密码掩码字符，而不是实际输入的字符。QLineEdit.PasswordEchoOnEdit，在编辑时显示字符，辅助显示密码类型的输入。
+setPlaceholderText()|设置文本框浮现文字
+setMaxLength()|设置文本框所允许的最大字符数
+setReadOnly() | 设置文本框为只读
+setText() | 设置文本框内容
+Text() | 返回文本的内容
+setDragEnabled() | 设置文本框是否接受拖动
+selectAll() | 全选
+setFocus() | 得到焦点
+setInputMask() | 设置掩码
+setValidator() | 设置文本框的验证规则，将显示任意可能输入的文本。QIntValidator,限制输入证书.QDoubleValidator，限制输入浮点数。QRegxpValidator()，检测输入是否符合正则表达式。
+
+##掩码格式
+
+掩码格式|注意事项
+----------|---------
+000,000,000,000;_ | ip地址，空白字符是"_"
+HH:HH:HH:HH:HH:HH | MAC地址
+0000-00-00 | 日期，空白字符是空格
+>AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;# |许可证号，空白字符是"_"，所有字母字符转换为大写。
+
+##信号
+
+信号|描述
+-------------|-------------
+selectionChanged | 只要选择改变了，这个信号就会被发射
+textChanged | 当修改文本内容时，这个信号会发射
+editingFinished | 当编辑文本结束时，这个信号会发射
+

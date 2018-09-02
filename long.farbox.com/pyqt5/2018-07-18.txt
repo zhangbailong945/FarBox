@@ -1,0 +1,20 @@
+---
+date: 2018-07-19 21:46
+status: public
+title: 2018-07-18PyQt5-4QRadioButton
+---
+
+## 定义
+* QRadioButton类继承自QAbstractButton类，它提供了一组可选的按钮和文本标签、用户可以选择其中一个选项，标签用于显示对应的文本信息。单选按钮是一种开关按钮，可以切换为on或者off,即checked或者unchecked，主要是为用户提供多选一的选择。
+* QRadioButton是单选按钮空间默认是独占（Exclusive）。对于继承自同一个父类Widget的多选按钮，他们属于同一个组合，按当选按钮组里面，一次只能选择一个单选按钮。如果需要多个独占的按钮组合，则需要将他们放在QGroupBox或者QButtonGroup。
+* 单选按钮切换到on或者off时，就会发送toggled信号，绑定这个信号，在按钮状态发生改变时，触发相应的行为。
+
+# 方法
+方法|描述
+------|-------
+setCheckable() | 设置按钮是否已经被选中，可以改变单选按钮选中状态，设置为true，则表示单选按钮将保持已点击和释放状态
+isChecked()|返回单选按钮的状态，返回值为True和False.
+setText() | 设置单选按钮的显示文本
+text()|返回单选按钮的显示文本
+
+##代码示例

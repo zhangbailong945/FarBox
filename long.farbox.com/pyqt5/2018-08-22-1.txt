@@ -1,0 +1,52 @@
+---
+date: 2018-08-22 22:50
+status: public
+title: 2018-08-22PyQt5控件16-QPen
+---
+
+## 定义
+* QPen（钢笔）是一个基本的图形对象，用于绘制直线、曲线或者给轮廓画出矩形、椭圆形、多边形其他形状等。
+
+## 继承关系
+QPen
+
+## 代码
+```python
+import sys
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+
+
+class PenWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+    
+    def initUI(self):
+        self.setGeometry(300,300,280,270)
+        self.setWindowTitle("QPen例子演示")
+    
+    def paintEvent(self,e):
+        painter=QPainter()
+        painter.begin(self)
+        self.drawLines(painter)
+        painter.end()
+    
+
+    def drawLines(self,painter):
+        pen=QPen(Qt.black,2,Qt.SolidLine)
+        painter.drawLine(20,40,250,40)
+
+        pen.setStyle(Qt.DashLine)
+        painter.setPen(pen)
+        painter.drawLine(20,80,250,80)
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    penW=PenWidget()
+    penW.show()
+    sys.exit(app.exec_())
+
+```

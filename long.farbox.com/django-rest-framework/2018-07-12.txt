@@ -1,0 +1,80 @@
+---
+date: 2018-07-12 19:34
+status: public
+title: 2018-07-12安装django-rest-framework
+---
+
+## 什么是django-rest-framewrok?
+* django-rest-framework是基于django的REST框架，是一个强大灵活的构建Web API的工具包。
+
+## 安装django-rest-framework
+
+1.  pip install djangorestframework
+
+2.  pip install markdown
+
+3. pip install django-filter
+
+## 在项目中创建名api的app
+
+python manage.py startapp api
+
+## 修改setting.py配置文件
+```
+INSTALLED_APPS=(
+'rest_framework',
+'api.apps.ApiConfig',
+)
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+```
+
+## 创建序列化器
+* 序列化器的作用可以把模型转换成需要返回的json、xml类型数据。在api文件夹创建serializers.py文件。
+
+```
+from rest_framework import serializers
+from . models import Post
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Post
+        fields=('id','title','content','category','tag','user','created_time')
+```
+
+## 配置url
+* 在api文件夹创建urls.py,用Router自动处理url和view的连接。
+
+```
+from django.conf.urls import re_path,include
+from api import views
+
+urlpatterns=[
+    
+]
+```
+
+* 将api应用程序中的urls.py与项目的urls.py相连
+```
+from django.urls import path,re_path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    re_path(r'api/',include("api.urls")),
+]
+```
+
+##  编写api视图
+
+1. 使用viewsets
+
+```
+
+```
+

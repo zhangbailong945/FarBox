@@ -1,0 +1,51 @@
+---
+date: 2018-08-02 21:59
+status: public
+title: 2018-08-02PyQt5控件10-QDialog类控件
+---
+
+## 定义
+* 为了人机交互，很多系统都提供了一系列标题对话框来完成特定场景的功能。如选择字体大小，字体颜色。PyQt5定义了标准对话框类，使开发者方便快捷地通过各个类完成字体大小、字体颜色，以及文件选择。
+
+## 继承关系
+QDialog《QWidget《QObject/QPaintDevice
+## 方法
+方法 | 描述
+-----|-----
+setWindowTitle | 设置对话框标题
+setWindowModality() | 设置窗体模态.取值如下：Qt.NonModal,非状态，可以和程序的其他窗口交互；Qt.WindowModal,窗体模态，程序在未处理完当前对话框时，将阻止和对话框的父窗口进行交互；Qt.ApplicationModal,应用程序模态，阻止和任何其他窗口进行交互。
+
+
+## 代码
+```python
+import sys
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication,QWidget,QDialog,QMainWindow,QPushButton
+
+class DialogDemo(QMainWindow):
+    def __init__(self,parent=None):
+        super(DialogDemo,self).__init__(parent)
+        self.setWindowTitle('QDialogDemo')
+        self.resize(300,100)
+
+        self.btn=QPushButton(self)
+        self.btn.setText("弹出对话框")
+        self.btn.move(50,50)
+        self.btn.clicked.connect(self.showDialog)
+    
+    def showDialog(self):
+        dialog=QDialog()
+        btn=QPushButton('ok',dialog)
+        btn.move(50,50)
+        dialog.setWindowTitle("dialog")
+        dialog.setWindowModality(Qt.ApplicationModal)
+        dialog.exec_()
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    demo=DialogDemo()
+    demo.show()
+    sys.exit(app.exec_())
+
+```

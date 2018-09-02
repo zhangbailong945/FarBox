@@ -1,0 +1,154 @@
+---
+date: 2018-05-05 11:16
+status: public
+title: 将网站升级为https
+---
+
+##三个基本概念
+### 1.什么是HTTP
+> 概念 
+
+http是一种互联网常用的协议。全名叫超文本传输协议（HTTP，HyperText Transfer Protocol）,所有的www文件都必须遵守这个协议。
+> 技术原理
+
+HTTP是一个客户端和服务器端请求和应答的标准（基于TCP）。客户端是终端用户（user agent），服务器就是咱们的网站(origin server)。用户通过自己电脑上的Web浏览器、爬虫等工具发起一个服务器上指定端口（默认是80端口）的HTTP请求。通过HTTP协议请求的资源由统一资源标示符（URLs）来标识。
+    
+> 用法
+
+当我们的网站开发好以后，并且有自己的域名。这个域名就是我们的地址，也是统一资源定位符。这个域名地址就跟我们的身份证号码一样，起到识别的功能。客户通过浏览器的超文本传输协议（HTTP）将我们的网站的网页提取出来，并翻译成网页响应并展示给客户。
+
+> 缺点
+
+如果我们的网站只是一些普通的企业网站，博客等，这些只是用来给客户展示信息和文章的网站。那么我们的网站通过HTTP协议传输给客户没有什么大问题。但是我们的网站涉及到金融，钱财转账的功能时候，我们HTTP协议就会显得捉襟见肘。因为HTTP明文传输，没有加密，所有这里存在安全隐患。
+
+> 详情
+
+关于http的详细资料可以参考百度百科[HTTP详情](https://baike.baidu.com/item/http/243074)、或者购买相应的书籍。
+###2.什么是HTTPS
+> 概念
+
+HTTPS可以说是HTTPS的升级版，就是多了S。聪明你一定能猜到这个S就是英文中的secure（安全）,但只猜到一半。这个S全称叫Secure Socket Layer(安全套接字)，简称SSL，当然他还有一个哥哥叫TSL，这个就不说了。前面说了HTTP的缺点就是明文传输存在安全隐患。所以前辈们就在HTTP下加入SSL层。这样通过HTTP协议传输的内容就可以进行加密，大大提升了数据传输的安全性。
+
+> 详情
+
+关于HTTPS的详细资料可以参考百度百科[HTTPS](https://baike.baidu.com/item/https/285356)、或购买相关书籍。
+
+###3.什么是SSL
+> 概念
+
+SSL(Secure Socket Layer 安全套接字)，它也是一种通讯协议，位于TCP/IP协议与各种应用层协议之间，为数据通讯提供安全支持。SSL协议可以分为两层：SSL记录协议（SSL Record Protocol）；它建立在可靠的传输协议（TCP）之上，用于高层协议提供数据封装、压缩、加密等基本功能。SSL握手协议（SSL Handsshake Protocol）；它建立在SSL记录协议之上，用于实际的数据传输开始前，通过双方进行身份认证、协商加密算法、交换加密密钥等。
+
+> 作用
+
+* 认证用户和服务器，确保数据发送到正确的客户机和服务器。
+* 加密数据以防止数据中途被窃取
+* 维护数据的完整性，确保数据在传输过程中不被改变。
+
+> 支持服务器类型
+
+* Tomact5.x
+* Nginx
+* IIS
+* Apache 2.x
+
+> 详情
+
+关于SSL协议的详细描述，请参考百度百科[SSL](https://baike.baidu.com/item/ssl)、或者购买相关书籍深入学习。
+
+##网站升级到HTTPS流程
+###网站基本坏境
+* 服务器商：腾讯云
+* 系统：Centos7.4 64bit
+* Web服务器：Nginx-1.12.2
+* 域名：loachblog.com(已备案)
+* 网站已经上线，HTTP能访问。
+
+###安装SSL
+> 1.安装SSL相关的库
+```shell
+yum -y install pcre zlib opensssl openssl-devel
+```
+
+> 2.重新编译安装nginx,并加入ssl模块支持
+```shell
+systemctl stop nginx.service
+cd /home/myhome/software/nginx-1.12.2
+./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_modul
+make && make install
+systemctl start nginx.service
+```
+
+> 3.下载腾讯云提供的SSL证书，上传到服务器
+
+登录自己的[腾讯云控制台](https://console.cloud.tencent.com),选择云产品菜单->SSL证书管理->证书列表。选择腾讯云免费赠送一年的SSL证书，并通过FTP工具上传到自己的服务器FTP目录。我的是/home/myhome/software/ssl
+
+> 4.安装证书，并在Nginx上配置HTTPS
+
+* 将上传的SSL证书拷贝到nginx的安装目录。
+```shell
+cp /home/myhome/software/ssl/Nginx/1_www.yourdomain.com_bundle.crt /usr/local/nginx/conf
+cp /home/myhome/software/ssl/Nginx/2_www.yourdomian.com.key /usr/local/nginx/conf
+```
+* 修改nginx.conf，并配置HTTPS
+```shell
+vi /usr/local/nginx/conf/nginx.conf
+#在最末尾，将HTTPS的注释项去掉，修改如下
+server {
+        listen       443;
+        server_name  yourdomiancom;
+        ssl on;
+        ssl_certificate      1_yourdomiancom_bundle.crt;
+        ssl_certificate_key  2_yourdomiancom.key;
+
+        ssl_session_timeout  5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+        ssl_prefer_server_ciphers  on;
+
+        location /static/ {
+           root  /home/myhome/sites/yourdomiancom.com/blog/;
+        }
+
+    }
+#重启nginx
+systemctl start nginx.service
+```
+
+* 默认https访问网站
+上面的配置修改以后，自己的网站默认还是http访问，要想要网站默认为https访问，就必须重写url或者在自己的网站上做重定向。好在nginx服务器支持重写功能。所以只需要在nginx.conf的http server配置加上重写代码即可。
+```shell
+vi /usr/local/nginx/conf/nginx.conf
+server {
+        listen       80;
+        server_name  132.163.52.62;
+        #重写代码，当http访问时跳到https
+        rewrite ^(.*) https://$host$1 permanent;
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+        location /static/ {
+         root  /home/myhome/sites/yourdomian.com/blog/;
+        }
+
+        location / {
+         proxy_pass    http://127.0.0.1:8000;
+        }
+}
+#重载nginx
+systemctl reload nginx
+```
+
+* 参数含义
+
+ 配置参数|说明
+--------------|------
+listen 443|SSL访问端口为443
+ssl on|启用SSL功能
+ssl_certificate|证书文件
+ssl_certificate_key|私钥文件
+ssl_protocols|使用的协议
+ssl_ciphers|配置加密套件，写法遵循openssl标准
+
+* 参考资料
+由于本网站是腾讯云的服务器，所有怎么安装SSL和配置HTTPS，腾讯云都有提供相关的教程。可以根据自己的Web服务器来筛选。详细教程请访问：[SSL证书安装参考资料](https://cloud.tencent.com/document/product/400/4143)

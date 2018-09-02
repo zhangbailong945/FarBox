@@ -1,0 +1,116 @@
+---
+date: 2018-08-21 21:27
+status: public
+title: 2018-08-21PyQt5控件15-QPainter
+---
+
+##定义
+* 在PyQt5中，一般可以通过QPainter、QPen、QBrush这三个类来实现绘图功能。此外，QPixmap的作用是加载并呈现本地图像，而图像的呈现本质也是通过绘图方式实现的，所以QPixmap也可以被视为绘图的一个类。
+* QPainter类在QWidget控件上执行绘图操作，它是一个绘制工具，为大部分图像界面提供了高度优化的函数，是QPainter类可以绘制从简单的直线到复杂的饼图等。
+* 绘制操作在QWidget.paintEvent()中完成，绘制方法必须放在QtGui.QPainter对象中的begin()和end()之间。QPainter类在控件或其它绘图设备上执行较低级别的图像绘制功能。
+
+##继承关系
+QPainter
+
+##方法
+方法 | 描述
+------|----------
+begin() | 开始在目标设备上绘制
+drawArc() | 在起始角度和最终角度之间画弧
+drawEllipse() | 在一个矩形内画一个椭圆
+drawLine(int x1,int y1,int x2,int y2) | 绘制一条指定断点坐标的线；绘制从(x1,y1)到(x2,y2)的直线并且设置当前画笔位置(x2,y2)
+drawPixmap() | 从图像文件中提取Pixmap并将其显示指定的位置
+drawPolygon() | 使用坐标数组绘制多边形
+drawRect(int x,inty,int w,int h) | 绘制给定宽度w和高度h从左上角坐标(x,y)绘制一个矩形
+drawText() | 显示给定坐标处的文件文字
+fillRect() | 使用QColor参数填充矩形
+setBrush() | 设置画笔风格
+setPen() | 设置用于绘制的比的颜色、大小和样式
+
+##画笔风格枚举
+枚举类型 | 描述
+---- |------
+Qt.NoPen | 没有线，比如QPainter.drawRect() 填充，但没有任何边界线。
+Qt.SolidLine | 一条简单的线
+Qt.DashLine | 由一些像素分割的短线
+Qt.DotLine | 由一些像素分割的点
+Qt.DashDotLine | 轮流交替的点和短线
+Qt.DashDotDotLine | 一条短线、两个点
+Qt.MPenStyle | 画笔风格的掩码
+
+##代码
+### 绘制文字
+```python
+import sys
+from PyQt5.QtGui import QPainter,QColor,QFont
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication,QWidget
+
+class DrawWidget(QWidget):
+    def __init__(self,parent=None):
+        super(DrawWidget,self).__init__(parent)
+        self.resize(300,200)
+        self.text='欢迎学习PyQt5'
+    
+
+    def paintEvent(self,event):
+        painter=QPainter()
+        painter.begin(self)
+        #自定义绘制方法
+        self.drawText(event,painter)
+        painter.end()
+    
+    def drawText(self,event,qp):
+        #设置画笔的颜色
+        qp.setPen(QColor(168,34,3))
+        #设置字体
+        qp.setFont(QFont('SimSun',20))
+        #绘制文字
+        qp.drawText(event.rect(),Qt.AlignCenter,self.text)
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    drawW=DrawWidget()
+    drawW.show()
+    sys.exit(app.exec_())
+```
+
+### 绘制点
+```python
+import sys,math
+from PyQt5.QtGui import QPainter,QColor,QFont
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication,QWidget
+
+class DrawWidget(QWidget):
+    def __init__(self,parent=None):
+        super(DrawWidget,self).__init__(parent)
+        self.resize(300,200)
+
+    def paintEvent(self,event):
+        #初始化绘图工具
+        painter=QPainter()
+        #开始
+        painter.begin(self)
+        #自定义画点方法
+        self.drawPoints(painter)
+        painter.end()
+    
+    def drawPoints(self,painter):
+        painter.setPen(Qt.red)
+        size=self.size()
+        for i in range(1000):
+            #绘制正弦函数图形，他的周期是[-100,100]
+            x=100*(-1+2.0*i/1000)+size.width()/2.0
+            y=-50*math.sin((x-size.width()/2.0)*math.pi/50)+size.height()/2.0
+            painter.drawPoint(x,y)
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    drawW=DrawWidget()
+    drawW.show()
+    sys.exit(app.exec_())
+
+```

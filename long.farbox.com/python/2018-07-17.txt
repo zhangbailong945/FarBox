@@ -1,0 +1,195 @@
+---
+date: 2018-07-17 21:01
+status: public
+title: 2018-07-17多线程
+---
+
+## 多线程定义
+    多线程（multithreading），是指从软件或者硬件上实现多个线程并发执行的技术。具有多线程能力的计算机因有硬件支持二能够在同一时间执行多个线程，进而提升整体处理性能。在程序中，这些独立运行的程序片段叫作线程（Thread），利用它编程的概念就叫作多线程处理。
+    
+    程序在逻辑意义上被分割了数个线程，假设设备本身安装了多个处理器，程序会运行的更快，不需要做出任何特殊的调整。但是多线程会共享同一个资源。比如：两个线程不能将信息同时发送给一台打印机，为了解决这个问题，线程在使用同一个资源之前必须进入锁定状态，在完成任何后，在解开这把锁，使其他的线程接着使用同样的资源。
+    
+    多线程是为了同步完成多项任务，不是为了提供运行效率，而是为了提供资源使用效率进而来提供系统的效率。线程是在同一时间需要完成多项任务的解决方案。
+
+## Python中的多线程
+    Python标准库中提供了两个用于线程的模块，分别是_thread和threading;_thread是低级模块，threading是_thread的封装，属于高级模块。
+    
+    启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()方法。
+1、  创建和运行线程
+```python
+import time,threading
+#线程执行的代码块
+def do():
+    print('线程 %s 已经跑起来了....'% threading.current_thread().name)
+    n=0
+    while n<5:
+        n=n+1
+        print('线程 %s >>>>%s'%(threading.current_thread().name,n))
+        time.sleep(2)
+    print('线程%s已经结束了....'% threading.current_thread().name)
+
+print('线程%s 开始跑起来...'%threading.current_thread().name)
+t=threading.Thread(target=do,name='childThread') #创建一个线程
+t.start()  #开启一个线程
+t.join() #等待这个线程结束
+print('线程 %s 结束了'% threading.current_thread().name)
+```
+运行结果:
+
+```
+线程MainThread 开始跑起来...
+线程 childThread 已经跑起来了....
+线程 childThread >>>>1
+线程 childThread >>>>2
+线程 childThread >>>>3
+线程 childThread >>>>4
+线程 childThread >>>>5
+线程childThread已经结束了....
+线程 MainThread 结束了
+```
+2、代码剖析
+    threading.Thread(target=do,name='childThread')，用来对一个线程实例化。target接受传入的函数，name接受一个字符串，表示该线程的名字，只是为自己方便认识，如果没有name，线程会自动生成一个名字。
+    threading.current_thread().name，用来返回当前线程的名字。
+    t.start() 启动线程。
+    t.join() 守护线程。
+3、当一个进程启动之后，会默认产生一个主线，因为线程是程序流的最小单元，当设置多线程时，主线程会创建多个子线程，在python中，默认情况下(setDaemon(False)),主线程执行自己的任务以后，就退出了，此时子线程会继续执行自己的任务。如下代码
+
+```python
+import time,threading
+
+def run():
+    time.sleep(2)
+    print('当前线程名字是:%s'% threading.current_thread().name)
+    time.sleep(2)
+
+if __name__=='__main__':
+    start=time.time()
+    print('主线程开始跑:%s'%threading.current_thread().name)
+    thread_list=[]
+    for i in range(5):
+        t=threading.Thread(target=run,name='thread_'+str(i))
+        thread_list.append(t)
+    
+    for t in thread_list:
+        t.start()
+        t.join()
+    
+    print('主线程结束！%s'%threading.current_thread().name)
+    print('耗时:',time.time()-start)
+```
+4、当使用setDaemon(True)方法时，该方法必须在start()函数之前执行，设置子线程为守护线程时，主线程一旦执行结束，则全部线程都被终止执行，会出现子线程的任务还没有完全执行结束，就被停止了。代码如下：
+```python
+import time,threading
+
+def run():
+    time.sleep(2)
+    print('当前线程名字是:%s'% threading.current_thread().name)
+    time.sleep(2)
+
+if __name__=='__main__':
+    start=time.time()
+    print('主线程开始跑:%s'%threading.current_thread().name)
+    thread_list=[]
+    for i in range(5):
+        t=threading.Thread(target=run,name='thread_'+str(i))
+        thread_list.append(t)
+    
+    for t in thread_list:
+        t.setDaemon(True)
+        t.start()
+    
+    print('主线程结束！%s'%threading.current_thread().name)
+    print('耗时:',time.time()-start)
+```
+5、 join()函数，join的作用就是使线程同步，即主线结束之后，进入阻塞状态，一直等待其他的子线程执行结束后，主线再终止。代码如下：
+
+```python
+import time,threading
+
+def run():
+    time.sleep(2)
+    print('当前线程名字是:%s'% threading.current_thread().name)
+    time.sleep(2)
+
+if __name__=='__main__':
+    start=time.time()
+    print('主线程开始跑:%s'%threading.current_thread().name)
+    thread_list=[]
+    for i in range(5):
+        t=threading.Thread(target=run,name='thread_'+str(i))
+        thread_list.append(t)
+    
+    for t in thread_list:
+        #t.setDaemon(True)
+        t.start()
+        
+    for t in thread_list:
+        t.join()
+    
+    print('主线程结束！%s'%threading.current_thread().name)
+    print('耗时:',time.time()-start)
+```
+运行结果：子线程跑完，主线程才会结束。
+```
+主线程开始跑:MainThread
+当前线程名字是:thread_0
+当前线程名字是:thread_2当前线程名字是:thread_1
+
+当前线程名字是:thread_3当前线程名字是:thread_4
+
+主线程结束！MainThread
+耗时: 4.01032829284668
+```
+6、join()函数有一个timeout参数：
+    当设置守护线程时，主线程对于子线程等待timeout的时间之后会杀死该子线程，最后退出程序。就是给每个子线程一个timeout的时间，让它去执行任务，时间一到，不管任务有没有完成，直接杀死。
+    没有设置守护线程时，主线程将会等待timeout的时间，时间一到，主线程结束，但是并没有杀死子线程，子线程一样继续执行，直到子线程全部结束，程序退出。
+
+## 线程锁
+    多线程终，所有的变量都由所有线程共享，所以，任何一个变量都可以被任何一个线程修改。多个线程同时修改一个变量是不合理的，为了解决这个问题，线程锁出现了。当线程修改一个变量之前，我们先上一把锁，一个线程获得锁后，其他的线程不能对变量操作，只能等待。等待线程的锁释放后，获得该锁的线程才能对变量进行修改。
+    线程锁只有一个，无论多少个线程，同一时刻最多只有一个线程持有该锁，所以，不会造成修改的冲突。创建一个线程锁通过threading.Lock()来实现，获取一个锁通过acquire()函数，释放锁通过release()函数。
+
+1、 线程加锁代码
+```python
+import time,threading
+
+money=0
+lock=threading.Lock()
+def change_money(n):
+    global money
+    #存钱
+    print('子线程%s'% threading.current_thread().name)
+    money=money+n
+    print('子线程%s'% threading.current_thread().name)
+    #取钱
+    money=money-n
+
+def do_money(n):
+    for i in range(100):
+        #获取锁
+        lock.acquire()
+        try:
+            change_money(n)
+        finally:
+            #修改完了释放锁
+            lock.release()
+
+
+if __name__=='__main__':
+    print('主线程%s 跑起来..'% threading.current_thread().name)
+    thread_list=[]
+    for i in range(5):
+        t=threading.Thread(target=do_money,name='thread_'+str(i),args=(i,))
+        thread_list.append(t)
+    
+    for t in thread_list:
+        t.start()
+    
+    for t in thread_list:
+        t.join()
+    
+    print(money)
+    print('主线程结束:%s'% threading.current_thread().name)
+```
+
+## 死锁
+    

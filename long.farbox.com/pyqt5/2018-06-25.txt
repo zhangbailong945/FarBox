@@ -1,0 +1,20 @@
+---
+date: 2018-06-25 22:38
+status: public
+title: 2018-06-25PyQt5控件3-QTextEdit使用
+---
+
+##定义
+QTextEdit类是一个多行文本控件，可以显示多行文本内容，当文本内容超出控件显示范围时，可以显示水平和垂直滚动条。QTextEdit不仅可以显示文本还可以显示HTML。
+
+##继承关系
+QObject--QPaintDevice>QWidget>QFrame>QAbstractScrollArea>QTextEdit
+
+##常用方法
+
+方法|描述
+----------|-----------
+setPlainText() | 设置多行文本框的文本内容
+toPlainText() | 返回多行文本框的内容
+setHtml() | 设置多行文本框的内容为HTML文档.
+clear() | 清除多行文本框的内容

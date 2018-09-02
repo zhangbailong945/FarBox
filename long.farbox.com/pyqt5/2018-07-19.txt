@@ -1,0 +1,28 @@
+---
+date: 2018-07-19 22:21
+status: public
+title: 2018-07-19PyQt5控件5-QCheckBox
+---
+
+## 定义
+*   QCheckBox类继承自QAbstractButton类，它提供了一组带文本标签的复选框。用户可以选择多个选项。和QPushButton一样，复选框可以先文本或者图标，文本可以通过构造函数或者setText()设置。图片可以通过setIcon()来设置。可以通过QButtonGroup把多个QCheckBox组合在一起。
+
+* 只要复选框被选中或取消选中，都会发射一个stateChanged信号。如果想在复选框状态改变时触发相应的行为，请连接这个信号，可以使用isCheck()来查询复选框是否被选中。
+
+* 复选框还提供第三种状态（半选中），来表明没有变化。当需要用户提供一个选中或者未选中复选框的选择时，这种状态是很有用的。如果需要第三种状态，则可以通过setTristate()来使他生效，并用checkState()来查询当前的切换状态。
+
+## 方法
+方法 | 描述
+------|------
+setChecked() | 设置复选框的状态，设置为True时表示选中复选框，设置False时表示取消选中复选框。
+setText() | 设置复选框的显示文本
+text() | 返回复选框的显示文本
+isCheck() | 检测复选框是否被选中
+setTriState() | 设置复选框为一个三状态复选框
+
+## 三种状态的复选框
+名称|值|含义
+----|---|----
+Qt.Checked|2|组件没有被选中（默认值）
+Qt.PartiallyChecked|1|组件被半选中
+Qt.Unchecked|0|组件被选中

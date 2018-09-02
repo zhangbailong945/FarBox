@@ -1,0 +1,59 @@
+---
+date: 2018-08-22 22:50
+status: public
+title: 2018-08-22-2PyQt5控件17-QBrush
+---
+
+## 定义
+* QBrush(笔刷)是一个基本的图形对象，用于填充如矩形、椭圆形或多边形等形状。QBrush有三种类型：预定义、过度、纹理图案。
+
+## 继承关系
+QBrush
+
+## 代码
+```python
+import sys
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont,QPainter,QBrush
+from PyQt5.QtWidgets import QApplication,QWidget,QGridLayout
+
+
+class BrushWidget(QWidget):
+
+    def __init__(self,parent=None):
+        super(BrushWidget,self).__init__(parent)
+        self.initUI()
+    
+    def initUI(self):
+        self.setGeometry(300,300,364,280)
+        self.setWindowTitle("QBrush例子")
+        self.show()
+    
+    def paintEvent(self,e):
+        painter=QPainter()
+        painter.begin(self)
+        self.drawLines(painter)
+        painter.end()
+    
+
+    def drawLines(self,painter):
+        brush=QBrush(Qt.SolidPattern)
+        painter.setBrush(brush)
+        painter.drawRect(10,15,90,60)
+
+        brush=QBrush(Qt.Dense1Pattern)
+        painter.setBrush(brush)
+        painter.drawRect(130,15,90,60)
+
+        brush=QBrush(Qt.Dense2Pattern)
+        painter.setBrush(brush)
+        painter.drawRect(250,15,90,60)
+
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    brushW=BrushWidget()
+    brushW.show()
+    sys.exit(app.exec_())
+```

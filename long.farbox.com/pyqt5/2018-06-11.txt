@@ -1,0 +1,43 @@
+---
+date: 2018-06-11 22:02
+status: public
+title: 2018-06-11pyqt5控件1-QLabel标签
+---
+
+##定义
+* QLabel对象作为一个占位符可以显示不可编辑的文本或图片，也可以放置一个GIF动画，还可以被用作提示标记为其他控件。纯文本、链接或富文本可以显示在标签上。
+
+##继承关系
+* QLabel是界面中标签类，它继承自QFrame类。QLabel类的继承结果如下：
+QObject->QPaintDevice->QWidget->QFrame->QLabel
+
+##常用方法
+(1)、setAlignment() 按固定方式对齐文本
+
+属性|描述
+----------|-----------
+Qt.AlignLeft|水平方向靠左对齐
+Qt.AlignRight|水平方向靠右对齐
+Qt.AlignCenter|水平方向居中对齐
+Qt.AlignJustify|水平方向调整间距两端对齐
+Qt.AlignTop|垂直方向靠上对齐
+Qt.AlignBottom|垂直方向靠下对齐
+Qt.AlignVCenter|垂直方向居中对齐
+
+(2)、setIndent() 设置文本缩进值
+
+(3)、setPixmap()设置QLabel为一个Pixmap图片
+
+(4)、text() 获取QLabel的文本内容
+
+(5)、setText()、设置为QLabel的文本内容
+
+(6)、selectText() 返回所选择的文本内容
+
+(7)、setBuddy() 设置QLabel的助记符buddy（伙伴）,即使用QLabel设置快捷键，会在快捷键后将焦点设置其buddy上。buddy可以是任何一个Widget控件，使用setBuddy(QWidget *)设置，其QLabel必须是文本内容，并且使用"&"符号设置助记符。
+
+##常用信号
+信号|描述
+---------|----------
+linkActivate|当单机标签嵌入的超链接，希望在新窗口打开这个超链接，setOpenExternalLinks特性必须设置为true.
+linkHovered|当鼠标指针滑过标签嵌入的超链接时，需要用槽函数与这个型号进行绑定。

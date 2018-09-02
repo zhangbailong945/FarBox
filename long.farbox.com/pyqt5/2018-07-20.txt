@@ -1,0 +1,76 @@
+---
+date: 2018-07-20 21:40
+status: public
+title: 2018-07-20PyQt5控件6-QCombox
+---
+
+## 定义
+* QCombox是一个集按钮和下拉框选项与一体的空间，也被称为下拉列表控件。
+
+## 继承关系
+* QCombox《QWidget《QObject《QPaintDevice
+
+## 方法
+方法 | 描述
+-----|------
+addItem() | 添加一个下拉选项
+addItems() | 从列表中添加下拉选项
+Clear() | 删除下拉选项集合中的所有选项
+count() | 返回下拉选项集合中的数目
+currentText() | 返回选中选项的文本内容
+itemText(i) | 获取索引i的item的选项文本
+currentIndex()  | 获取选中选项的索引
+setItemText(int index,text) 改变序号为index项的文本
+
+## 信号
+信号 |  含义
+----|-----
+Activated | 当用户选中一个下拉选项时反射该信号
+currentIndexChanged | 当下拉选项的索引发生改变时发射该信号
+highlighted | 当选中一个已经选中的下拉选项时，发射该信号
+## 代码
+
+```python 
+import sys
+from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QComboBox,QLabel
+
+
+class ComboxDemo(QWidget):
+    def __init__(self,parent=None):
+        super(ComboxDemo,self).__init__(parent)
+        self.resize(300,100)
+        self.setWindowTitle('Combox例子')
+
+        layout=QVBoxLayout()
+        self.lb1=QLabel("")
+
+        self.cb1=QComboBox()
+        self.cb1.addItem("C")
+        self.cb1.addItem("C++")
+        self.cb1.addItem("Python")
+        self.cb1.addItem("PHP")
+        self.cb1.addItem("Python")
+
+        self.cb1.addItems(["JAVA","Ruby","C#"])
+        self.cb1.currentIndexChanged.connect(self.selectChange)
+        layout.addWidget(self.cb1)
+        layout.addWidget(self.lb1)
+        
+
+        self.setLayout(layout)
+
+    def selectChange(self,i):
+        self.lb1.setText(self.cb1.currentText())
+        print("Items in the list are:")
+        for count in range(self.cb1.count()):
+            print('item'+str(count)+'='+self.cb1.itemText(count))
+            print('i',i)
+            print("Current Index",i,"selection changed",self.cb1.currentText())
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    cbDemo=ComboxDemo()
+    cbDemo.show()
+    sys.exit(app.exec_())
+
+```

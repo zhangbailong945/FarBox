@@ -1,0 +1,58 @@
+---
+date: 2018-07-23 21:49
+status: public
+title: 2018-07-23PyQt5控件7-
+---
+
+## 定义
+* QSpinBox是一个计数器空间，允许用户选中一个整数值，通过单击向上或向下按钮或键盘上的上下键来增加或减少当前显示的值，用户也可以输入值。
+* 默认取值范围时0~99，每次改动步长加1.
+ 
+##继承关系
+* QSpinBox/QSpinDoubleBox《QAbstractSpinBox《QWidget《QObject/QPaintDevice
+
+## 函数
+方法 | 描述
+----|-----
+setMinimum | 设置计数器的下界
+setMaximum | 设置计数器的上界
+setRnage() | 设置计数器的最大值、最小值、步长
+setValue() | 设置计数器当前的值
+Value() | 返回计数器当前的值
+singleStep() | 设置计算器的步长
+
+## 信号
+* 每次单击向上或向下按钮时，会触发valueChanged信号。
+
+##代码
+```python
+import sys
+from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QLabel,QSpinBox
+from PyQt5.QtCore import Qt
+
+
+class SpinBoxDemo(QWidget):
+    def __init__(self,parent=None):
+        super(SpinBoxDemo,self).__init__(parent)
+        layout=QVBoxLayout()
+        self.label1=QLabel('当前的值为：')
+        self.label1.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.label1)
+        self.qsb1=QSpinBox()
+        layout.addWidget(self.qsb1)
+        self.qsb1.valueChanged.connect(self.valueChange)
+        self.setLayout(layout)
+        self.resize(300,100)
+
+    def valueChange(self):
+        self.label1.setText('当前的值为：'+str(self.qsb1.value()))
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    spdemo=SpinBoxDemo()
+    spdemo.show()
+    sys.exit(app.exec_())
+```
+
+

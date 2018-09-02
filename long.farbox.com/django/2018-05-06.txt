@@ -1,0 +1,228 @@
+---
+date: 2018-05-06 09:50
+status: public
+title: Centos7.4搭建邮件收发服务器(部署篇)
+---
+
+##电子邮件基本概念
+1.MUA(Mail User Agent)
+* MUA接受邮件所使用的邮件客户端，使用IMAP或POP3协议与服务器通信。(比如:outlook,foxmail等)
+
+2.MTA(Mail Transfer Agent) 
+* MTA通过SMTP协议发送、转发邮件(比如:sendmail,postfix)
+
+3.MDA(MailDeliver Agent)
+* MDA将MTA接收到的邮件保存到磁盘或指定方，通常会进行垃圾邮件和病毒扫描(promail,dropmail)
+
+4.MRA(Mail Receive Agent)
+* 负责实现IMAP与POP3协议，与MUA进行交互。(比如:dovecot)
+
+5.SMTP(Simple Mail Transfer Protocol)
+* 传输发送邮件所使用的标准协议之一
+
+6.IMAP(Internet Message Access Protocol)
+* 接收邮件使用的标准协议之一
+
+7.POP3(Post Office Protocol3)
+* 接收邮件使用的标准协议之一
+
+##邮件服务器架构图
+![邮件服务器架构图](http://olwo7m4ps.bkt.clouddn.com/postfix.png)
+
+##邮件服务器部署步骤
+###一、邮件服务器坏境
+* 腾讯云
+* 服务器系统:Centos7.4 64bit
+
+###二、域名解析
+1.登录腾讯云控制台->选择域名服务菜单->选择域名->管理。
+2.添加域名解析记录如下:
+
+主机记录|记录类型|线路类型|记录值|MX优先级|TTL(秒)
+----------|-------|-------|------|-------|--------
+@  |MX  |默认  |  mail.loachblog.com  |5|600
+mail|A|默认|183.42.13.133|5|600
+3.测试域名mail解析是否成功
+```shell
+#打开win7或win10 win+r 输入CMD命令
+>nslookup
+>set type=mx
+>mail.yourdomain.com
+#出现下面结果，表示域名mail解析成功
+非权威应答:
+名称:    mail.loachblog.com
+Address:  183.42.13.133
+```
+
+###三、安装mail服务器相关软件
+1.安装postfix
+```shell
+#因为sendmail软件，一般centos会自带，而我们这里用postfix搭建，所有先卸载sendmail
+yum -y remove sendmail
+yum -y install postfix
+```
+2.安装dovecot
+```shell
+yum -y install dovecot
+```
+3.安装cyrus-sasl
+```shell
+yum -y install cyrus-sasl-*
+```
+
+###四、配置mail软件相关参数
+1.配置postfix下的main.cf文件如下：
+```shell
+:set number 显示行号
+#main.cf 75行，取消注释并修改代码如下
+myhostname=mail.loachblog.com
+#83行
+mydomain=loachblog.com
+#98行
+myorigin = $mydomain
+#113行
+inet_interfaces=all
+#116行 加上注释
+# inet_interfaces=localohost
+#164行
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain, mail.$mydomain,www.$mydomain
+#210行
+local_recipient_maps =
+#264行
+mynetworks =183.42.13.133(你的服务器IP), 168.100.189.0/28, 127.0.0.0/8
+#419行 取消注释
+home_mailbox = Maildir/
+#shift+G 行尾，加上以下代码
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_authenticated_header = yes
+smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+smtpd_use_tls = yes
+smtpd_tls_cert_file = /etc/pki/dovecot/certs/dovecot.pem
+smtpd_tls_key_file = /etc/pki/dovecot/private/dovecot.pem
+
+smtpd_recipient_restrictions =
+    permit_mynetworks
+    permit_sasl_authenticated
+    reject_unauth_destination
+```
+
+```shell
+#如果要打开465端口，则需要进行一下配置
+vi/etc/postfix/master.cf
+#12行加上
+smtps inet n - n - - smtpd -o smtpd_tls_wrappermode=yes
+```
+
+2.配置dovecot相关配置文件
+```shell
+vi /etc/dovecot/dovecot.conf
+#24行 取消注释
+ protocols = imap pop3 lmtp
+#30行，取消注释修改如下
+listen = * 
+#在行尾添加一下代码
+mail_location = Maildir:~/Maildir
+ssl_cert = </home/myhome/software/ssl/Nginx/1_loachblog.com_bundle.crt
+ssl_key = </home/myhome/software/ssl/Nginx/2_loachblog.com.key
+```
+```shell
+vi /etc/dovecot/conf.d/10-master.conf
+#去掉96-98行的注释
+unix_listener /var/spool/postfix/private/auth {  
+       mode = 0666 
+       user=postfix
+      group=postfix
+}
+```
+
+```shell
+vi /etc/dovecot/conf.d/10-ssl.conf
+#8行
+ssl = required
+```
+
+```shell
+vi /etc/dovecot/conf.d/10-mail.conf
+#24行 去掉注释
+mail_location = maildir:~/Maildir
+
+```
+
+```shell
+vi /etc/dovecot/conf.d/10-auth.conf
+#8行
+disable_plaintext_auth = no
+#100行
+auth_mechanisms = plain login
+```
+
+3.配置sasl2
+```shell
+vi /etc/sysconfig/saslauthd
+#7行,修改如下
+MECH=shadow #指定以本地系統用戶認證
+```
+
+```shell
+vi /usr/lib64/sasl2/smtpd.conf 
+#没有改文件，则创建,代码如下
+pwcheck_method: saslauthd
+mech_list: PLAIN LOGIN
+log_level:3
+```
+
+###五、启动服务
+```shell
+systemctl start postfix.service
+systemctl start dovecot.service
+systemctl start saslauthd
+```
+
+###六、创建邮件账号，客户端测试收发邮件
+1.创建账号密码
+```shell
+#创建账号
+useradd test6
+#创建账号密码
+passwd test6
+```
+2.下载mail客户端，推荐使用foxmail
+3.登录foxmail，配置如下
+
+登录|参数
+------|-------
+接受服务器类型|POP3
+邮件账号|test6@loachblog.com
+密码|test6passwod
+pop服务器:loachblog.com|勾选SSL 端口995
+SMTP服务器:loachblog.com|勾选SSL 端口465
+
+4.收发邮件注意事项
+由于QQ和163邮箱发垃圾邮件比较严格，需要在自己的QQ和163邮件管理中心，将自己的域名设置为白名单，不然邮件会被退回。
+
+##总结
+折腾了2个星期总算搞定了，一些配置也不是很明白。不过算是了解了一些基本原理。刚开始配置好了后，自己又重新卸载，再装了一次，算是加深映像。这是邮件服务器的配置和部署。关于怎么反垃圾邮件、配置数据库等一些配置，也是以后研究的方向。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
