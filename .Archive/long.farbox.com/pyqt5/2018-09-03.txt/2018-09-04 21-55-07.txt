@@ -1,0 +1,17 @@
+---
+date: 2018-09-03 21:04
+status: public
+title: 2018-09-03PyQt5控件20-QClipboard
+---
+
+## 定义
+* QClipboard类提供了对系统剪切板的访问，可以在应用程序之间赋值和粘贴数据。它的操作类似于QDrag类，并使用类的数据类型。
+* QApplication类有一个静态方法clipboard(),它返回对剪切板对象的引用。任何类型的MimeData都可以从剪切板赋值或粘贴。
+* QClipboard类中常用方法
+## 继承关系
+
+## 方法
+
+## 信号
+
+## 代码

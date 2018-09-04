@@ -1,16 +1,109 @@
 ---
 date: 2018-09-03 21:04
 status: public
-title: 2018-09-03
+title: 2018-09-03PyQt5控件20-QClipboard
 ---
 
 ## 定义
-
+* QClipboard类提供了对系统剪切板的访问，可以在应用程序之间赋值和粘贴数据。它的操作类似于QDrag类，并使用类的数据类型。
+* QApplication类有一个静态方法clipboard(),它返回对剪切板对象的引用。任何类型的MimeData都可以从剪切板赋值或粘贴。
 
 ## 继承关系
+QClipboard《QObject
 
-## 方法
+## QClipboard类中的常用方法
+方法 | 描述
+-------|-----
+clear() | 清楚剪切板
+setImage() | 将QImage对象赋值到剪切板中
+setMimeData() | 将MIME数据设置剪切板
+setPixmap() | 从剪切板中赋值Pixmap对象
+setText() | 从剪切板中赋值文本
+text() | 从剪切板中检索文本
 
 ## 信号
+信号 | 含义
+----|----
+dataChanged | 当剪切板内容发生变化时，这个信号被发射
 
 ## 代码
+```python
+import sys,os
+
+from PyQt5.QtCore import Qt,QMimeData
+from PyQt5.QtGui import QFont,QClipboard,QPixmap
+from PyQt5.QtWidgets import QApplication,QWidget,QDialog,QGridLayout,QLabel,QPushButton
+
+class ClipboardWidget(QWidget):
+
+    def __init__(self,parent=None):
+        super(ClipboardWidget,self).__init__(parent)
+        textCopyBtn=QPushButton("复制文本")
+        textPasteBtn=QPushButton("粘贴文本")
+
+        htmlCopyBtn=QPushButton("复制HTML")
+        htmlPasteBtn=QPushButton("粘贴HTML")
+
+        imageCopyBtn=QPushButton("复制图片")
+        imagePasteBtn=QPushButton("粘贴图片")
+        self.textLabel=QLabel("源文本")
+        self.imageLabel=QLabel()
+        self.imageLabel.setPixmap(QPixmap(os.path.join(os.path.dirname(__file__),'images/logo.png')))
+        layout=QGridLayout()
+        layout.addWidget(textCopyBtn,0,0)
+        layout.addWidget(imageCopyBtn,0,1)
+        layout.addWidget(htmlCopyBtn,0,2)
+
+        layout.addWidget(textPasteBtn,1,0)
+        layout.addWidget(htmlPasteBtn,1,2)
+        layout.addWidget(imagePasteBtn,1,1)
+
+        layout.addWidget(self.textLabel,2,0,1,2)
+        layout.addWidget(self.imageLabel,2,2)
+        self.setLayout(layout)
+
+        textCopyBtn.clicked.connect(self.copyText)
+        textPasteBtn.clicked.connect(self.pasteText)
+        htmlCopyBtn.clicked.connect(self.copyHtml)
+        htmlPasteBtn.clicked.connect(self.pasteHtml)
+        imageCopyBtn.clicked.connect(self.copyImage)
+        imagePasteBtn.clicked.connect(self.pasteImage)
+        self.setWindowTitle("QClipboard例子")
+    
+    def copyText(self):
+        clipboard=QApplication.clipboard()
+        clipboard.setText("文本复制内容！")
+    
+    def pasteText(self):
+        clipboard=QApplication.clipboard()
+        self.textLabel.setText(clipboard.text())
+    
+    def copyHtml(self):
+        clipboard=QApplication.clipboard()
+        mimeData=QMimeData()
+        mimeData.setHtml("<b>Bold and <font color='red'>Red</font>!</b>")
+        clipboard.setMimeData(mimeData)
+    
+    def pasteHtml(self):
+        clipboard=QApplication.clipboard()
+        mimeData=clipboard.mimeData()
+        if mimeData.hasHtml():
+            self.textLabel.setText(mimeData.html())
+    
+
+    def copyImage(self):
+        clipboard=QApplication.clipboard()
+        clipboard.setPixmap(QPixmap(os.path.join(os.path.dirname(__file__),'./images/32x32.ico')))
+    
+    def pasteImage(self):
+        clipboard=QApplication.clipboard()
+        self.imageLabel.setPixmap(clipboard.pixmap())
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    clipboardW=ClipboardWidget()
+    clipboardW.show()
+    sys.exit(app.exec_())
+
+```
