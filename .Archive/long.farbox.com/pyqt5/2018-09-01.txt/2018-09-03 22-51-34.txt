@@ -44,11 +44,7 @@ hasColor() |  colorData() | setColorData() |  application/x-color
 
 ## 常用拖拽事件
 事件 |  描述
-------|-------
-DragEnterEvent | 当执行一个拖拽控件操作，并且鼠标指针进入该控件时，这个事件将触发。在这个事件中可以获取被操作的窗口的控件，还可以有条件地接受或拒绝该拖拽操作
-DragMoveEvent |  在拖拽操作进行时会触发该事件
-DragLeaveEvent | 当执行一个拖拽控件操作，并且鼠标指针离开该控件时，这个事件将被触发
-DragEvent | 当拖拽操作在目标控件被释放时，这个事件将被触发
+DragEnterEvent | 当执行一个拖拽控件操作，并且鼠标指针进入该控件时，这个事件将触发。在这个
 
 ## 代码
 ```python

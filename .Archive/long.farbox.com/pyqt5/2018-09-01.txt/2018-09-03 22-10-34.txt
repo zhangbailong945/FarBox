@@ -8,7 +8,7 @@ title: 2018-09-01PyQt5控件19-Drag与Drop
 * 为用户提供的拖拽功能很直观，在很多桌面应用程序中，复制或移动对象都可以通过拖拽来完成。
 * 基于MIME（Multipurpose Internet Mail Exenstion，多用途互联网邮件扩展类型）类型的拖拽数据传输是基于QDrag类的。QMimeData对象将关联的数据与其对应的MIME类型相关联。它是设定某种扩展名的文件用一种应用程序来打开的方式类型，当扩展名 被访问时，浏览器会自动使用指定的应用程序打开，多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。
 * MIME类型的数据可以简单理解为互联网上的各种资源，比如文本、音频和视频资源等，互联网上的每一种资源都属于一种MIME类型的数据。
-* 许多QWidget对象都支持拖拽动作，允许拖拽数据的控件必须设置QWidget.setDragEnabled()为true。另外，控件允许响应拖拽事件，以便存储所拖拽的数据。
+* 许多QWidget对象都支持拖拽动作，允许拖拽数据的控件必须设置QWidget.setDragEn
 
 ## MIME常见类型
 类型名 | 文件扩展名
@@ -42,60 +42,5 @@ hasImage | imageData() | setImageData() | image/*
 hasColor() |  colorData() | setColorData() |  application/x-color
 
 
-## 常用拖拽事件
-事件 |  描述
-------|-------
-DragEnterEvent | 当执行一个拖拽控件操作，并且鼠标指针进入该控件时，这个事件将触发。在这个事件中可以获取被操作的窗口的控件，还可以有条件地接受或拒绝该拖拽操作
-DragMoveEvent |  在拖拽操作进行时会触发该事件
-DragLeaveEvent | 当执行一个拖拽控件操作，并且鼠标指针离开该控件时，这个事件将被触发
-DragEvent | 当拖拽操作在目标控件被释放时，这个事件将被触发
 
 ## 代码
-```python
-import sys
-from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication,QWidget,QComboBox,QFormLayout,QLabel,QLineEdit
-
-class ComboxWidget(QComboBox):
-
-    def __init__(self,title,parent):
-        super(ComboxWidget,self).__init__(parent)
-        self.setAcceptDrops(True)
-    
-    def dragEnterEvent(self,e):
-        print(e)
-        if e.mimeData().hasText():
-            e.accept()
-        else:
-            e.ignore()
-    
-    def dropEvent(self,e):
-        self.addItem(e.mimeData().text())
-
-class DragWidget(QWidget):
-
-    def __init__(self):
-        super(DragWidget,self).__init__()
-        self.initUI()
-    
-    def initUI(self):
-        layout=QFormLayout()
-        layout.addRow(QLabel("请把左边的文本拖拽到右边的下拉菜单中"))
-        edit=QLineEdit()
-        edit.setDragEnabled(True)
-        combox=ComboxWidget("Button",self)
-        layout.addRow(edit,combox)
-        self.setLayout(layout)
-        self.setWindowTitle("Drag例子")
-
-
-
-if __name__=='__main__':
-    app=QApplication(sys.argv)
-    dragW=DragWidget()
-    dragW.show()
-    sys.exit(app.exec_())
-
-
-```

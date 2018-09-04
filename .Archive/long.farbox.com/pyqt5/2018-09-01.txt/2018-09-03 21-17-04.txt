@@ -1,0 +1,27 @@
+---
+date: 2018-09-01 22:43
+status: public
+title: 2018-09-01PyQt5控件19-Drag与Drop
+---
+
+## 定义
+* 为用户提供的拖拽功能很直观，在很多桌面应用程序中，复制或移动对象都可以通过拖拽来完成。
+* 基于MIME（Multipurpose Internet Mail Exenstion，多用途互联网邮件扩展类型）类型的拖拽数据传输是基于QDrag类的。QMimeData对象将关联的数据与其对应的MIME类型相关联。它是设定某种扩展名的文件用一种应用程序来打开的方式类型，当扩展名 被访问时，浏览器会自动使用指定的应用程序打开，多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。
+
+## MIME常见类型
+类型名 | 文件扩展名
+------|-------
+HTML文本 | .html text/html
+XML文档 |  .xml text/xml
+XHTML文档 | .xhtml application/xhtml+xml
+普通文本 | .txt text/plain
+RTF文本 | .rtf application.rtf
+PDF文档 | .pdf application/pdf
+Microsoft Word 文件 | .word application/msword
+PNG图像 | .png image/png
+GIF图形 | .gif image/gif
+JPEG图形 | .jpeg .jpg image/jpeg
+
+## 信号
+
+## 代码
