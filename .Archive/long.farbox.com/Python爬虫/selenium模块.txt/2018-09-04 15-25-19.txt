@@ -1,0 +1,156 @@
+---
+date: 2018-09-02 19:17
+status: public
+title: selenium模块
+---
+
+## Selenium是什么
+* Selenium是一个用于web应用程序测试的工具。Selenium测试直接运行在浏览器中，就是真正的用的用户在操作一样。支持的浏览器包括IE（7、8、9、10、11）,Mozila Firefox,Safari,Google Chrome,Oprea等。这个工具的主要功能包括：测试与浏览器的兼容性（测试应用程序看是否能够很好的工作不同浏览器和操作系统之上）。测试系统功能（创建回归测试检验软件功能和用户需求）。支持自动录制动作和自动生成.net、java、perl等不同语言的测试脚本。开源协议为Apache2.0。
+* 在爬虫中使用它主要是为了解决request无法直接执行的javascript代码的问题。
+* Selenium本质是通过驱动浏览器，完全模拟浏览器的操作，比如跳转、输入、点击、下拉等。能得到网页渲染之后的结果，支持多种浏览器。
+
+## 安装selenium
+* 在windows下确保python已经安装，安装单独的虚拟坏境。（virtualenv+virtualenvwrapper）
+
+1、安装virtualenv虚拟坏境
+```shell
+python -m pip install virtualenv
+```
+2、安装virtualenv坏境的强化包，virtualenvwrapper-win，为了统一方便管理virtualenv坏境。
+```shell
+python -m pip install virtualenvwrapper-win
+```
+
+3、建一个目录用于集中存放virtualenv的坏境。如F:/virtualenv目录，然后加入到坏境变量中。鼠标右键我的电脑-》属性-》高级系统设置-》坏境变量-》系统变量-》新增-》变量名:WORKON_HOME;变量值：F:/virtualenv
+
+4、建立selenium坏境
+```shell
+mkvritualenv seleniumenv
+```
+
+5、查看所有的虚拟坏境
+```shell
+lsvirtualenv  #查看虚拟坏境列表
+```
+
+6、切换虚拟坏境
+```shell
+workon seleniumenv
+```
+
+7、在seleniumenv坏境下安装selenium
+```shell
+workon  #查看虚拟坏境列表
+workon seleniumenv  #切换到seleniumenv
+python -m pip install selenium #安装selenium模块
+```
+
+8、测试selenium是否安装成功,以下代码没有报错，即表示成功安装。
+```shell
+python
+from selenium import  webdriver
+```
+
+## 有界面的浏览器
+1、安装chromedriver,国内镜像地址https://npm.taobao.org/mirrors/chromedriver/,按更新时间下载最新版本，我这里是的下载2.39版本
+2、将下载chromedriver.exe放在虚拟坏境目录的scripts目录即可。
+3、代码测试
+```python
+import sys
+from selenium import webdriver
+
+driver=webdriver.Chrome() #创建web浏览器驱动为谷歌浏览器驱动，会弹出谷歌浏览器
+driver.get('https://www.baidu.com')
+print(driver.page_source)
+```
+
+## 无界面的浏览器
+```python
+import sys
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+
+chrome_options=Options()
+#指定浏览器的分辨率
+chrome_options.add_argument('window-size=1204x768')
+#规避bug
+chrome_options.add_argument('--disable-gpu')
+#隐藏滚动条
+chrome_options.add_argument('--hide-scrollbars')
+#不加载图片，提升速度
+chrome_options.add_argument('blink-settings=imageEnabled=false')
+#浏览器不提供可视化页面
+chrome_options.add_argument('--headless')
+#启动失败调用谷歌浏览器,一般在不支持可视化的linux系统上
+chrome_options.binary_location=r"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+
+#初始化浏览器
+chrome=webdriver.Chrome(chrome_options=chrome_options)
+chrome.get('https://www.baidu.com')
+
+print('登录' in chrome.page_source)
+```
+
+## 选择器
+```python
+import sys
+from selenium import webdriver
+#按照上面方式查找元素
+from selenium.webdriver.common.by import By
+#键盘按键操作
+from selenium.webdriver.common.keys import Keys
+#条件
+from selenium.webdriver.support import expected_conditions as EC
+#等待页面加载某些元素
+from selenium.webdriver.support.wait import WebDriverWait
+import time
+
+
+chrome=webdriver.Chrome()
+chrome.get('https://www.baidu.com')
+wait=WebDriverWait(chrome,10)
+
+try:
+    #1.find_element_by_id 通过id元素对象
+    #print(chrome.find_element_by_id('kw'))
+
+    #2.find_element_by_lin_text 通过文字链接来找元素对象
+    #login=chrome.find_element_by_link_text('登录')
+    #login.click()
+
+    #3.find_element_by_partial_link_text 根据部分链接文件获取元素对象
+    login=chrome.find_element_by_partial_link_text('录')
+    login.click()
+    time.sleep(3)
+
+    #4.find_element_by_tag_name 通过元素标签来获取元素对象
+    print(chrome.find_element_by_tag_name('a'))
+
+    #5.find_element_by_class_name 通过样式clss查找元素对象
+    button=wait.until(EC.element_to_be_clickable((By.CLASS_NAME,'tang-pass-footerBarULogin')))
+    button.click()
+    #6.find_element_by_name
+    input_user=wait.until(EC.presence_of_element_located((By.NAME,'userName')))
+    input_pwd=wait.until(EC.presence_of_element_located((By.NAME,'password')))
+    commit=wait.until(EC.element_to_be_clickable((By.ID,'TANGRAM__PSP_10__submit')))
+
+    input_user.send_keys('15014927018')
+    input_pwd.send_keys('zbl_1034')
+    commit.click()
+
+    #7.find_element_by_css_selector #通过css选择器获取元素对象
+    print(chrome.find_element_by_css_selector('#kw'))
+
+    #8.find_element_by_xpath #通过xpath获取元素对象
+
+
+    time.sleep(6)
+finally:
+    chrome.close()
+
+```
+
+## xpath
+
+##
