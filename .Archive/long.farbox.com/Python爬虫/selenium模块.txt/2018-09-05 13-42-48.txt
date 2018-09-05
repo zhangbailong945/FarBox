@@ -449,25 +449,6 @@ chrome.close()
 ```
 
 ## 异常处理
-* selenium异常处理，common.exceptions里面有许多异常处理，时间超时，没有元素，没有frame等。
-```python
-#selenium异常处理
-from selenium import webdriver
-from selenium.common.exceptions import TimeoutException,NoSuchElementException,NoSuchFrameException
-
-
-try:
-    chrome=webdriver.Chrome()
-    chrome.get('https://www.baidu.com')
-    chrome.switch_to.frame('iframssseResult')
-except TimeoutException as e:
-    print(e)
-except NoSuchFrameException as e:
-    print(e)
-finally:
-    chrome.close()
-```
-
 
 
 

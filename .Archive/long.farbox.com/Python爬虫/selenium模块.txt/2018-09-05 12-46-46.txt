@@ -425,49 +425,6 @@ print('Cookies:%s'% cookies)
 ```
 
 ## 选项卡管理
-* 浏览器有很多选项卡，也就是其他标签页。可以通过JS的windows.open方式打开，也可以通过快捷键：ctrl+t等。
-```python
-import time
-from selenium import webdriver
-
-chrome=webdriver.Chrome()
-chrome.get('https://www.baidu.com')
-#执行JS
-chrome.execute_script('window.open()')
-
-#获取所有的选项卡
-print(chrome.window_handles)
-#切换到第2个选项卡
-chrome.switch_to_window(chrome.window_handles[1])
-chrome.get('https://www.tmall.com')
-time.sleep(3)
-#切换到第一个选项卡
-chrome.switch_to_window(chrome.window_handles[0])
-chrome.get('https://www.sina.com.cn')
-time.sleep(2)
-chrome.close()
-```
-
-## 异常处理
-* selenium异常处理，common.exceptions里面有许多异常处理，时间超时，没有元素，没有frame等。
-```python
-#selenium异常处理
-from selenium import webdriver
-from selenium.common.exceptions import TimeoutException,NoSuchElementException,NoSuchFrameException
-
-
-try:
-    chrome=webdriver.Chrome()
-    chrome.get('https://www.baidu.com')
-    chrome.switch_to.frame('iframssseResult')
-except TimeoutException as e:
-    print(e)
-except NoSuchFrameException as e:
-    print(e)
-finally:
-    chrome.close()
-```
-
 
 
 
