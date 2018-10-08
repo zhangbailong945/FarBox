@@ -1,0 +1,183 @@
+---
+date: 2018-10-06 17:00
+status: public
+title: 2018-10-06Memcached
+---
+
+## Memcached
+    Memcached是一个高性能的分布式内存对象缓存系统，用于动态web应用以减轻数据库负载。它通过在内存中缓存数据和对象减少读取数据库的次数，从而提供动态、数据库驱动网站的速度。
+    Memcached基于一个存储键/值对的hashmap.其守护进程(daemon)是用C语言写的，客户端支持任何编程语言，通过memcached协议与守护进程通信。
+
+## 特征
+* 协议简单
+* 基于libevent的事件处理
+* 内置内存存储方式
+* memcached不互相通信的分布式
+
+## 协议
+    memcached的服务器客户端使用基于文本行的协议。通过telnet也能在memcached上保存数据、取数据。
+
+## 存储方式
+    为了提供性能，memcached中保存的数据都存储在memcached内置的内存存储空间中。由于数据仅存在于内存中，因此重启memcached、重启操作系统、断电会导致全部数据消失。另外，缓存的内容容量达到指定值之后，就基于LRU（Laset Recently Used/最近一次使用）算法自动删除命中率低（很少使用）的缓存数据。
+    memcached本身是为了缓存而设计的服务，因此并没有过多考虑数据的持久化操作。
+
+## windows下安装
+    1、下载：http://static.runoob.com/download/memcached-1.4.5-amd64.zip
+    2、 解压下载的安装包到指定目录，例：c:/memcached/memcached.exe
+    3、在memcached1.4.5版本之后，memcached不能作为服务来运行，需要使用任务计划中开启一个普通的进程，在windows启动时设置memached自动执行。
+    4、使用管理员身份执行以下命令，将memcached添加到任务计划列表中：    
+```shell
+    schtasks /create /sc onstart /tn memcached /tr "'c:/memcached/memcached.exe' -m 512"
+```
+    5、删除任务计划，使用管理员执行以下命令:
+```shell
+    schtasks /delete /tn memcached
+```    
+    6.重启电脑，打开任务管理，会发现进程中会多出一个memcache.exe的进程
+    7.管理员身份执行以下命令:
+```shell
+    telnet localhost 11211
+    version #查看版本
+    stats #查看
+```
+
+## Memcached存储命令
+### set 命令
+    1、set 命令用于将value存储在指定的key中
+    2、如果set的key已经存在，该命令可以更新该key的value.
+    3、set 命令语法：
+    
+```shell
+set key flags exptime bytes [noreply]
+value
+#key:键值，用于查找缓存值
+#flags:可以包括键值对的整型参数，客户机使用它存储关于键值对的额外信息
+#exptime:在缓存中保存键值对的时间长度（以秒为单位，0表示永远）
+#bytes:在缓存中存储的字节数
+#noreply(可选):该参数告知服务器不需要返回数据
+#value:存储的值（始终位于第二行）
+```
+    4、实例
+```shell
+    set name 0 60 4  #设置key为name,整型参数为0，保存60秒，5个字节，值为loach
+    loach
+    STORED  #保存成功后输出
+    ERROR    #在保存失败后输出
+```
+
+### add 命令
+    1、Memcached add 命令用于将value(数据值)存储在指定key(键)中
+    2、如果add的key已经存在，则不会更新数据，之前的值将仍然保持相同，并且您将获得响应NOT_STRED
+    3、语法
+```shell
+add key flags exptime bytes [noreply]
+value
+```
+    4、参数说明
+    key:键值key-value结构中的key,用于查找缓存值。
+    flags:可以包括键值对的整型参数，客户机使用它存储关于键值的额外信息。
+    exptime:在缓存中保存键值对的时间长度（以秒为单位，0表示永远）
+    bytes:在缓存中存储的字节数
+    noreply:该参数告知服务器不需要返回数据
+    value:值(始终位于第二行)
+    5、实例
+```shell
+add name 0 60 5
+loach
+```
+    6、输出
+    STORED:保存成功后输出
+    NOT_STORED:在保存失败后输出
+
+### replace 命令
+    1、replace命令用于替换已存在的key(键)的value(数据值)
+    2、如果key不存在，则替换失败，并且您将获得响应NOT_STORED
+    3、语法
+```shell
+replace key flags exptime bytes [noreply]
+value
+```
+    4、参数
+    key:键值key-value结构中的key,用于查找缓存值。
+    flags:可以包括键值的整型参数，客户机使用它存储关于键值对的额外信息
+    exptime:在缓存中保存键值的时间长度（以秒为单位，0表示永远）
+    bytes:在缓存中存储的字节数
+    noreply(可选):该参数告知服务器不需要返回数据
+    value:存储的值（始终位于第二行）
+    5、实例
+```shell
+add name 0 120 5
+loach
+replace name 0 200 10
+loachblog
+```
+    6、输出
+    STORED:保存成功后输出
+    NOT_STORED:执行替换失败后输出
+
+### append 命令
+    1、append 命令用于向已存在key(键)的value(数据值)后面追加数据
+    2、语法
+```shell
+append key flags exptime bytes [noreply]
+value
+```
+    3、参数：
+    key:键值key-value结构中的key用于查找缓存值
+    flags:可以包括键值对的参数，客户机使用它存储关于键值对的额外信息
+    exptime:在缓存中保存键值对的时间长度（以秒为单位，0表示永远）
+    bytes:在缓存中存储的字节数
+    noreply(可选):该参数告知服务器不需要返回数据
+    value:存储的值（始终位于第二行）
+    4、实例
+```shell
+set name  0 120 5
+loach
+get name
+append name 0 120 4
+blog
+get name
+ ```
+     5、输出
+     STORED:保存成功后输出
+     NOT_STORED:该键在memcached上不存在
+     CLIENT_ERROR:执行错误
+ 
+### prepend命令
+    1、prepend命令用于在已存在key(键)的value(数据值)前面追加数据。
+    2、格式：
+```shell
+prepend key flags exptime bytes [noreply]
+value
+```
+
+### CAS 命令
+    1、Memcached CAS(check-And-Set 或Compare-And-Swap)命令用于执行一个检查并设置的操作。它仅在当前客户端最后一次取值后，该key对应的值没有被其他客户端修改的情况下，才能够将值写入。检查是通过cas_token参数进行的，这个参数是Memcached指定给已存在的元素的一个唯一的64位值。
+    2、语法：
+```shell
+cas key flags exptime bytes unique_cas_token [noreply]
+value
+```
+    3、参数
+    key:键
+    flags:可以包括键值对的整型参数，客户机使用它存储关于键值对的额外信息
+    exptime:在缓存最保存键值对的时间长度（以秒为单位，0表示永远）
+    bytes:在缓存中存储字节数
+    unique_cas_token通过gets命令获取的衣蛾唯一的64位值
+    noreply(可选):该参数告知服务器不需要返回数据
+    value:存储的值（始终位于第二行）
+    4、实例
+    要在Memcached上使用CAS命令，你需要从memcached服务商通过gets命令获取令牌(token).gets命令的功能类似基于get命令。两个命令之间的差别在于，gets返回的信息多一些。
+```shell
+cas title 0 900 10 1
+loachblog.com
+```
+    5、输出
+    STORED：数据添加成功
+    ERROR:保存出错或语法错误
+    EXISTS:最后一次取值后另外一个用户也在更新该数据
+    NOT_FOUND:Memcached服务商不存在该键值
+    
+
+
+    

@@ -1,0 +1,57 @@
+---
+date: 2018-10-06 17:00
+status: public
+title: 2018-10-06Memcached
+---
+
+## Memcached
+    Memcached是一个高性能的分布式内存对象缓存系统，用于动态web应用以减轻数据库负载。它通过在内存中缓存数据和对象减少读取数据库的次数，从而提供动态、数据库驱动网站的速度。
+    Memcached基于一个存储键/值对的hashmap.其守护进程(daemon)是用C语言写的，客户端支持任何编程语言，通过memcached协议与守护进程通信。
+
+## 特征
+* 协议简单
+* 基于libevent的事件处理
+* 内置内存存储方式
+* memcached不互相通信的分布式
+
+## 协议
+    memcached的服务器客户端使用基于文本行的协议。通过telnet也能在memcached上保存数据、取数据。
+
+## 存储方式
+    为了提供性能，memcached中保存的数据都存储在memcached内置的内存存储空间中。由于数据仅存在于内存中，因此重启memcached、重启操作系统、断电会导致全部数据消失。另外，缓存的内容容量达到指定值之后，就基于LRU（Laset Recently Used/最近一次使用）算法自动删除命中率低（很少使用）的缓存数据。
+    memcached本身是为了缓存而设计的服务，因此并没有过多考虑数据的持久化操作。
+
+## windows下安装
+    1、下载：http://static.runoob.com/download/memcached-1.4.5-amd64.zip
+    2、 解压下载的安装包到指定目录，例：c:/memcached/memcached.exe
+    3、在memcached1.4.5版本之后，memcached不能作为服务来运行，需要使用任务计划中开启一个普通的进程，在windows启动时设置memached自动执行。
+    4、使用管理员身份执行以下命令，将memcached添加到任务计划列表中：    
+```shell
+    schtasks /create /sc onstart /tn memcached /tr "'c:/memcached/memcached.exe' -m 512"
+```
+    5、删除任务计划，使用管理员执行以下命令:
+```shell
+    schtasks /delete /tn memcached
+```    
+    6.重启电脑，打开任务管理，会发现进程中会多出一个memcache.exe的进程
+    7.管理员身份执行以下命令:
+```shell
+    telnet localhost 11211
+    version #查看版本
+    stats #查看
+```
+
+## Memcached存储命令
+
+    1、set 命令用于将value存储在指定的key中
+    2、
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

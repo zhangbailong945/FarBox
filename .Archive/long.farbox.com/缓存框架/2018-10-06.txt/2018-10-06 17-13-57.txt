@@ -1,0 +1,13 @@
+---
+date: 2018-10-06 17:00
+status: public
+title: 2018-10-06Memcached
+---
+
+## Memcached
+    Memcached是一个高性能的分布式内存对象缓存系统，用于动态web应用以减轻数据库负载。它通过在内存中缓存数据和对象减少读取数据库的次数，从而提供动态、数据库驱动网站的速度。
+    Memcached基于一个存储键/值对的hashmap.其守护进程(daemon)是用C语言写的，客户端支持任何编程语言，通过memcached协议与守护进程通信。
+
+## 功能
+    Memcached是一套分布式的快取系统，与Redis相似,是开源代码软件，以BSD license授权协议发布。
+    

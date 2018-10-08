@@ -1,0 +1,29 @@
+---
+date: 2018-09-04 21:51
+status: public
+title: 2018-09-04PyQt5控件21-QCalendar日历
+---
+
+## 定义
+QCalendar是一个日历控件，它提供了一个基于月份的视图，允许用户通过鼠标或键盘选择日期，默认选中的是今天的日期。也可以对日历的日期范围进行规定。
+
+## 继承关系
+
+
+## 方法
+方法 | 描述
+------|---------
+setDateRange() | 设置日期范围选择
+setFirstDayOfWeek() | 重新设置星期的第一天，默认是是星期天。参数如下：Qt.Monday,星期一；Qt.Tuesday,星期二；Qt.Wednesday,星期三;Qt.Thursday，星期四；Qt.Friday，星期五；Qt.Saturday,星期六；Qt.Sunday，星期日。
+setMinimumDate() | 设置最小日期
+setMaxmumDate() | 设置最大日期
+setSelectedDate() | 设置一个QDate对象，作为日期控件所选定的日期
+maximum | 获取日期控件的最大日期
+minimum | 获取日期控件的最小日期
+selectedDate() | 返回当前选中的日期
+setGridvisible() | 设置日历控件是否显示网格
+
+
+## 信号
+
+## 代码
