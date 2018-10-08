@@ -1,0 +1,80 @@
+---
+date: 2018-10-08 16:18
+status: public
+title: 2018-10-08-1python-memcached
+---
+
+## 安装python-memcached
+
+import memcache
+#连接
+mClient=memcache.Client(['127.0.0.1:11211'],debug=True)
+
+#set 命令
+#将值设置在指定的key,没有则创建，存在则更新。
+mClient.set("name","python")
+mClient.set("name","python-memcached")
+#读取
+name=mClient.get('name')
+#print(name) #输出python-memcached
+
+#add 命令
+#print(mClient.add("name","django")) #重复添加重复的键，异常并返回False
+#print(name)
+
+#replace 命令
+#修改某个key的值
+#print(mClient.replace('loach','python')) #如果key存在，异常并返回False
+
+#set_multi
+#设置多个键值对，不存在则创建，存在则更新
+dict1={
+    'name':'zhangsan',
+    'age':'25',
+    'sex':'male',
+}
+print(mClient.set_multi(dict1))
+
+#get_multi
+#获取多个键值
+#返回多个键值的字典,如果key不存在在，返回存在的键值对字典，返回空字典。没有则返回空字典
+print(mClient.get_multi(['name','age','sex']))  
+
+#delete_multi
+#删除多个键
+#print(mClient.delete_multi(['name','age','sex']))  #返回1
+#print(mClient.get('name'))  删除后，获取key返回None
+
+#append和prepend
+#append在指定key的值  后面追加
+#prepend在指定key的值 前面追加
+print(mClient.append('name','lisi'))  #返回True
+print(mClient.get('name'))
+print(mClient.prepend('name','wangwu'))
+print(mClient.get('name'))
+
+#incr和decr
+mClient.set('views','1')
+mClient.incr('views','9')  #每次自增9
+print(mClient.get('views'))
+mClient.decr('views','5')  #每次自减5
+print(mClient.get('views'))
+
+#gets和cas
+#使用缓存系统共享数据资源，会出现数据混乱的问题。
+#A用户浏览一次同一篇博客网页views=100
+#B用户浏览一次同一篇博客网页views=100
+#A修改后101
+#B修改后101
+#实际上为102
+#gets和cas
+
+c1=mClient.get('views')
+print(c1)
+cgets=mClient.gets('vews')
+print(cgets)
+#如果有人在gets之后和cas之前修改了views，会出现异常，从而避免非正常数据的产生
+recas=mClient.cas('views','10')
+print('recas:%s'%recas)
+regets=mClient.gets('views')
+print('regets:%s'%regets)

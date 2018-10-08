@@ -1,0 +1,102 @@
+---
+date: 2018-10-08 13:55
+status: public
+title: 2018-10-08Memcached
+---
+
+## Memcached 查询命令
+### get 命令
+    1、get 命令获取存储在key(键)中的value(数据),如果key不存在，则返回空。
+    2、语法:
+```shell
+#单个key
+get key
+#多个可以空格隔开
+get key1 key2 key3
+```
+    3、参数
+    key:键值key-value结构中的key,用于查找缓存值
+    4、实例
+```shell
+set name 0 900 5
+loach
+get name
+```
+
+### gets 命令
+    1、gets 命令取带有CAS令牌存的value(数据值)，如果key不存在，则返回空。
+    2、语法
+```shell
+#取单个
+gets key
+#取多个
+gets key1 key2 key3
+```
+    3、参数
+    key:键值
+    4、实例
+```shell
+set name 0 900 5
+loach
+gets name
+```
+
+### delete命令
+    1、delete 命令用于删除已存在的key（键）
+    2、语法
+```shell
+delete key [noreply]
+```
+    3、实例
+```shell
+set name 0 900 5
+loach
+get name
+delete name
+get name
+```
+    4、输出
+    DELETED:删除成功
+    ERROR:语法错误或删除失败
+    NOT_FOUND:key不存在
+
+### incr 和 decr  命令
+    1、incr和decr命令用于对已存在的key（键）的数字值进行自增或自减操作
+    2、incr和decr 命令操作的数据必须是十进制的32位无符号的整数
+    3、语法
+    ```shell
+    incr/decr key increment_value
+    ```
+       4、参数
+       key:键值
+       increment_value:自增/自减的值
+       5、实例
+```shell
+set views 0 900 3
+0
+incr views 5
+get views
+decr views 5
+get views
+```
+    6、参数
+    NOT_FOUND：key不存在
+    CLIENT_ERROR:自增/自减值不少对象
+    ERROR:其他错误
+
+## Memcached 统计命令
+###
+
+
+
+
+
+
+
+
+
+
+
+
+
+    3、
