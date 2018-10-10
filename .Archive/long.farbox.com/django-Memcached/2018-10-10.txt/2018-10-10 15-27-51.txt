@@ -1,0 +1,84 @@
+---
+date: 2018-10-10 12:55
+status: public
+title: 2018-10-10django缓存配置
+---
+
+## Django 支持的缓存类型
+* 内存(local-memory caching)
+* 文件(FileSystem caching)
+* 数据库(Database caching)
+* Memcache缓存系统（有python-memcached和pylibmc两种方式）
+* 伪缓存(Dummy caching 用于开发模式)
+* 自定义缓存(Customer caching)
+
+## django 缓存类型的配置
+* 在django的settings.py下配置缓存类型
+### local-memory caching配置
+```python
+CACHES={
+    'default':{
+        'BACKEND':'django.core.cache.backends.locmem.LocMemCache',
+        #给放置缓存的内存区设置一个名字
+        'LOCATION':'loach-blog',
+    }
+}
+```
+### FileSystem caching配置
+```python
+CACHES={
+    'default':{
+        #让系统知道我们将缓存存储在文件缓存系统中的区域
+        'BACKEND':'django.core.cache.backends.filebased.FileBasedCache',
+        #指定缓存存储的文件夹，
+        #windows
+        'LOCATION':'d:/tmp/django_cache',
+        #linux
+        #'LOCATION':'/var/tmp/django_cache'
+    }
+}
+```
+
+### Database caching配置
+```python
+
+```
+
+## FileSystem配置注意事项
+* 目录的路径必须为绝对路径，确保系统能够对缓存的目录有访问权限。
+* 目录的路径结尾处"/"可有可无
+* 确保目录存在，且web服务器的用户对该目录具有读写权限
+* 注意配置的大小写（Linux）
+
+## django 站点缓存
+* 使用中间件，经过一系列的认证等操作，如果内容在缓存中存在，则使用FetchFromCacheMiddleware获取内容并返回给用户，当返回给用户之前，判断缓存中是否已经存在，如果不存在则UpdateCacheMiddleware会将缓存保存至缓存，从而实现全站缓存
+* 在settings.py 配置中间件
+```python
+MIDDLEWARE = [
+    #缓存中间件，必须为第一个
+    'django.middleware.cache.UpdateCacheMiddleware',
+    #其他中间件
+    #缓存中间件，必须放在最后一个
+    'django.middleware.cache.FetchFromCacheMiddleware',
+]
+#其他配置
+CACHE_MIDDLEWARE_ALIAS = 'default'    #用来存储的缓存别名
+CACHE_MIDDLEWARE_SECONDS = 0  #所有页面默认缓存时间,默认600
+CACHE_MIDDLEWARE_KEY_PREFIX ='www.loachblog.com'  #关键的前缀，当多个站点使用同一个配置的时候，这个可以设置可以避免发生冲突,一般设置为网站域名
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = False #那么只有匿名的请求会被缓存，这是一个禁用缓存非匿名用户页面的最简单的做法，注意确保已经启用了Django用户认证中间件
+```
+* 查看缓存文件
+```python
+#配置好缓存类型， 并设置好缓存中间件后，运行django项目
+python manage.py runserver
+# 查看缓存目录，会发现已经生成了站点的缓存文件
+```
+
+## FetchFromCacheMiddleware
+* 会缓存 GET 和 HEAD 200 状态的 responses，而且这些 request 和 response 的headers 是允许的;同一个 URL request, 不同查询参数，他的 Responses 会被作为不同 page 分别缓存;这个中间件期待用具有相同 response headers 的 GET request 的response 进行响应，这样它就可以用缓存的 GET response 响应 HEAD request。
+
+## UpdateCacheMiddleware
+* 此中间件会在每个 HttpResponse 中自动设置一些 headers:对于一个页面的新版本（未被缓存过）的请求，设置 Last-Modified header 为当前日期/时间；设置 Expires header 为当前时期/时间 + 定义的CACHE_MIDDLEWARE_SECONDS设置 Cache-Control header 的 max age 指令CACHE_MIDDLEWARE_SECONDS (max age是指缓存的内容将在多少秒后失效）
+
+## 其他
+* 如果 view 设置了自己的 cache 过期时间 (如：设置了 Cache-Control 的 max-age)， 则页面的缓存过期时间会以 view 的过期时间为准。

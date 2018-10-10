@@ -1,0 +1,26 @@
+---
+date: 2018-10-10 12:55
+status: public
+title: 2018-10-10djangoFileSystem缓存配置
+---
+
+## FileSystem Caching
+* 基于文件的backend将每个缓存值序列化并存储为单独的文件中。
+
+## django settings.py 文件系统缓存配置
+```python
+CACHES={
+    'default':{
+        #让系统知道我们将缓存存储在文件缓存系统中的区域
+        'BACKEND':'django.core.cache.backends.filebased.FileBasedCache',
+        #指定缓存存储的文件夹，
+        #windows
+        'LOCATION':'d:/tmp/django_cache',
+        #linux
+        #'LOCATION':'/var/tmp/django_cache'
+    }
+}
+```
+
+## 
+

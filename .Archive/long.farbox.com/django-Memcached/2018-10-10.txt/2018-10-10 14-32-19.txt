@@ -1,0 +1,36 @@
+---
+date: 2018-10-10 12:55
+status: public
+title: 2018-10-10djangoFileSystem缓存配置
+---
+
+## FileSystem Caching
+* 基于文件的backend将每个缓存值序列化并存储为单独的文件中。
+
+## django settings.py 文件系统缓存配置
+```python
+#设置缓存类型
+CACHES={
+    'default':{
+        #让系统知道我们将缓存存储在文件缓存系统中的区域
+        'BACKEND':'django.core.cache.backends.filebased.FileBasedCache',
+        #指定缓存存储的文件夹，
+        #windows
+        'LOCATION':'d:/tmp/django_cache',
+        #linux
+        #'LOCATION':'/var/tmp/django_cache'
+    }
+}
+
+#配置缓存中间件
+#使用中间件，经过一系列的认证等操作，如果内容在缓存中存在，则使用FetchFromCacheMiddleware获取内容并返回给用户，当返回给用户之前，判断缓存中是否已经存在，如果不存在则UpdateCacheMiddleware会将缓存保存至缓存，从而实现全站缓存
+
+```
+
+
+## FileSystem配置注意事项
+
+* 目录的路径必须为绝对路径，确保系统能够对缓存的目录有访问权限。
+* 目录的路径结尾处"/"可有可无
+* 确保目录存在，且web服务器的用户对该目录具有读写权限
+* 注意配置的大小写（Linux）
