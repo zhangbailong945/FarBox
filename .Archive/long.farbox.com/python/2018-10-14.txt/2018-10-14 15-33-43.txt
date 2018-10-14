@@ -1,0 +1,9 @@
+---
+date: 2018-10-14 15:26
+status: public
+title: '2018-10-14腾讯云Centos7.2 python3坏境搭建'
+---
+
+## 为什么默认装python3
+    因为Centos系统有些命令依赖于py
+

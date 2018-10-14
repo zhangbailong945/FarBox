@@ -1,0 +1,8 @@
+---
+date: 2018-10-14 15:26
+status: public
+title: '2018-10-14腾讯云Centos7.2 64位python3坏境搭建'
+---
+
+## Centos7.2 python3坏境
+

@@ -1,0 +1,12 @@
+---
+date: 2018-10-14 15:26
+status: public
+title: '2018-10-14腾讯云Centos7.2 python3坏境搭建'
+---
+
+## Centos为什么默认装python2
+    因为Centos系统有些命令依赖于python3,比如yum它使用的是python2.7.5.一旦你删掉了python2，那么你系统的一些指令就不能使用了。所以最好的解决方法就是python2和python3共存于Centos系统中。
+
+## python3大势所趋
+    python2已经是过去式了，python社区不会花大量的时间和人力来维护和更新BUG了。推陈出新、去其糟粕。python3
+
