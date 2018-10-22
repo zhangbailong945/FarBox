@@ -1,16 +1,148 @@
 ---
 date: 2018-09-11 22:08
 status: public
-title: 2018-09-11
+title: 2018-09-11PyQt5控件21-QDateTimeEdit
 ---
 
 ## 定义
-
-
+    QDateTimeEdit是一个允许用户编辑日期时间的控件，可以使用键盘和上、下箭头按钮增加或减少日期时间值。比如，当使用鼠标选中QDateTimeEdit中的年份时，可以使用键盘上的上、下键来改变数值。
+    QDateTimeEdit通过setDisplayFormat()函数来设置显示日期时间格式
+    
 ## 继承关系
+QDateTimeEdit《QAbstractSpinBox《QWidget《QObject/ QPaintDevice
 
 ## 方法
+方法 | 描述
+------|---------
+setDisplayFormat() | 设置日期时间格式：1.yyyy,代表年份，用4位数表示  2.MM，代表月份，取值范围为01-12.  3.dd,代表日，取值范围为01-31，4.HH，代表小时，取值范围为00-23. 5.mm,代表分组，取值范围00-59, 6.ss,代表秒，取值范围00-59.
+setMinimumDate() | 设置控件的最小日期
+setMaximumDate() |  设置空间的最大日期
+time() | 返回编辑的时间
+date() | 返回编辑的日期
 
 ## 信号
+信号 | 描述
+----------|--------
+dateChanged |  当日期改变时发射此信号
+dateTimeChanged | 当日期时间改变时发射此信号
+timeChanged | 当时间改变时发射此信号
+
+## 子类
+    QDateEdit和QTimeEdit类均继承自QDateTimeEdit类，他们的许多特性和功能由QDateTimeEdit类提供。
+    设置显示格式时要注意，QDateEdit用来编辑空间的日期，仅包括年、月、日；QTimeEdit用来编辑控件的时间，仅包括小时、分钟、秒。
+    
+## 子类代码
+```python
+dateEdit=QDateEdit(self)
+timeEdit=QTimeEdit(self)
+dateEdit.setDisplayFormat("yyyy-MM-dd")
+timeEdit.setDisplayFormat("HH:mm:ss")
+```
+
+    能够弹出日期的类只有QDateTimeEdit和QDateEdit,而QTimeEdit类虽然在语法上可以设置弹出日期，但不起作用，需要以下才能代码生效。
+    
+```python
+dateTimeEdit=QDateTimeEdit(self)
+dateEdit=QDateEdit(self)
+dateTimeEdit.setCalendarPopup(True)
+dateEdit.setCalendarPopup(True)
+```
 
 ## 代码
+```python
+import sys
+
+from PyQt5.QtCore import QDate,QDateTime,QTime
+from PyQt5.QtWidgets import QApplication,QWidget,QDateTimeEdit,QDateEdit,QTimeEdit,QVBoxLayout
+from PyQt5.QtGui import QIcon
+
+
+class DateTimeEdit(QWidget):
+
+    def __init__(self,parent=None):
+        super(DateTimeEdit,self).__init__(parent)
+        self.initUI()
+    
+    def initUI(self):
+        layout=QVBoxLayout(self)
+        #默认日期时间控件
+        dateTimeEdit1=QDateTimeEdit(self)  
+        layout.addWidget(dateTimeEdit1)
+        #设置当前日期时间
+        dateTimeEdit2=QDateTimeEdit(QDateTime.currentDateTime(),self)  
+        layout.addWidget(dateTimeEdit2)
+        #日期控件
+        dateEdit=QDateEdit(self)  
+        layout.addWidget(dateEdit)
+        #时间控件
+        timeEdit=QTimeEdit(self)   
+        layout.addWidget(timeEdit)
+        #设置日期格式
+        dateTimeEdit3=QDateTimeEdit(QDateTime.currentDateTime(),self)
+        dateTimeEdit3.setDisplayFormat("yyyy/MM/dd HH/mm/ss")
+        layout.addWidget(dateTimeEdit3)
+        dateTimeEdit4=QDateTimeEdit(QDateTime.currentDateTime(),self)
+        dateTimeEdit4.setDisplayFormat("yyyy:MM:dd HH-mm-ss")
+        layout.addWidget(dateTimeEdit4)
+        dateEdit2=QDateEdit(QDate.currentDate(),self)
+        dateEdit2.setDisplayFormat("yyyy.MM.dd")
+        layout.addWidget(dateEdit2)
+        timeEdit2=QTimeEdit(QTime.currentTime(),self)
+        timeEdit2.setDisplayFormat("HH.mm.ss")
+        layout.addWidget(timeEdit2)
+        #设置日期范围
+        dateEdit3=QDateEdit(QDate.currentDate(),self)
+        dateEdit3.setMinimumDate(QDate.currentDate().addDays(-365))
+        dateEdit3.setMaximumDate(QDate.currentDate().addDays(365))
+        #弹出日期选择框
+        dateEdit3.setCalendarPopup(True)
+        layout.addWidget(dateEdit3)
+
+                #日期
+        self.dateEdit4=QDateTimeEdit(QDateTime.currentDateTime(),self)
+        #最大日期
+        maxDate=self.dateEdit4.maximumDate()
+        #最大日期时间
+        maxDateTime=self.dateEdit4.maximumDateTime()
+        #最大时间
+        maxTime=self.dateEdit4.maximumTime()
+        #最小日期
+        minDate=self.dateEdit4.minimumDate()
+        #最小日期时间
+        minDateTime=self.dateEdit4.minimumDateTime()
+        #最小时间
+        minTime=self.dateEdit4.minimumTime()
+        print("选择的日期是：\n")
+        print("maxDateTime=%s"%str(maxDateTime))
+        print("maxDate=%s"%str(maxDate))
+        print("maxTime=%s"%str(maxTime))
+        print("minDate=%s"%str(minDate))
+        print("minDateTime=%s"%str(minDateTime))
+        print("minTime=%s"%str(minTime))
+        layout.addWidget(self.dateEdit4)
+
+        #信号
+        self.dateEdit4.dateChanged.connect(self.onDateChanged)
+        self.dateEdit4.dateTimeChanged.connect(self.onDateTimeChanged)
+        self.dateEdit4.timeChanged.connect(self.onTimeChanged)
+        self.setLayout(layout)
+    
+    def onDateChanged(self,date):
+        print(date)
+    
+    def onDateTimeChanged(self,datetime):
+        print(datetime)
+    
+    def onTimeChanged(self,time):
+        print(time)
+
+
+
+
+if __name__=='__main__':
+    app=QApplication(sys.argv)
+    datetimeWidget=DateTimeEdit()
+    datetimeWidget.show()
+    sys.exit(app.exec_())
+
+```

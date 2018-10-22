@@ -1,0 +1,21 @@
+---
+date: 2018-09-11 22:08
+status: public
+title: 2018-09-11PyQt5控件21-QDateTimeEdit
+---
+
+## 定义
+    QDateTimeEdit是一个允许用户编辑日期时间的控件，可以使用键盘和上、下箭头按钮增加或减少日期时间值。比如，当使用鼠标选中QDateTimeEdit中的年份时，可以使用键盘上的上、下键来改变数值。
+    QDateTimeEdit通过setDisplayFormat()函数来设置显示日期时间格式
+    
+## 继承关系
+QDateTimeEdit《QAbstractSpinBox《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+------|---------
+
+
+## 信号
+
+## 代码

@@ -8,7 +8,7 @@ title: 2018-09-04PyQt5控件21-QCalendar日历
 QCalendar是一个日历控件，它提供了一个基于月份的视图，允许用户通过鼠标或键盘选择日期，默认选中的是今天的日期。也可以对日历的日期范围进行规定。
 
 ## 继承关系
-QCalendar《QWidget《QObject/ QPaintDevice
+
 
 ## 方法
 方法 | 描述
