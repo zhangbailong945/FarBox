@@ -1,0 +1,21 @@
+---
+date: 2018-10-28 14:22
+status: public
+title: 2018-10-28-4PyQt5高级控件1QTableView
+---
+
+## 定义
+    表格与树解决的问题是如何在一个控件中有规律地呈现跟多的数据。PyQt提供了两种控件类用于解决该问题，其中一种是表格结构的空间类，另一种是树形结构的控件。
+    通常一个应用需要和一批数据进行交互，然后以表格的形式输出这些信息，这时就要用到QTableView类了，在QTableView中以使用自定义的数据模型来显示内容，通过setModel来绑定数据源。
+    QTableWidget继承自QTableView，主要区别是QTableView可以使用自定的数据模型来显示内容，而QTableWidget只能使用保准的数据模型，并且其单元格数据是通过QTableWidgetItem对象来实现。
+
+## 继承关系
+
+## QTableView绑定数据模型类型
+模式 | 描述
+
+
+
+## 信号
+
+## 代码

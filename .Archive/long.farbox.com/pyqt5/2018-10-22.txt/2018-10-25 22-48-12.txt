@@ -24,46 +24,6 @@ clear() | 删除菜单/菜单内容
 setShortcut() | 将快捷键关联到操作按钮
 setText() | 设置菜单项的文本
 setTitle() | 设置QMenu小控件的标题
-text() | 返回与QAction对象关联的文本
-title() | 返回QMenu小控件的标题
+text() | 返回与QA
 
 ## 代码
-```python
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-
-class MenuDemo(QMainWindow):
-
-    def __init__(self,parent=None):
-        super(MenuDemo,self).__init__(parent)
-        self.initUI()
-    
-    def initUI(self):
-        layout=QHBoxLayout()
-        bar=self.menuBar()
-        file=bar.addMenu("文件")
-        file.addAction("新建")
-        save=QAction("保存",self)
-        save.setShortcut("Ctrl+s")
-        file.addAction(save)
-        edit=file.addMenu("编辑")
-        edit.addAction("复制")
-        edit.addAction("剪切")
-        quit=QAction("退出",self)
-        file.addAction(quit)
-        file.triggered[QAction].connect(self.processstrigger)
-        self.setLayout(layout)
-        self.setWindowTitle("QMenu 例子")
-    
-    def processstrigger(self,q):
-        print(q.text()+"is triggerd")
-
-
-if __name__=="__main__":
-    app=QApplication(sys.argv)
-    demo=MenuDemo()
-    demo.show()
-    sys.exit(app.exec_())
-```

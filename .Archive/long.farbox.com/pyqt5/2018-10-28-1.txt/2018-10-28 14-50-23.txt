@@ -1,0 +1,84 @@
+---
+date: 2018-10-28 14:22
+status: public
+title: 2018-10-28-1PyQt5控件26-QStatusBar
+---
+
+## 定义
+    打印功能使用Qprinter，它本质上是一个QPaintDevice(绘图设备)。
+
+## 继承关系
+
+## 方法
+
+## 信号
+
+## 代码
+```python
+import sys
+from PyQt5.QtCore import *
+from PyQt5.QtGui import QIcon,QImage,QPixmap,QPainter
+from PyQt5.QtPrintSupport import QPrintDialog,QPrinter
+from PyQt5.QtWidgets import *
+
+
+
+
+class PrinterDemo(QMainWindow):
+
+    def __init__(self,parent=None):
+        super(PrinterDemo,self).__init__(parent)
+        self.initUI()
+    
+    def initUI(self):
+        self.setWindowTitle("打印图片")
+        self.imageLabel=QLabel()
+        self.imageLabel.setSizePolicy(QSizePolicy.Ignored,QSizePolicy.Ignored)
+        self.setCentralWidget(self.imageLabel)
+        self.image=QImage()
+        self.createActions()
+        self.createMenus()
+        self.createToolBars()
+
+        if self.image.load("./images/logo.png"):
+            self.imageLabel.setPixmap(QPixmap.fromImage(self.image))
+            self.resize(self.image.width(),self.image.height())
+
+    
+    def createActions(self):
+        self.PrintAction=QAction(
+            QIcon("./images/32x32.ico"),
+            self.tr("打印"),
+            self
+        )
+        self.PrintAction.setShortcut("Ctrl+p")
+        self.PrintAction.setStatusTip(self.tr("打印"))
+        self.PrintAction.triggered.connect(self.slotPrint)
+    
+    def createMenus(self):
+        PrintMenu=self.menuBar().addMenu(self.tr("打印"))
+        PrintMenu.addAction(self.PrintAction)
+    
+    def createToolBars(self):
+        fileToolBar=self.addToolBar("打印")
+        fileToolBar.addAction(self.PrintAction)
+    
+    def slotPrint(self):
+        printer=QPrinter()
+        printDialog=QPrintDialog(printer,self)
+        if printDialog.exec_():
+            painter=QPainter(printer)
+            rect=painter.viewport()
+            size=self.image.size()
+            self.scale(rect.size(),Qt.KeepAspectRatio)
+            painter.setViewport(rect.x(),rect.y(),size.width(),size.height())
+            painter.setWindow(self.image.rect())
+            painter.drawImage(0,0,self.image)
+
+
+if __name__=="__main__":
+    app=QApplication(sys.argv)
+    demo=PrinterDemo()
+    demo.show()
+    sys.exit(app.exec_())
+```

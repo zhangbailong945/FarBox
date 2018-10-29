@@ -1,0 +1,22 @@
+---
+date: 2018-10-22 20:56
+status: public
+title: 2018-10-22PyQt5控件23-QMenu
+---
+
+## 定义
+    在QMainWindow对象的标题栏下方，水平的QMenuBar被保留显示QMenu对象。
+    QMenu类提供了一个可以添加到菜单栏的小控件，也用于创建上下文菜单和弹出菜单。每个QMenu对象都可以包含一个或多个QAction对象或级联的QMenu对象。
+    创建一个弹出菜单，pyqt5 api提供了createPopupMenu()函数；menuBar()函数用于返回主窗口的QMenuBar对象；addMenu()函数可以将菜单添加到菜单栏中；addAction()函数可以在菜单中进行添加操作。
+
+## 继承关系
+QMenu《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+------|------
+menuBar() | 返回主窗口的QMenuBar对象
+addMenu() | 在菜单栏中添加一个新的QMenu对象
+addAction() | 在QMenu小控件添加一个操作
+
+## 代码

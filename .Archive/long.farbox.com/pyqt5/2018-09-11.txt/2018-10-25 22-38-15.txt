@@ -1,7 +1,7 @@
 ---
 date: 2018-09-11 22:08
 status: public
-title: 2018-09-11PyQt5控件22-QDateTimeEdit
+title: 2018-09-11PyQt5控件21-QDateTimeEdit
 ---
 
 ## 定义

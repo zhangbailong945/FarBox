@@ -1,0 +1,54 @@
+---
+date: 2018-10-27 21:38
+status: public
+title: 2018-10-272018-10-25PyQt5控件25-QStatusBar
+---
+
+## 定义
+    QMainWindow对象在底部保留有一个水平条，作为状态栏，用于永久显示或临时显示信息。
+    通过主窗口的QMianWindow的setStatusBar()函数设置状态栏。
+    
+## 继承关系
+QStatusBar《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+-----|-----
+showMessage() | 在状态栏中显示一条临时信息指定时间间隔
+clearMessage() | 删除正则显示的临时信息
+removeWidget() | 从状态栏中删除指定的小控件
+
+## 代码
+```python
+import sys
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+
+class StatusBarDemo(QMainWindow):
+
+    def __init__(self,parent=None):
+        super(StatusBarDemo,self).__init__(parent)
+        self.initUI()
+    
+    def initUI(self):
+        bar=self.menuBar()
+        file=bar.addMenu("文件")
+        file.addAction("显示")
+        file.triggered[QAction].connect(self.processTrigger)
+        self.setCentralWidget(QTextEdit())
+        self.statusBar=QStatusBar()
+        self.setWindowTitle("QStatusBar 例子")
+        self.setStatusBar(self.statusBar)
+    
+    def processTrigger(self,q):
+        if (q.text()=="显示"):
+            self.statusBar.showMessage(q.text()+"菜单选项被点击了",5000)
+
+
+if __name__=="__main__":
+    app=QApplication(sys.argv)
+    demo=StatusBarDemo()
+    demo.show()
+    sys.exit(app.exec_())
+```

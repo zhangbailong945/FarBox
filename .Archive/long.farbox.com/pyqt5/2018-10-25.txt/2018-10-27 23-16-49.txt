@@ -1,0 +1,22 @@
+---
+date: 2018-10-25 22:37
+status: public
+title: 2018-10-25PyQt5控件24-QToolBar
+---
+
+## 定义
+    QToolBar控件是由文本按钮、图标或其它小控件按钮组成的可移动面板，通常位于菜单栏下方。
+
+## 继承关系
+QToolBar《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+-----|-------
+addAction() | 添加具有文本或图标的工具annual
+addSpeperator() | 分组显示工具按钮
+addWidget() | 添加工具栏
+
+## 信号
+
+## 代码

@@ -1,0 +1,66 @@
+---
+date: 2018-10-25 22:37
+status: public
+title: 2018-10-25PyQt5控件24-QToolBar
+---
+
+## 定义
+    QToolBar控件是由文本按钮、图标或其它小控件按钮组成的可移动面板，通常位于菜单栏下方。
+
+## 继承关系
+QToolBar《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+-----|-------
+addAction() | 添加具有文本或图标的工具annual
+addSpeperator() | 分组显示工具按钮
+addWidget() | 添加工具栏
+addToolBar() | 使用QMainWindow类的方法添加一个新的工具栏
+setMoveable() | 工具栏变得可移动
+setOrientation() | 工具栏的方向可以设置为Qt.Horizontal或Qt.vertical
+
+## 信号
+    每当单击工具栏的按钮时，都将发生actionTriggered信号
+
+## 代码
+```python
+import sys
+
+from PyQt5.QtCore import *
+from PyQt5.QtGui import * 
+from PyQt5.QtWidgets import *
+
+class ToolBarDemo(QMainWindow):
+
+    def __init__(self,parent=None):
+        super(ToolBarDemo,self).__init__(parent)
+        self.initUI()
+    
+    def initUI(self):
+        self.setWindowTitle("QToolBar例子")
+        self.resize(300,200)
+
+        layout=QVBoxLayout()
+        tb=self.addToolBar("文件")
+        new=QAction(QIcon("./images/32x32.ico"),"new",self)
+        tb.addAction(new)
+        open=QAction(QIcon("./images/32x32.ico"),"open",self)
+        tb.addAction(open)
+        new=QAction(QIcon("./images/32x32.ico"),"new",self)
+        tb.addAction(new)
+        save=QAction(QIcon("./images/32x32.ico"),"save",self)
+        tb.addAction(save)
+        tb.actionTriggered[QAction].connect(self.toolbtnpressed)
+        self.setLayout(layout)
+    
+    def toolbtnpressed(self,a):
+        print("pressed tool button is %s"%a.text())
+
+
+if __name__=="__main__":
+    app=QApplication(sys.argv)
+    demo=ToolBarDemo()
+    demo.show()
+    sys.exit(app.exec_())
+```

@@ -1,0 +1,21 @@
+---
+date: 2018-10-27 21:38
+status: public
+title: 2018-10-272018-10-25PyQt5控件25-QStatusBar
+---
+
+## 定义
+    QMainWindow对象在底部保留有一个水平条，作为状态栏，用于永久显示或临时显示信息。
+    通过主窗口的QMianWindow的setStatusBar()函数设置状态栏。
+    
+## 继承关系
+QStatusBar《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+-----|-----
+
+
+## 信号
+
+## 代码
