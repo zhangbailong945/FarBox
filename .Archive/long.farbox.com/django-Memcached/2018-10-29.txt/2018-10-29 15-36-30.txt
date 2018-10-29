@@ -1,0 +1,54 @@
+---
+date: 2018-10-29 15:20
+status: public
+title: 2018-10-29django视图缓存
+---
+
+## view缓存
+    实现view缓存，在django中只需要在相应的视图中加入cache_page装饰器接口。
+
+## view缓存实例
+```python
+from django.views.decorators.cache import cache_page
+@cache_page(60*15)
+def index(request):
+    post_list = Post.objects.all().order_by('-created_time')  # 文章列表
+    return render(request, 'blog/index.html', context={
+        'title': 'LoachBlog首页',
+        'post_list': post_list,
+    })
+```
+
+## 可以在路由器中使用cache_page装饰器
+```python
+from django.views.decorators.cache import cache_page
+import blog
+app_name = 'blog'
+urlpatterns = [
+    url(r'^category/(?P<pk>[0-9]+)/$',cache_page(60*15)(views.CategoryView.as_view()), name='category'),
+]
+```
+
+## view缓存的特点
+1. 多个URL指向同一个view，会被分别缓存（比如说文章）
+2.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

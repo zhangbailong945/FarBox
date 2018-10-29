@@ -1,0 +1,8 @@
+---
+date: 2018-10-29 16:29
+status: public
+title: 2018-10-29-1django模板缓存
+---
+
+## Template缓存
+    

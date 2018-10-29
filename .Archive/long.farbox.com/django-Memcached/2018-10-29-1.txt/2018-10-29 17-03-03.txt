@@ -1,0 +1,51 @@
+---
+date: 2018-10-29 16:29
+status: public
+title: 2018-10-29-1django模板片段缓存
+---
+
+## Template片段缓存
+    使用cache模板标签，可以缓存模板片段，提高网站性能
+
+## 使用
+    将{% load cache %}标签放在template的开头，然后使用{% cache %}模板标签缓存template片段.此标签至少需要两个参数：timeout:缓存时间（秒）,name:缓存片段名字，缓存会直接使用后面的值，不能使用变量。
+
+
+## 代码示例：
+{% load cache %}
+    {% cache 500 body using="redis_cache" %}
+    {% endcache %}
+
+    默认缓存将存储到default后端缓存，也可以指定缓存后端，使用using参数指定。make_template_fragment_key,可得到模板缓存中的key,django.core.cache.utils.make_template_fragment_key(fragment_name,vary_on=None),fragment_name：缓存的名称，与缓存模板标签的第二个参数一个样，vary_on:所有附加参数的一个list，用于生成缓存key,如果后面的list的值不一样，即使第一个参数一样，生成的key的值也是不一样的。
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

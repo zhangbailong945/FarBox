@@ -1,0 +1,9 @@
+---
+date: 2018-10-29 15:20
+status: public
+title: 2018-10-29django视图缓存
+---
+
+## view缓存
+    实现view缓存，在django中只需要在相应的视图中加入cache_page装饰器接口。
+    
