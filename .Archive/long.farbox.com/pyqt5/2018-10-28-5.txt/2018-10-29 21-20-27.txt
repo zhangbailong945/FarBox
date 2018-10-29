@@ -26,37 +26,5 @@ doubleClicked | 当双击某项时，信号被发射
 
 ## 代码
 ```python
-import sys
-from PyQt5.QtCore import QStringListModel
-from PyQt5.QtWidgets import QApplication,QWidget,QVBoxLayout,QListView,QMessageBox
-from PyQt5.QtGui import *
 
-
-class ListViewDemo(QWidget):
-
-    def __init__(self,parent=None):
-        super(ListViewDemo,self).__init__(parent)
-        self.initUI()
-    
-
-    def initUI(self):
-        layout=QVBoxLayout()
-        listView=QListView()
-        slm=QStringListModel()
-        self.qList=['项目一','项目二','项目三','项目四']
-        slm.setStringList(self.qList)
-        listView.setModel(slm)
-        listView.clicked.connect(self.clicked)
-        layout.addWidget(listView)
-        self.setLayout(layout)
-    
-    def clicked(self,qModelIndex):
-        QMessageBox.information(self,"ListView","你选择了"+self.qList[qModelIndex.row()])
-
-
-if __name__=="__main__":
-    app=QApplication(sys.argv)
-    demo=ListViewDemo()
-    demo.show()
-    sys.exit(app.exec_())
 ```

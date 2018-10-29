@@ -10,7 +10,6 @@ title: 2018-10-28-4PyQt5高级控件1QTableView
     QTableWidget继承自QTableView，主要区别是QTableView可以使用自定的数据模型来显示内容，而QTableWidget只能使用保准的数据模型，并且其单元格数据是通过QTableWidgetItem对象来实现。
 
 ## 继承关系
-QTableView《QAbstractItemView《QAbstractScrollArea《QFrame《QWidget《QObject/ QPaintDevice
 
 ## QTableView绑定数据模型类型
 模式 | 描述

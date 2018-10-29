@@ -1,0 +1,20 @@
+---
+date: 2018-10-28 14:22
+status: public
+title: 2018-10-28-5PyQt5高级控件2QListView
+---
+
+## 定义
+    QListView类用于展示数据，它的子类是QListWidget.QListView是基于模型（Model）的，需要程序来建立模型，然后再保存数据。
+    QListWidget是一个升级版的QListView，它已经建立了一个数据存储模型（QListWidgetItem）,直接调用addItem()函数，就可以添加条目了（Item）.
+
+## 继承关系
+QListView《QAbstractItemView《QAbstractScrollArea《QFrame《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+setModel() |  用来设置View所关联的Model
+
+## 信号
+
+## 代码

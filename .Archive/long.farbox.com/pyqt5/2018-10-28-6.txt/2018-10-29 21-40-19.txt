@@ -28,28 +28,5 @@ itemClicked | 当点击列表中的条目时发射此信号
 
 ## 代码
 ```python
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
 
-class ListWidgetDemo(QListWidget):    
-    
-    def clicked(self,item):
-        QMessageBox.information(self,"QListWidget","你选择了:"+item.text())
-
-
-if __name__=="__main__":
-    app=QApplication(sys.argv)
-    listWidget=ListWidgetDemo()
-    listWidget.resize(300,120)
-    listWidget.addItem("项目1")
-    listWidget.addItem("项目2")
-    listWidget.addItem("项目3")
-    listWidget.addItem("项目4")
-    listWidget.addItem("项目5")
-    listWidget.setWindowTitle("QListWidget例子")
-    listWidget.itemClicked.connect(listWidget.clicked)
-    listWidget.show()
-    sys.exit(app.exec_())
 ```

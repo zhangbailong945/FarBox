@@ -1,0 +1,22 @@
+---
+date: 2018-10-28 14:23
+status: public
+title: 2018-10-28-6PyQt5高级控件3QListWidget
+---
+
+## 定义
+    QListWidget类是一个基于条目的接口，用于从列表中添加或删除条目。列表中的每个条目都是一个QListWidgetItem对象。QListWidget可以设置多重选择。
+
+## 继承关系
+QListWidget《QListView《QAbstractItemView《QAbstractScrollArea《QFrame《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+addItem() | 在列表中添加QListWidgetItem对象或字符串
+addItems() | 添加列表中的每个条目
+insertItem() | 在指定的索引处插入条目
+clear()
+
+## 信号
+
+## 代码
