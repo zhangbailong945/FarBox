@@ -1,0 +1,13 @@
+---
+date: 2018-10-30 13:00
+status: public
+title: '2018-10-30django Redis缓存'
+---
+
+## Redis
+    Redis是一个开源的Inmemory key-value存储系统，性能高。补偿了memcached的不错。支持多种存储类型，包括strign,list,set,zset(sorted set有序集合)和hash。
+
+## Redis优点
+    1.快速:Redis的速度非常快，美妙能执行约11万集合，每秒月81000+条记录
+    2.支持丰富的数据类型：Redis支持列表，集合、有序集合、散列数据类型。
+    
