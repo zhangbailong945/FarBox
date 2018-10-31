@@ -30,7 +30,7 @@ setShowGrid() | 在默认情况下，表格的显示是有网格线的。True显
 setColumnWidth(int column,int width) | 设置单元格的宽度
 setRowHeight(int row,int height) | 设置单元格的高度
 
-## setEditTriggers()单元格编辑规则枚举值
+## setEditTriggers()的们聚类型
 类型 | 值|描述
 -------|-----|-------
 QAbstractItemView.NoEditTriggers0No | 0 | 不能对表格内容进行修改
@@ -38,68 +38,7 @@ QAbstractItemView.CurrentChangedEditing | 1 | 任何时候都能对单元格进�
 QAbstractItemView.DoubleClicked2Editing | 2 | 双击单元格
 QAbstractItemView.SelectedClicked4Editing | 4 | 单击已选中的内容
 QAbstractItemView.EditKeyPressed8Editing | 8 | 当修改键被按下时修改单元格
-QAbstractItemView.AnyKeyPressed16Editing | 16 | 按任意键修改单元格
-QAbstractItemView.AllEditTriggers31Editing | 31 | 包括以上所有条件
+Q
 
-## setSelectionBehavior() 的选择行为枚举值
-类型 | 值 | 描述
---------|--------|----------
-QAbstractItemView.SelectItem0Selecting | 0 | 选中单个单元格
-QAbstractItemView.SelectItem1Selecting | 1 | 选中一行
-QAbstractItemView.SelectItem2Selecting | 2 | 选中一列
-
-## setTextAlignment() 单元格文本水平对齐方式枚举值
-类型 | 描述
---------|--------
-Qt.AlignLeft | 将单元格的内容沿单元格的左边缘对齐
-Qt.AlignRight | 将单元格的内容沿单元格的右边缘对齐
-Qt.AlignHCenter | 在可用空间 中，居中显示在水平方向上
-Qt.AlignJustify | 将文本在可用空间中对齐，默认从左到右
-
-## setTextAlignment() 单元格垂直对齐方式枚举值
-类型 | 描述
--------|--------
-Qt.AlignTop | 与顶部对齐
-Qt.AlignBottom | 与底部对齐
-Qt.AlignVCenter | 在可用空间中，居中显示在垂直方向上
-Qt.AlignBaseline | 与基线对齐
 
 ## 代码
-```python
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import (QWidget,QTableWidget,QHBoxLayout,QApplication,QTableWidgetItem) 
-from PyQt5.QtGui import *
-
-
-class TableWidgetDemo(QWidget):
-
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-    
-    
-    def initUI(self):
-        self.setWindowTitle("TableWidget例子")
-        self.resize(400,300)
-        layout=QHBoxLayout()
-        tableWidget=QTableWidget()
-        tableWidget.setRowCount(4)
-        tableWidget.setColumnCount(3)
-        tableWidget.setHorizontalHeaderLabels(['姓名','性别','体重(kg)'])
-        newItem=QTableWidgetItem("张三")
-        tableWidget.setItem(0,0,newItem)
-        newItem=QTableWidgetItem("男")
-        tableWidget.setItem(0,1,newItem)
-        newItem=QTableWidgetItem("160")
-        tableWidget.setItem(0,2,newItem)
-        layout.addWidget(tableWidget)
-        self.setLayout(layout)
-
-
-if __name__=="__main__":
-    app=QApplication(sys.argv)
-    demo=TableWidgetDemo()
-    demo.show()
-    sys.exit(app.exec_())
-```

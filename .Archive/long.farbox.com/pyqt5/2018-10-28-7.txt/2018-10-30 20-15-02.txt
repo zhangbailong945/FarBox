@@ -1,0 +1,33 @@
+---
+date: 2018-10-28 14:23
+status: public
+title: 2018-10-28-7PyQt5高级控件4QTableWidget
+---
+
+## 定义
+    QTableWidget是Qt程序中常用的显示数据表格的控件，类似于C#中的DataGrid。QTableWidget是QTableView的子类，它使用标准的数据模型，并且其单元数据是通过QTableWidgetItem对象来实现的。使用QTableWidget时就需要QTableWdigetItem，用来表示表格中的一个单元格，整个表格就是用各个单元格构建起来的。
+
+
+## 继承关系
+QTableWidget《QTableView《QAbstractItemView《QAbstractScrollArea《QFrame《QWidget《QObject/ QPaintDevice
+
+## 方法
+方法 | 描述
+--------|--------
+setRowCount(int row) | 设置QTableWidget表格控件的行数
+setColumnCount(int col) | 设置QTableWidget表格控件的列数
+setHorizontalHeaderLabels() | 设置QTableWidget表格控件的水平标签
+setVerticalHeaderLabels() | 设置QTableWidget表格控件的垂直标签
+setItem(int,int,QTableWidgetItem) | 设置QTableWidget 表格控件的每个选项的单元空间添加控件
+horizontalHeader() | 设置QTableWidget表格控件的表格头，以便执行隐藏
+rowCount() | 设置QTableWidget表格控件的行数
+columnCount() | 设置QTableWidget表格控件的列数
+setEditTriggers(EditTriggers triggers) | 设置表格是否可编辑。设置编辑枚举类型
+setSelectionBehavior（） | 设置表格的选择行为,枚举类型
+setTextAlignment() | 设置单元格内的对齐方式
+setSpan(int row,int column,int rowSpanCount,int columnSpanCount) | 合并单元格，要改变单元格第row行，第column列，要合并rowSpanCount行数和columnSpanCount列数；row,要改变的单元格行数,column要改变的单元格列数,rowSpanCount需要合并的行数,columnSpanCount需要合并的列数.
+setShowGrid() | 在默认情况下，表格的显示是有网格线的。True显示网格，False隐藏网格线。
+setColumnWidth(int c)
+## 信号
+
+## 代码

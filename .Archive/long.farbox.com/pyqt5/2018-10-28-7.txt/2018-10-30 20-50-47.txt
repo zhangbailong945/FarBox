@@ -66,40 +66,5 @@ Qt.AlignBaseline | 与基线对齐
 
 ## 代码
 ```python
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import (QWidget,QTableWidget,QHBoxLayout,QApplication,QTableWidgetItem) 
-from PyQt5.QtGui import *
 
-
-class TableWidgetDemo(QWidget):
-
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-    
-    
-    def initUI(self):
-        self.setWindowTitle("TableWidget例子")
-        self.resize(400,300)
-        layout=QHBoxLayout()
-        tableWidget=QTableWidget()
-        tableWidget.setRowCount(4)
-        tableWidget.setColumnCount(3)
-        tableWidget.setHorizontalHeaderLabels(['姓名','性别','体重(kg)'])
-        newItem=QTableWidgetItem("张三")
-        tableWidget.setItem(0,0,newItem)
-        newItem=QTableWidgetItem("男")
-        tableWidget.setItem(0,1,newItem)
-        newItem=QTableWidgetItem("160")
-        tableWidget.setItem(0,2,newItem)
-        layout.addWidget(tableWidget)
-        self.setLayout(layout)
-
-
-if __name__=="__main__":
-    app=QApplication(sys.argv)
-    demo=TableWidgetDemo()
-    demo.show()
-    sys.exit(app.exec_())
 ```

@@ -1,0 +1,18 @@
+---
+date: 2018-10-28 14:23
+status: public
+title: 2018-10-28-7PyQt5高级控件4QTableWidget
+---
+
+## 定义
+    QTableWidget是Qt程序中常用的显示数据表格的控件，类似于C#中的DataGrid。QTableWidget是QTableView的子类，它使用标准的数据模型，并且其单元数据是通过QTableWidgetItem对象来实现的。使用QTableWidget时就需要QTableWdigetItem，用来表示表格中的一个单元格，整个表格就是用各个单元格构建起来的。
+
+
+## 继承关系
+QTableWidget《QTableView《QAbstractItemView《QAbstractScrollArea《QFrame《QWidget《QObject/ QPaintDevice
+
+## 方法
+
+## 信号
+
+## 代码
