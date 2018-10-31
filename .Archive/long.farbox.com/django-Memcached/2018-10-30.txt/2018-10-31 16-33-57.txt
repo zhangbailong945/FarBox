@@ -123,10 +123,6 @@ CACHES = {
     OPTIONS下：Master只能有一个。    
     可以配置单个string,也可以配置string列表。
 
-## django项目的(view)视图进行redis缓存
-```python
-
-```
 
 
 

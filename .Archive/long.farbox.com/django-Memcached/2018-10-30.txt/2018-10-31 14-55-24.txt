@@ -47,8 +47,6 @@ title: '2018-10-30django Redis缓存'
     vi redis.conf
     #修改一下参数
     daemonize yes
-    #配置密码
-    #requirepass mypassword
     #加载配置并启动
     ./bin/redis-server ./redis.conf
     #关闭redis服务器
@@ -57,27 +55,7 @@ title: '2018-10-30django Redis缓存'
 
     3.主从复制配置Master/slave
     主从复制是为了保证redis服务器的数据可以读写分离，容灾恢复。Master以写会主，Slave以读为主，slave阔以有多个。slave是对master的复制，当Master宕机后，Slave可以反客为主代替之前的Master继续提高服务。
-    配置Slave
-```
-    #拷贝之前的redis.conf 
-    cp redis.conf redis.6380.conf
-    #对拷贝的配置文件进行修改
-    vi redis.6380.conf
-    #配置6380端口的Slave的从属关系
-    #改端口后卫6380
-    prot 6380
-    #配置从属关系
-     #低版本叫slaveof
-     #slaveof 127.0.0.1 6380
-     #5.0之后为replicaof
-     replicaof 127.0.0.1 6379
-     #提供master的密码
-     masterauth mypassword
-     #配置好以后，保存退出并启动slave
-     ./bin/redis-server ./redis.6380.conf
-     #测试是否启动成功
-     ps -ef | grep redis
-```
+    配置Mase
     
 ## django-redis 缓存后端配置
     1.配置redis作为django的默认缓存
@@ -120,13 +98,12 @@ CACHES = {
     如果Redis服务器配置了Master/Slave，则可以在LOCATION中配置多个Redis Server。
     Master:Read/Write,Slave:read-only,是master的一个拷贝。
     LOCATION下可以配置多个Redis服务器。
-    OPTIONS下：Master只能有一个。    
+    OPTIONS下：Master只能有一个。
+    
+    
+    
     可以配置单个string,也可以配置string列表。
 
-## django项目的(view)视图进行redis缓存
-```python
-
-```
 
 
 

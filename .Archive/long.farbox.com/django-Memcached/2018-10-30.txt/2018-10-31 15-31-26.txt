@@ -120,13 +120,12 @@ CACHES = {
     如果Redis服务器配置了Master/Slave，则可以在LOCATION中配置多个Redis Server。
     Master:Read/Write,Slave:read-only,是master的一个拷贝。
     LOCATION下可以配置多个Redis服务器。
-    OPTIONS下：Master只能有一个。    
+    OPTIONS下：Master只能有一个。
+    
+    
+    
     可以配置单个string,也可以配置string列表。
 
-## django项目的(view)视图进行redis缓存
-```python
-
-```
 
 
 

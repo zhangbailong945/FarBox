@@ -1,0 +1,76 @@
+---
+date: 2018-10-30 13:00
+status: public
+title: '2018-10-30django Redis缓存'
+---
+
+## Redis
+    Redis是一个开源的Inmemory key-value存储系统，性能高。补偿了memcached的不错。支持多种存储类型，包括strign,list,set,zset(sorted set有序集合)和hash。
+
+## Redis优点
+    1.快速:Redis的速度非常快，美妙能执行约11万集合，每秒月81000+条记录
+    2.支持丰富的数据类型：Redis支持列表，集合、有序集合、散列数据类型。
+    3.操作都是原子性：所有的Redis操作是原子的，这保证了如果两个客户的同事访问的Redis服务器将获得更新后的值。（不会产生冲突，也不会产生旧数据。）
+    4.多功能实用工具：Redis是一个多实用工具，可以在多个用例，如缓存，消息，队列使用（Redis原生支持发布/订阅）,任何短暂的诗句，应用程序。
+
+## Reis安装与配置
+
+### Linux Centos7.4
+
+    1.官网下载，编译安装
+```shell
+    #下载最新的源文件  
+    wget http://download.redis.io/releases/redis-5.0.0.tar.gz
+    #安装tcl
+    yum install tcl
+    #解压
+    tar -zxvf redis-5.0.0.tar.gz
+    #编译并安装
+    cd redis-5.0.0
+    #生成编译文件
+    make
+    #测试是否可以安装
+    make test
+    #安装
+    make PREFIX=/usr/local/redis5 install
+    make && make install
+    #测试是否成功
+    cd /usr/local/redis5/bin
+    ./redis-server #出现redis logo即表示服务的启动成功,这里是前台启动。ctrl+c退出
+```
+
+    2.基础配置
+```shell
+    #拷贝配置文件
+    cp /usr/local/src/redis-5.0.0/redis.conf /usr/local/redis5
+    #配置后台启动
+    vi redis.conf
+    #修改一下参数
+    daemonize yes
+    #加载配置并启动
+    ./bin/redis-server ./redis.conf
+    #关闭redis服务器
+    ./bin/redis-cli shutdown
+````
+## django-redis 缓存后端配置
+    1.配置redis作为django的默认缓存
+    2.打开django项目的settings.py,配置一下缓存配置
+```python
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
