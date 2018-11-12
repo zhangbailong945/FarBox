@@ -1,16 +1,13 @@
 ---
 date: 2018-10-30 19:50
 status: public
-title: 2018-10-30-2
+title: 2018-10-30-2PyQt5高级控件7QStackedWidget
 ---
 
 ## 定义
-
+    QStackedWidget是一个堆栈窗口控件，可以填充一些小控件，但同一时间只有一个小控件显示。QStackedWidget使用QStackedLayout布局。QStackedWidget与QTabWidget类似，可以有效地显示窗口中的控件。
 
 ## 继承关系
-
-## 方法
-
-## 信号
+QStackedWidget《QWidget《QPaintDevice/Object
 
 ## 代码

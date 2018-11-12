@@ -1,0 +1,16 @@
+---
+date: 2018-10-28 14:07
+status: public
+title: 2018-10-28PyQt5高级控件6QTreeView
+---
+
+## 定义
+    QTreeWidget实现了树形结果。
+
+## 继承关系
+QW
+## 方法
+
+## 信号
+
+## 代码

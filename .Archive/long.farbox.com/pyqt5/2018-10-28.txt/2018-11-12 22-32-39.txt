@@ -1,7 +1,7 @@
 ---
 date: 2018-10-28 14:07
 status: public
-title: 2018-10-28PyQt5高级控件5QTreeView
+title: 2018-10-28PyQt5高级控件6QTreeView
 ---
 
 ## 定义

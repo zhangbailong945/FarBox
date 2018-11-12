@@ -1,0 +1,16 @@
+---
+date: 2018-10-28 14:07
+status: public
+title: 2018-10-28PyQt5控件26-QPrinter
+---
+
+## 定义
+    打印图像是图像处理软件的常用功能。打印图像的实质就是在QPaintDevice中画图，与平常的在QWidget、QPixmap和QImage中画图一样，都是在创建一个QPaintDevice对象进行画图，只是打印使用的是QPrinter,它本质上也是一个QPaintDevice(绘图设备)。
+
+## 继承关系
+
+## 方法
+
+## 信号
+
+## 代码

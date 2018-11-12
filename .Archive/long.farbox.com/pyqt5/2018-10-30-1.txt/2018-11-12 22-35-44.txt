@@ -1,0 +1,16 @@
+---
+date: 2018-10-30 19:50
+status: public
+title: 2018-10-30-1PyQt5高级控件6QTabWidget
+---
+
+## 定义
+    QTabWidget控件提供了
+
+## 继承关系
+
+## 方法
+
+## 信号
+
+## 代码

@@ -1,0 +1,22 @@
+---
+date: 2018-10-28 14:07
+status: public
+title: 2018-10-28PyQt5高级控件6QTreeView
+---
+
+## 定义
+    QTreeWidget实现了树形结果。
+
+## 继承关系
+QTreeWidget《QTreeView《QAbstractItemView《QAbstractScrollArea《QFrame《QWidget《QObject/QPaintDevice
+
+## 方法
+方法 | 描述
+------|-------
+setColumnWidth(int column,int width) | 指定列的宽度设置为给定的值
+insertTopLevelItems() | 在视图的顶层索引中输入项目列表
+expandAll() | 展开所有的
+
+## 信号
+
+## 代码

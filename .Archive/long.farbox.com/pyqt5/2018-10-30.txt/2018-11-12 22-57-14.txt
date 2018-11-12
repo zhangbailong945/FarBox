@@ -1,0 +1,16 @@
+---
+date: 2018-10-30 19:50
+status: public
+title: 2018-10-30PyQt5高级控件7QStackedWidget
+---
+
+## 定义
+    QDockWidget是一个可以停靠在QMainWindow内的窗口控件，它可以保持在浮动状态或者在指定作为子窗口附加到主窗口中。QMainWindow类的主窗口对象保留有一个用于停靠窗口的区域，这个区域在控件
+
+## 继承关系
+
+## 方法
+
+## 信号
+
+## 代码
