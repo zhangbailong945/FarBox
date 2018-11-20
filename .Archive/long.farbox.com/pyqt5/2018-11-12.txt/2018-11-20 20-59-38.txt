@@ -1,7 +1,7 @@
 ---
 date: 2018-11-12 22:55
 status: public
-title: 2018-11-12PyQt5信号与槽1-基础
+title: 2018-11-12PyQt5信号与槽1
 ---
 
 ## 定义
