@@ -1,0 +1,8 @@
+---
+date: 2018-11-21 15:49
+status: public
+title: 2018-11-20PyQt5界面显示与页面逻辑的分离
+---
+
+## Qt Designer
+    使用Qt Designer能够快速开发GUI界面，更能自动生成信号和槽函数。任何一个简单的功能
