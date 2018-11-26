@@ -1,0 +1,17 @@
+---
+date: 2018-11-22 12:47
+status: public
+title: 2018-11-22-2PyQt5打包
+---
+
+## 打包速度慢
+Pyinstaller打包大小因素：
+
+1.Anaconda会大
+2.python和pyqt版本越低，越小
+3.numpy，PIL,版本越高越大
+4.from xx import * 会大
+5.upx压缩过会小
+6.pyinstaller版本
+
+## 

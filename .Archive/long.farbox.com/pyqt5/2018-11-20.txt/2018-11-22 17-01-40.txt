@@ -203,7 +203,7 @@ if __name__=='__main__':
 
 ## 事件过滤器
     对要过滤的控件设置installEventFilter，这些控件的所有事件都会被eventFilter函数接受并处理。
-    QApplication事件过滤器，只需要加上app.installEventFilter()
+    QApplication事件过滤器，只需要
 ```python
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal,QThread,QDateTime,QEvent,QTimer,Qt,QPoint

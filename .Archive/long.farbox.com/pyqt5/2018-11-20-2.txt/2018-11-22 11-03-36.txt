@@ -1,7 +1,7 @@
 ---
 date: 2018-11-21 15:49
 status: public
-title: 2018-11-20PyQt5信号与槽3-界面与逻辑的分离
+title: 2018-11-20PyQt5界面显示与页面逻辑的分离
 ---
 
 ## Qt Designer
