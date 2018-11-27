@@ -1,0 +1,76 @@
+---
+date: 2018-11-27 12:15
+status: public
+title: 2018-11-27图形与特效1-窗口风格
+---
+
+## 图形与特效
+    使用PyQt实现的窗口样式，默认使用的就是当前操作系统的原生窗口样式。在不同的操作系统下原生窗口样式的显示效果不同。在Ubuntu下窗口的美化下过更佳，而在Window下就不怎么美观了。虽然app关系的业务和功能，但是也需要实现一些个性化的界面，如QQ、微信和360等软件的界面，就很漂亮、吸引人、简洁，符合用户的习惯。总而言之，软件界面的设计、直接决定这用户对该软件的第一印象，决定着使用者对软件的青睐程度。所以需要定制个性化窗口样式，实现统一的窗口风格和美化窗口界面。
+
+## 窗口风格
+1、设置Widget的风格
+```python
+setStyle(QStyle style)
+```
+2、获取当前平台支持的原有QStyle样式
+```python
+QStyleFactory.keys()
+```
+3、对QApplication设置QStyle样式
+```python
+QApplication.setStyle(QStyleFactory.create("WindowsXP"))
+```
+如果其他Widget没有设置QStyle，则模式使用QApplication设置的QStyle。
+
+## 当前窗口风格获取
+```python
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5 import QtCore
+import sys,time
+
+class WinForm(QWidget):
+
+    def __init__(self,parent=None):
+        super(WinForm,self).__init__(parent)
+        hlayout=QHBoxLayout()
+        self.styleLabel=QLabel('Set Style:',self)
+        self.styleComboBox=QComboBox(self)
+        #从QStyleFactory显示多个样式
+        self.styleComboBox.addItems(QStyleFactory.keys())
+        #选择当前窗口风格
+        index=self.styleComboBox.findText(
+            QApplication.style().objectName(),
+            QtCore.Qt.MatchFixedString
+        )
+        #设置风格 
+        self.styleComboBox.setCurrentIndex(index)
+        self.styleComboBox.activated[str].connect(self.handleStyleChanged)
+        hlayout.addWidget(self.styleLabel)
+        hlayout.addWidget(self.styleComboBox)
+        self.setLayout(hlayout)
+    
+    def handleStyleChanged(self,style):
+        QApplication.setStyle(style)
+
+
+
+
+
+if __name__=="__main__":
+    app=QApplication(sys.argv)
+    demo=WinForm()
+    demo.show()
+    sys.exit(app.exec_())
+```
+
+## 设置窗口样式
+    使用setWindowFlags(Qt.WindowFlags)函数设置窗口样式
+    PyQt中几种基本的窗口类型。
+窗口类型 | 样式
+--------|---------
+Qt.Widget | 默认窗口，有最小化、最大化、关闭按钮
+Qt.Window | 普通窗口，有最小化、最大化、关闭按钮
+Qt.Dialog | 对话窗口，有问号、关闭按钮
+Qt.Popup | 弹出窗口，窗口无

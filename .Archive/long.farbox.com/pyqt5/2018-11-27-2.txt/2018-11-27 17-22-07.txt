@@ -1,0 +1,15 @@
+---
+date: 2018-11-27 17:03
+status: public
+title: 2018-11-27-2图形与特效3-QSS的UI美化
+---
+
+## QSS
+    QSS（Qt Style Sheets）即Qt样式表，用来自定义外观的一种机制。QSS使页面美化跟代码层分开，利于维护。
+
+## QSS的语法规则
+    选择器：控件名{属性：值;}
+    以下代码表示QPushButton类及其子类的所有实例的前景色为红色。QPushButton表示选择器，指定所有QPushButton类及其子类都会受到影响。
+```python
+QPushButton {color:red;}
+```

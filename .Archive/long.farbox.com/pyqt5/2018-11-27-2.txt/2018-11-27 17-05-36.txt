@@ -1,0 +1,8 @@
+---
+date: 2018-11-27 17:03
+status: public
+title: 2018-11-27-2图形与特效3-QSS的UI美化
+---
+
+## QSS
+    QSS（Qt Style Sheets）即Qt样式表，用来自定义外观的一种机制。

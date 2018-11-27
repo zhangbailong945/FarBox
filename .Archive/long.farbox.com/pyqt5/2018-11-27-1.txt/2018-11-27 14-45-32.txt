@@ -1,0 +1,11 @@
+---
+date: 2018-11-27 13:29
+status: public
+title: 2018-11-27-1图形与特效2-绘图
+---
+
+## 图像类
+    PyQt中常用的图像类有4个，级QPixma，QImage,QPicture和QBitmap
+    QPixmap专门为绘图而设计，在绘制图片时使用QPixmap
+    QImage提供了一个与硬件无关的图像表示函数，可以用于图片的像素级访问
+    QPicture是一个绘图设备类，它集成自Painter类。可以使用QPainter的begin()函数在QPicture上绘图，使用end()函数结束绘图，使用QPicture的save()函数将QPainter所使用过的绘图

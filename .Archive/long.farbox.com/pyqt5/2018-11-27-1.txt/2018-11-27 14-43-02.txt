@@ -1,0 +1,9 @@
+---
+date: 2018-11-27 13:29
+status: public
+title: 2018-11-27-1图形与特效2-绘图
+---
+
+## 图像类
+    PyQt中常用的图像类有4个，级QPixma，QImage,QPicture和QBitmap
+    QPixmap专门为绘图而设计，在绘制图片时使用QPixmap

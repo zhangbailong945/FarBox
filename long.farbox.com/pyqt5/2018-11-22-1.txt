@@ -1,0 +1,106 @@
+---
+date: 2018-11-27 11:14
+status: public
+title: 2018-11-20-3信号与槽6-多窗口数据库传递
+---
+
+## 多窗口数据传递
+    对于多窗口数据传递，一般通过子窗口发射信号，主窗体通过槽函数捕获这个信号，然后获取信号里面的数据。子窗口发射信号有两种。一种是发送内置的信号；另一种是发射自定义的信号。
+    发射自定义信号的好处是，它的参数类型可以自定义。比如发送一个自定义信号，它的类型参数可以为int、str、dict、list等；如果发射内资信号，则只能是特定的几个参数。
+
+
+## 子窗口代码
+```python
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+
+class DateDialog(QDialog):
+
+    signal_OneParameter=pyqtSignal(str)
+
+    def __init__(self,parent=None):
+        super(DateDialog,self).__init__(parent)
+        self.setWindowTitle("子窗口发射信号")
+        #布局
+        layout=QVBoxLayout(self)
+        self.label1=QLabel(self)
+        self.label1.setText('前者发射内置信号\n后者发射自定义信号')
+        
+        self.datetime_inner=QDateTimeEdit(self)
+        self.datetime_inner.setCalendarPopup(True)
+        self.datetime_inner.setDateTime(QDateTime.currentDateTime())
+
+        self.datetime_emit=QDateTimeEdit(self)
+        self.datetime_emit.setCalendarPopup(True)
+        self.datetime_emit.setDateTime(QDateTime.currentDateTime())
+
+        layout.addWidget(self.label1)
+        layout.addWidget(self.datetime_inner)
+        layout.addWidget(self.datetime_emit)
+
+        #两个按钮
+        buttons=QDialogButtonBox(QDialogButtonBox.Ok|QDialogButtonBox.Cancel,Qt.Horizontal,self)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+        self.datetime_emit.dateTimeChanged.connect(self.emit_signal)
+        self.setLayout(layout)
+
+    def emit_signal(self):
+        date_str=self.datetime_emit.dateTime().toString()
+        self.signal_OneParameter.emit(date_str)
+
+```
+
+## 主窗口代码
+```python
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from multipleDatedemo3 import DateDialog
+import sys,time
+
+class WinForm(QWidget):
+
+    def __init__(self,parent=None):
+        super(WinForm,self).__init__(parent)
+        self.resize(400,90)
+        self.setWindowTitle('信号与槽 子窗口的数据传递')
+        self.lineEdit_inner=QLineEdit(self)
+        self.lineEdit_emit=QLineEdit(self)
+        self.btn_GetTime=QPushButton('获取时间',self)
+
+        self.btn_GetTime.clicked.connect(self.openDialog)
+
+        self.lineEdit_inner.setText('获取内置信号的时间')
+        self.lineEdit_emit.setText('获取自定义信号的时间')
+
+        gridLayout=QGridLayout()
+        gridLayout.addWidget(self.lineEdit_inner)
+        gridLayout.addWidget(self.lineEdit_emit)
+        gridLayout.addWidget(self.btn_GetTime)
+
+        self.setLayout(gridLayout)
+    
+    def openDialog(self):
+        dialog=DateDialog(self)
+        #连接子窗口的内置信号与主窗口的槽函数
+        dialog.datetime_inner.dateTimeChanged.connect(self.deal_inner_slot)
+        #连接资产的自定义信号与主窗口的槽函数
+        dialog.signal_OneParameter.connect(self.deal_emit_slot)
+        dialog.show()
+    
+    def deal_inner_slot(self,date):
+        self.lineEdit_inner.setText(date.toString())
+    
+    def deal_emit_slot(self,dateStr):
+        self.lineEdit_emit.setText(dateStr)
+
+if __name__=="__main__":
+    app=QApplication(sys.argv)
+    demo=WinForm()
+    demo.show()
+    sys.exit(app.exec_())
+
+```

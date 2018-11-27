@@ -1,0 +1,76 @@
+---
+date: 2018-11-27 17:03
+status: public
+title: 2018-11-27-2图形与特效3-QSS的UI美化
+---
+
+## QSS
+    QSS（Qt Style Sheets）即Qt样式表，用来自定义外观的一种机制。QSS使页面美化跟代码层分开，利于维护。
+
+## QSS的语法规则
+    选择器：控件名{属性：值;}
+    以下代码表示QPushButton类及其子类的所有实例的前景色为红色。QPushButton表示选择器，指定所有QPushButton类及其子类都会受到影响。
+```python
+QPushButton {color:red;}
+```
+
+## 选择器类型
+类型 | 描述
+-----|------
+通配选择器 | *,匹配所有的控件
+类型选择器 | QPushButton,匹配所有的QPushButton类及其子类的实例
+属性选择器 | PQushButton[name='mybtn'],匹配所有的name属性是mybtn的QPushButtn实例。该属性可以是你自定义的。
+    代码：
+```python
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5 import QtCore
+import sys,time
+
+##QSS的UI美化
+
+class WinForm(QWidget):
+
+    def __init__(self,parent=None):
+        super(WinForm,self).__init__(parent)
+        self.pix=QPixmap()
+        self.lastPoint=QPoint(600,500)
+        self.endPoint=QPoint()
+        self.setWindowFlags(Qt.MSWindowsFixedSizeDialogHint)
+                #辅助画布
+        self.temppix=QPixmap()
+        #标志是否正在绘画
+        self.isDrawing=False
+        self.initUI()
+
+    def initUI(self):
+        self.resize(600,500)
+        self.btn1=QPushButton('test')
+        self.btnReSet=QPushButton('重新绘制') 
+        self.btn2=QPushButton('test2')
+        self.btn2.setProperty('name','mybtn')
+        layout=QVBoxLayout()
+        layout.addWidget(self.btnReSet)
+        layout.addWidget(self.btn1)
+        layout.addWidget(self.btn2)
+        self.setLayout(layout)
+        self.setWindowTitle("QSS美化")
+
+
+if __name__=="__main__":
+    app=QApplication(sys.argv)
+    qssStyle='''
+      QPushButton{
+          background-color:red;
+      }
+
+      QPushButton[name='mybtn']{
+          background-color:blue;
+      }
+    '''
+    demo=WinForm()
+    demo.setStyleSheet(qssStyle)
+    demo.show()
+    sys.exit(app.exec_())
+```
