@@ -1,0 +1,60 @@
+---
+date: 2018-11-28 10:56
+status: public
+title: 2018-11-28图形与特效4-QSS子控件
+---
+
+## QSS子控件
+    QSS子控件实际上也是一种选择器，其应用在一些复合控件上，如QComboBox，该控件外观是一个矩形的外边框，右边有一个下拉箭头。
+
+## 代码
+```python
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5 import QtCore
+import sys,time,os
+
+##QSS的UI美化
+
+class WinForm(QWidget):
+
+    def __init__(self,parent=None):
+        super(WinForm,self).__init__(parent)
+        self.pix=QPixmap()
+        self.lastPoint=QPoint(600,500)
+        self.endPoint=QPoint()
+        self.setWindowFlags(Qt.MSWindowsFixedSizeDialogHint)
+                #辅助画布
+        self.temppix=QPixmap()
+        #标志是否正在绘画
+        self.isDrawing=False
+        self.initUI()
+
+    def initUI(self):
+        self.resize(600,500)
+        self.languageCombox=QComboBox()
+        self.languageCombox.setObjectName('languageCombox')
+        items=['汉语','英语','葡萄牙语']
+        self.languageCombox.addItems(items)
+        layout=QVBoxLayout()
+        layout.addWidget(self.languageCombox)
+        self.setLayout(layout)
+        self.setWindowTitle("QSS美化")
+
+
+if __name__=="__main__":
+    app=QApplication(sys.argv)
+    qssStyle='''
+      QComboBox#languageCombox:drop-down{
+          image:url(d:/PyQt5Projects/pyqt5test/images/test.ico);
+      }
+    '''
+    demo=WinForm()
+    demo.setStyleSheet(qssStyle)
+    print(os.path.dirname(__file__))
+    demo.show()
+    sys.exit(app.exec_())
+```
+
+## QSS伪状态

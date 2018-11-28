@@ -1,0 +1,20 @@
+---
+date: 2018-11-28 15:33
+status: public
+title: 2018-11-28-2PyQt5扩展1-PyInstaller打包
+---
+
+## 安装PyInstaller
+```python
+pip install PyInstaller
+```
+
+## 使用方式
+```python
+pyinstaller [options] yourprogarm.py
+```
+    1.参数选修
+参数 | 含义
+------|------
+-F,onefile | 打包成一个exe文件
+-D,onedir | dab

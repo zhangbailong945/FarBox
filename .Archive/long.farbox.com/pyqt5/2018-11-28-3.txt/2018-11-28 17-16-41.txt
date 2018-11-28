@@ -1,0 +1,26 @@
+---
+date: 2018-11-28 16:48
+status: public
+title: 2018-11-28-3PyQt5扩展1-SQLite数据库
+---
+
+## SQLite
+    SQLite是一个轻量级的数据库，实现了自给自足，无服务器，零配置，事务性的SQL数据库引擎，其部署最广泛。SQLite源代码不受版权限制。
+
+## 安装
+    1.地址：https://www.sqlite.org/download.html
+    2.下载后解压到目录，再将目录添加到坏境变量path中，命令行输入sqlite3测试。
+
+## SQLite操作
+    1.新建一个数据库(命令行模式)
+```python
+SQLite3 test.db
+```
+    2.查看已建立的数据文件
+```python
+.dateabase
+```
+    3.打开已建立的数据文件
+```python
+SQLite3 test.db
+```

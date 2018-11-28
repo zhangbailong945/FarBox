@@ -1,0 +1,62 @@
+---
+date: 2018-11-28 16:48
+status: public
+title: 2018-11-28-3PyQt5扩展1-SQLite数据库
+---
+
+## SQLite
+    SQLite是一个轻量级的数据库，实现了自给自足，无服务器，零配置，事务性的SQL数据库引擎，其部署最广泛。SQLite源代码不受版权限制。
+
+## 安装
+    1.地址：https://www.sqlite.org/download.html
+    2.下载后解压到目录，再将目录添加到坏境变量path中，命令行输入sqlite3测试。
+
+## SQLite操作
+    1.新建一个数据库(命令行模式)
+```shell
+SQLite3 test.db
+```
+    2.查看已建立的数据文件
+```shell
+.dateabase
+```
+    3.打开已建立的数据文件
+```shell
+SQLite3 test.db
+```
+    4.查看帮助信息
+```shell
+.help
+```
+    5.创建数据表
+```shell
+create table people(id integer primary key,name text);
+```
+    6.插入表数据表
+```shell
+insert into people(id,name) values(1,'zhangsan');
+```
+    7.查询数据表
+```shell
+select * from people
+```
+    8.更新数据表
+```shell
+update people set name='lisi' where id=1;
+```
+    9.删除数据表
+```shell
+delete from people where id=1;
+```
+    10.查询表结构
+```python
+.schema people
+return:CREATE TABLE people(id integer primary key,name text);
+```
+
+## SQLite管理工具
+    1.下载工具：百度 sqlitestudio
+
+
+## SQLite与PyQt连接
+    1.PyQt API经过精心设计，提供了很多机遇SQL的数据库通信类。其中QSqlDatabase类用来连接数据库，可以使用数据库驱动与不同的数据库进行交互。一个

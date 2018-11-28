@@ -1,0 +1,29 @@
+---
+date: 2018-11-28 12:20
+status: public
+title: 2018-11-28-1图形与特效4-设置窗口背景
+---
+
+## 窗口背景
+    窗口背景主要包括：背景色和背景图片，设置窗口背景的三种方法。
+    1.使用QSS设置窗口背景
+    2.使用QPalette设置窗口背景
+    3.实现paintEvent，使用Painter绘制背景
+
+## 使用QSS设置窗口背景
+     1.QSS中可以使用background和background-color的方式设置背景色。设置窗口背景色后，子控件默认会继承父窗口的背景色。如果想要为控件设置背景图片或图标，则使用setPixmap或者setIcon。
+```python
+
+```
+
+## 使用QPalette设置窗口背景
+    1.使用QPalette(调色板)设置窗口的背景颜色
+```python
+        palette=QPalette()
+        palette.setColor(QPalette.Background,Qt.red)
+        self.setPalette(palette)
+``` 
+    2.使用QPalette设置窗口的背景图片
+```python
+
+```

@@ -1,0 +1,11 @@
+---
+date: 2018-11-28 15:33
+status: public
+title: 2018-11-28-2PyQt5扩展1-PyInstaller打包
+---
+
+## 安装PyInstaller
+```python
+pip install PyInstaller
+```
+
