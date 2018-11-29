@@ -181,68 +181,12 @@ if __name__=='__main__':
     使用方法，先声明QSqlTableModel对象，然后查询people表中的数据，最后保存数据到QSqlTableModel对象的只读数据模型中。
     QSqlTableModel类是一个可以读和写的表格模型，当连接到数据库后，使用setTable()函数设置要查询的表，使用setFilter()函数设置过滤条件，这个过滤器条件与SQL查询语句的where条件一样，然后使用select()函数执行查询，最后使用setEditStrategy()函数设置"编辑策略"。
     编辑策略类型
-    
 编辑策略 | 描述
-------- | ------
+-------|-----
 QSqlTableModel.OnFieldChange | 所有变更实时更新到数据库中
-QSqlTableModel.OnRowChange | 当用户选择不同的行时，在当前行进行变更
-QSqlTableModel.OnManualSubmit | 手动提交，不自动提交
+
 
 ```python
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtSql import QSqlDatabase , QSqlTableModel
-from PyQt5.QtCore import Qt 
-
-def initializeModel(model):
-	model.setTable('address')
-	model.setEditStrategy( QSqlTableModel.OnFieldChange)
-	model.select()
-	model.setHeaderData(0, Qt.Horizontal, "ID")
-	model.setHeaderData(1, Qt.Horizontal, "name")
-	model.setHeaderData(2, Qt.Horizontal, "address")
-	
-def createView(title, model):
-	view =  QTableView()
-	view.setModel(model)
-	view.setWindowTitle(title)
-	return view
-	
-def addrow():
-	ret = model.insertRows( model.rowCount(), 1 )
-	print( 'insertRows=%s' %str(ret) )
-
-def findrow(i):
-	delrow= i.row()
-	print('del row=%s' % str(delrow) )
-
-if __name__ == '__main__':
-	app =  QApplication(sys.argv)
-	db = QSqlDatabase.addDatabase('QSQLITE')
-	db.setDatabaseName('D:/PyQt5Projects/pyqt5test/sqlite/test.db')
-	model = QSqlTableModel()
-	delrow = -1
-	initializeModel(model)
-	view1 = createView("Table Model (View 1)", model) 
-	view1.clicked.connect(findrow)
-	
-	dlg = QDialog()
-	layout = QVBoxLayout()
-	layout.addWidget(view1)
-	addBtn = QPushButton("添加一行")
-	addBtn.clicked.connect(addrow)
-	layout.addWidget(addBtn)
-    
-	delBtn = QPushButton("删除一行")
-	delBtn.clicked.connect(lambda: model.removeRow(view1.currentIndex().row()))
-	layout.addWidget(delBtn)
-	dlg.setLayout(layout)
-	dlg.setWindowTitle("Database 例子")
-	dlg.resize(430, 450)
-	dlg.show()
-	sys.exit(app.exec_())
 
 ```
  
