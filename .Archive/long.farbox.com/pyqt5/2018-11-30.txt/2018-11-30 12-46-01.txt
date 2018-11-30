@@ -1,0 +1,8 @@
+---
+date: 2018-11-30 12:44
+status: public
+title: 2018-11-30PyQt5扩展3-Pandas应用
+---
+
+## Pandas
+    Pandas是Python的一个数据分析包，是有AQR Capital Management在2008年4月份开发的，

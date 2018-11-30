@@ -1,0 +1,15 @@
+---
+date: 2018-11-30 12:44
+status: public
+title: 2018-11-30PyQt5扩展3-Pandas应用
+---
+
+## Pandas
+    Pandas是Python的一个数据分析包，是有AQR Capital Management在2008年4月份开发的，并于2009年开园，目前专注于Python数据包开发的PyData开发组继续开发和维护，属于PyData项目的一部分。Pandas起初被作为金融数据分析工具而开发的，并未时间序列分析提供了很好的支持。从Panda这个名词就可以看出，它是面板数据(Panel Data)和Python数据分析（Data Analysis）的结合，在Pandas出现之前，Python数据分析的主力军只有NumPy比较好用，在Pandas出现之后，它基本上占据了Python数据分析的霸主地方，它在处理基础数据尤其金融时间序列数据方面非常高效。
+    使用Pandas与PyQt结合，最方便的方法就是安装qtpandas模块。这个模块库帮助我们吧Pandas的数据显示在QTabelWidget上，并自动安装实现各种QTableWidget的功能，如增加、删除、修改、保存、排序等。这些功能实现起来比较麻烦，但是利用qtpandas，就省略大量手工代码。
+
+## Pandas安装
+```python
+pip install pandas
+pip install qtpandas
+```
