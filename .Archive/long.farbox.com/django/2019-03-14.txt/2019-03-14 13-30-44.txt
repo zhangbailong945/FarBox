@@ -1,0 +1,97 @@
+---
+date: 2019-03-14 12:05
+status: public
+title: 2019-03-14django-替换后台模板
+---
+
+## 什么是x-admin
+    xadmin是一个django管理后台模板实现，相对django自带的要好看一点，国人开发，兼容旧版admin。
+
+## 项目相关
+[xadmin的源码](https://github.com/sshwsfc/xadmin/tree/django2)
+[xadmin的官方文档](https://xadmin.readthedocs.io/en/latest/index.html)
+
+## 集成到自己的项目
+
+### 下载源码 [django2-xadmin2](https://github.com/sshwsfc/xadmin/tree/django2)
+### 将xadmin目录拷贝到自己项目的根目录中
+### 修改settings.py中的INSTALLED_APPS参数
+```python
+INSTALLED_APPS=[
+    'xadmin', #必填
+    'crispy_forms',#必填
+    'reversion', #可选
+]
+```
+### 修改项目的urls.py配置
+```python
+import xadmin
+xadmin.autodiscover()
+
+#version模块自动注册需要版本控制的Model
+from xadmin.plugins import xversion
+xversion.register_models()
+urlpatterns = [
+    repath(r'^x-admin/$',xadmin.site.urls)
+]
+```
+
+### 安装xadmin依赖包
+```python
+pip install future
+pip install django-crispy-forms
+pip install django-reversion
+pip install django-formtools
+pip install xlwt
+pip install xlsxwriter
+pip install httplib2
+pip install django-import-export
+```
+
+### 在每个app根目录下创建一个adminx.py
+
+### 数据库更新
+```python
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### 设置apps的中文名称
+1.修改你的app目录下面的apps.py文件
+```python
+class BlogConfig(AppConfig):
+    name='blog'
+    verbose_name='博客'
+```
+
+2.修改你的app目录下的init.py文件
+```python
+default_app_config='app.apps.BlogConfig'
+```
+
+### 设置app列表字段为中文显示
+1.进入你app的某个数据库模型
+```python
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

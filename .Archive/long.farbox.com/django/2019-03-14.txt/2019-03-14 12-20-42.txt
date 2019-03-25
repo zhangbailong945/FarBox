@@ -1,0 +1,8 @@
+---
+date: 2019-03-14 12:05
+status: public
+title: 2019-03-14django-替换后台模板
+---
+
+## 什么是x-admin
+    xadmin是一个django管理后台模板实现，比django自带的的
