@@ -1,0 +1,7 @@
+---
+date: 2019-03-14 12:05
+status: public
+title: 2019-03-14django-替换后台模板
+---
+
+xadmin的源码：https://github.com/sshwsfc/xadmin/tree/django2

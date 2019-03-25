@@ -1,0 +1,46 @@
+---
+date: 2019-03-14 12:05
+status: public
+title: 2019-03-14django-替换后台模板
+---
+
+## 什么是x-admin
+    xadmin是一个django管理后台模板实现，相对django自带的要好看一点，国人开发，兼容旧版admin。
+
+## 项目相关
+[xadmin的源码](https://github.com/sshwsfc/xadmin/tree/django2)
+[xadmin的官方文档](https://xadmin.readthedocs.io/en/latest/index.html)
+
+## 集成到自己的项目
+
+### 下载源码
+### 将xadmin目录拷贝到自己项目的根目录中
+### 修改settings.py中的INSTALLED_APPS参数
+```python
+INSTALLED_APPS=[
+    'xadmin', #必填
+    'crispy_forms',#必填
+    'reversion', #可选
+]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

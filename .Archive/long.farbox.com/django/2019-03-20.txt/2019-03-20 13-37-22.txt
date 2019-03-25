@@ -1,0 +1,16 @@
+---
+date: 2019-03-20 13:33
+status: public
+title: 2019-03-20vue笔记1
+---
+
+## 安装Vue全家桶
+必须先安装node坏境
+* 安装全局的webpack
+```dos
+npm install webpack weback-cli -g
+```
+* 安装全局的vue-cli
+```python
+npm install --global vue-cli
+```

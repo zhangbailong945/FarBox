@@ -1,0 +1,25 @@
+---
+date: 2019-03-20 13:33
+status: public
+title: 2019-03-20vue笔记1
+---
+
+## 安装Vue-cli
+必须先安装node坏境
+* 安装全局的webpack
+```dos
+npm install webpack weback-cli -g
+```
+* 安装全局的vue-cli
+```python
+npm install --global vue-cli
+```
+
+## vue-cli构建项目
+* 创建项目
+```dos
+cd yourpath
+vue init webpack yourprojectname
+# yourprojectname
+```
+
