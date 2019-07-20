@@ -1,0 +1,123 @@
+---
+date: 2019-07-15 17:26
+status: public
+title: '2019-07-15-1 抽象工厂'
+---
+
+## 用途
+    提供一个创建一系列相关或相互依赖对象的接口，而无需指定他们具体的类
+
+## 定义
+* 一个系统要独立于它产品的创建、组合和表示时。
+* 一个系统要由多个产品系列中的一个来配置时。
+* 当你要强调一系列相关的产品对象的设计以便于进行联合使用时。
+* 当你提供一个产品类库，而只想显示他们的接口而不是实现时。
+
+## 代码
+    一个抽象的汽车工厂，可以生产轮子和壳子。现在奇瑞和吉利继承了抽象工厂也可以实现生产轮子和壳子。有一个抽象的轮子厂和一个壳子厂，奇瑞和吉利分别继承它们，这样能生产自己牌子的轮子和壳子。如果有更多品牌来加入，只需实现抽象的工厂和抽象的产品类即可。
+```
+# -*- coding:utf-8 -*-
+import sys
+
+class Wheel(object):
+    '''
+    轮子类
+    '''
+    def makeWhell(self):
+        pass
+
+class Shell(object):
+    '''
+    壳子类
+    '''
+
+    def makeShell(self):
+        pass
+
+
+class CheryWheel(Wheel):
+    '''
+    奇瑞轮子厂
+    '''
+
+    def makeWheel(self):
+        return '奇瑞轮子'
+
+class CheryShell(Shell):
+    '''
+    奇瑞壳子厂
+    '''
+    def makeShell(self):
+        return '奇瑞壳子'
+
+
+class GeelyWheel(Wheel):
+    '''
+    吉利壳子厂
+    '''
+    def makeWheel(self):
+        return '吉利轮子'
+    
+class GeelyShell(Shell):
+    '''
+    吉利壳子厂
+    '''
+    def makeShell(self):
+        return '吉利壳子'
+
+
+
+class AbcstractCarFactory(object):
+    '''
+    抽象的造车工厂
+    '''
+    def create_Wheel(self):
+        '''
+        轮子
+        '''
+        pass
+    
+    def create_Shell(self):
+        '''
+        壳子
+        '''
+        pass
+
+
+class CheryFactory(AbcstractCarFactory):
+    '''
+    奇瑞汽车工厂
+    '''
+
+    def create_Wheel(self):
+        return CheryWheel()
+    
+    def create_Shell(self):
+        return CheryShell()
+
+class GeelyFactory(AbcstractCarFactory):
+    '''
+    吉利汽车工厂
+    '''
+    def create_Wheel(self):
+        return GeelyWheel()
+    
+    def create_Shell(self):
+        return GeelyShell()
+
+
+if __name__ == "__main__":
+    car=sys.argv[1]
+    mycar=''
+    if car=='Chery':
+        mycar=CheryFactory()
+    elif car=='Geely':
+        mycar=GeelyFactory()
+    else:
+        print('没有该车型。')
+        exit(0)
+    
+    wheel=mycar.create_Wheel()
+    shell=mycar.create_Shell()
+    print('你已经生了%s和%s'%(wheel.makeWheel(),shell.makeShell()))
+```
