@@ -1,0 +1,74 @@
+---
+date: 2020-06-03 14:33
+status: public
+title: '2020-06-03-2 API'
+---
+
+一、API
+    小程序开发框架提供丰富的微信原生API，可以方便的条用微信提供的能力。如获取用户信息，本地存储，支付功能等。
+    
+二、事件监听API
+    我们约定，以on开头的API用来监听某个事件是否触发。如：wx.onSocketOpen、wx.onCompassChange等。这类API接受一个回调函数作为参数，当事件触发时会调用这个回调函数，并经相关数据以参数形式传入。
+
+```
+wx.onCompasssChange(function(res){
+        console.log(res.direction)
+})
+```
+
+三、同步API
+    我们约定，以Sync结尾的API都是同步API，如：wx.setStorageSync,wx.getSystemInfoSync等。同步API的执行结果可以通过函数返回值直接获取，如果执行错误会抛出异常。
+
+```
+try{
+    wx.getStorageSync('key','value')
+}
+catch(e){
+    console.error(e)
+}
+```
+
+四、一异步API
+    大多数API都是异步，如、wx.request.wx.login等。这类API接口通常都接受一个Object类型的参数，这个参数都支持按需要制定以下字段来接受接口调用结果：
+
+* Object参数说明
+
+参数名	|类型	|必填	|说明
+---|---|---|---|
+success	|function|	否	|接口调用成功的回调函数
+fail	|function|	否|	接口调用失败的回调函数
+complete|	function |	否|	接口调用结束的回调函数（调用成功、失败都会执行）
+其他	|Any	|-	|接口定义的其他参数
+
+* 回调函数的参数
+    success,fail,complete函数调用时会传入一个Object类型参数，包含以下字段：
+
+属性|	类型	|说明
+---|---|---
+errMsg	 |string|	错误信息，如果调用成功返回 ${apiName}:ok
+errCode |	number |	错误码，仅部分 API 支持，具体含义请参考对应 API 文档，成功时为 0。
+其他	|Any|	接口返回的其他数据
+
+    异步API的执行结果需要通过Object类型的参数中传入的对应回调函数获取。部分异步API也会有返回值，可以用来实现更丰富的功能，如wx.request,wx.connectSocket等。
+    ```
+    wx.login({
+        success(res){
+            console.log(res.code)        
+        }    
+    })
+    ```
+    
+五、异步API返回promise
+    基础库2.10.2版本起，异步API支持callback & promise两种调用方式，当借口参数Object对象中不包含success,fail,complete时将默认返回promise，否则仍按回调方式执行，无返回值。
+
+```
+//callback 形式调用
+wx.chooseImage({
+    success(res){
+        console.log('res','res')
+    }
+})
+// promise调用
+wx.chooseImage().then(res=>console.log('res:',res))
+```
+    

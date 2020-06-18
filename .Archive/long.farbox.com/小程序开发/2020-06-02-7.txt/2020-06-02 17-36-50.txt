@@ -1,0 +1,99 @@
+---
+date: 2020-06-02 17:17
+status: public
+title: '2020-06-02-7 注册页面'
+---
+
+一、注册页面
+    对于小程序中的每个页面，都需要在页面对应的js文件中进行注册，指定页面的初始数据，生命周期，事件处理函数等。
+
+二、使用Page构造器注册页面
+
+```
+    //index.js
+    Page({
+        data:{
+            text:'this is page data.'
+        },
+        onLoad:function(options){
+            //页面创建时执行
+        },
+        onShow:funciton(){
+            //页面出现在前台时执行        
+        },
+        onReady:function(){
+            //页面首次渲染完毕时执行        
+        },
+        onHide:function(){
+            //页面从前台变为后台时执行        
+        },
+        onUnload:function(){
+            //页面销毁时执行        
+        },
+        onPullDownRefresh:function(){
+            //触发下拉刷新时执行        
+        },
+        onReachBotton:function(){
+            //页面触底时执行    
+      },
+      onShareAppMessage:function(){
+            //页面被用户分享时执行      
+      },
+      onPageScroll:function(){
+            //页面滚动时执行      
+      },
+      onResize:function(){
+            //页面尺寸变化时执行
+      },
+      onTabItemTap(item){
+            //点击tab时执行
+            console.log(item.index)
+            console.log(item.pagePath)
+            console.log(item.text)
+      },
+      //事件响应函数
+      viewTap:function(){
+            this.setData({
+                    text:'set some data for updating view.' 
+            },function(){
+                    //this is setData callback
+            })      
+      },
+      //用户自定义数据
+      customData:{
+            hi:"MINA"      
+      }
+    })
+```
+
+二、在页面使用behaviors
+    页面可以引用behaviors。behavios可以用来让多个页面由相同的数据字段和方法。
+    
+```
+//my-behaviors.js
+module.exports=Behavior({
+    data:{
+            shareText:'this is a piece of data shared between pages.'    
+    },
+    methods:{
+        sharedMethod:funciton(){
+            this.data.shareText==='his is a piece of data shared between pages';     
+        }    
+    }
+})
+```
+
+页面引用
+```
+// page-a.js
+var myBehavior = require('./my-behavior.js')
+Page({
+  behaviors: [myBehavior],
+  onLoad: function() {
+    this.data.sharedText === 'This is a piece of data shared between pages.'
+  }
+})
+```
+
+三、使用component构造器构造页面
+    page构造器适用于简单的页面，但对于复杂的页面，page构造器可能并不好用。

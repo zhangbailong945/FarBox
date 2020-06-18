@@ -1,0 +1,77 @@
+---
+date: 2020-06-03 15:30
+status: public
+title: '2020-06-03-4 WXML'
+---
+
+一、WXML
+    WXML是框架设计的一套标签语言，结合基础组件、事件系统、可以构造出页面的结构。
+
+1、数据绑定
+```
+//wxml
+<view>
+{{message}}
+</view>
+```
+
+```
+//page.js
+page({
+    data:{
+        message:'Hello MINA!'    
+    }
+})
+```
+
+2、列表渲染
+```
+//wxml
+<view wx:for="{{array}}">{{item}}</view>
+```
+```
+//page.js
+Page({
+    data:{
+            array:[1,2,3,4,5]    
+    }
+})
+```
+
+3、条件渲染
+```
+//wxml
+<view wx:if="{{view=='WEBVIEW'}}">WEBVIEW</view>
+<view wx:elif="{{view=='APP'}}">APP</view>
+<view wx:else="{{view=='MINA'}}">MINA</view>
+```
+```
+//page.js
+Page({
+        data:{
+        view:'MINA'
+        }
+})
+```
+
+4、模板
+```
+<template name="staffName">
+    <view>
+    FirstName:{{firstName}},LastName:{{lastName}}
+    </view>
+</template>
+<template is="staffName" data="{....stafffA}"></template>
+<template is="staffName" data="{....stafffB}"></template>
+<template is="staffName" data="{....stafffC}"></template>
+```
+```
+//page.js
+Page({
+    data:{
+        staffA:{firstName:'Zhang',lastName:'San'}, 
+        staffB:{firstName:'Li',lastName:'Si'}, 
+        staffC:{firstName:'Wang',lastName:'Wu'}, 
+    }
+})
+```

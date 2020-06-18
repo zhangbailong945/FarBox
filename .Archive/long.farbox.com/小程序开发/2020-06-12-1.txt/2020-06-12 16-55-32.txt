@@ -1,0 +1,102 @@
+---
+date: 2020-06-12 15:51
+status: public
+title: '2020-06-12-1 组件通信和事件'
+---
+
+一、组件间通信
+    1.WXML数据绑定：用于父组件向子组件的指定属性设置数据，仅能设置JSON兼容数据。
+    2.事件：用于子组件向父组件传递数据，可以传递任意数据。
+    3.如果以上两种方式不足以满足需要，父组件还可以通过this.selectComponent方法获取子组件实例对象，这样就可以直接访问组件的任意数据和方法。
+
+二、监听事件
+    事件系统是组件间通信的主要方式之一。自定义组件可以触发任意事件，引用组件的页面可以监听这些事件。
+    监听自定义组件事件的方法与监听基础组件事件的方法完全一致。
+    
+```
+<component-tag-name bindmyevent="onMyEvent"/>
+//或者
+<component-tag-name bind:myevent="onMyEvent"/>
+```
+
+```
+Page({
+    onMyEvent:function(e){
+        e.detail    
+    }
+})
+```
+
+三、触发事件
+    自定义组件触发事件时，需要使用tiggerEvent方法，指定事件名，detail对象和事件选项。
+
+```
+<button bindtap="onTap">点击这个按钮触发myevent事件</button>
+```
+```
+Component({
+    properties:{},
+    method:{
+        onTap:function(){
+            var myEventDetail={}
+            var myEventOption={}
+            this.tiggerEvent('myevent',myEventDetail,myEventOption)        
+        }    
+    }
+})
+```
+
+触发的事件包括:
+选项名	|类型	|是否必填	|默认值	|描述
+---|---|---|---|---
+bubbles	|Boolean|	否	|false|	事件是否冒泡
+composed	|Boolean|	否|	false|	事件是否可以穿越组件边界，为false时，事件将只能在引用组件的节点树上触发，不进入其他任何组件内部
+capturePhase	|Boolean|	否|	false|	事件是否拥有捕获阶段
+
+```
+//page.wxml
+<another-component bindcustomerevent="pageEventListener1">
+    <my-component bindcustomerevent="pageEventListener2"></my-component>
+</another-component>
+```
+```
+//another-component.wxml
+<view bindcustomerevent="anotherEventListener">
+    <slot>
+</view>
+```
+
+```
+//my-component.wxml
+<my-component bindcustomer="myEventListener">
+<slot/>
+<my-component>
+```
+
+```
+//my-component.js
+Component({
+    methods:{
+        onTap:function(){
+            this.triggerEvent('customerevent',{}) 
+            this.triggerEvent('customerevent',{},{bubbles:true})
+            this.triggerEvent('customerevent',{},{bubbles:true,composed:true})       
+        }    
+    }
+})
+```
+
+四、获取组件实例
+    可在父组件里调用this.selectComponent，获取子组件的实例对象。
+    调用时需要传入一个匹配选择器selector,如:this.selectComponent('.my-component')
+
+```
+//父组件
+Page({
+    data:{},
+    getChildComponent:function(){
+        const child=this.selectComponent('.my-component');
+        console    
+    }
+})
+```

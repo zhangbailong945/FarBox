@@ -1,0 +1,53 @@
+---
+date: 2020-06-02 16:31
+status: public
+title: '2020-06-02-3 4、全局配置'
+---
+
+一、全局配置
+    app.json文件用来对微信小程序进行全局配置，决定页面文件的路径，窗口表现、设置网络超时时间，设置多个tab等。
+
+示例代码：
+```
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "Demo"
+  },
+  "tabBar": {
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text": "首页"
+    }, {
+      "pagePath": "pages/logs/index",
+      "text": "日志"
+    }]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true,
+  "navigateToMiniProgramAppIdList": [
+    "wxe5f52902cf4de896"
+  ]
+}
+
+```
+
+二、页面配置
+    每一个小程序也可以使用同名的.json文件对当前页面的窗口表现进行配置。页面中的配置会覆盖app.json的window中相同的配置项。
+    
+示例代码：
+```
+{
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "微信接口功能演示",
+  "backgroundColor": "#eeeeee",
+  "backgroundTextStyle": "light"
+}
+```

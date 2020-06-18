@@ -1,0 +1,8 @@
+---
+date: 2020-06-15 13:27
+status: public
+title: '2020-06-15-1 behavior'
+---
+
+一、behavior
+    behavior是用于组件间代码共享的特性，类似于一些编程语言中的"mixins"

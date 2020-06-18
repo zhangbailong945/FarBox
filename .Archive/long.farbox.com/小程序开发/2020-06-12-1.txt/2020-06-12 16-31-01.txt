@@ -1,0 +1,47 @@
+---
+date: 2020-06-12 15:51
+status: public
+title: '2020-06-12-1 组件通信和事件'
+---
+
+一、组件间通信
+    1.WXML数据绑定：用于父组件向子组件的指定属性设置数据，仅能设置JSON兼容数据。
+    2.事件：用于子组件向父组件传递数据，可以传递任意数据。
+    3.如果以上两种方式不足以满足需要，父组件还可以通过this.selectComponent方法获取子组件实例对象，这样就可以直接访问组件的任意数据和方法。
+
+二、监听事件
+    事件系统是组件间通信的主要方式之一。自定义组件可以触发任意事件，引用组件的页面可以监听这些事件。
+    监听自定义组件事件的方法与监听基础组件事件的方法完全一致。
+    
+```
+<component-tag-name bindmyevent="onMyEvent"/>
+//或者
+<component-tag-name bind:myevent="onMyEvent"/>
+```
+
+```
+Page({
+    onMyEvent:function(e){
+        e.detail    
+    }
+})
+```
+
+三、触发事件
+    自定义组件触发事件时，需要使用tiggerEvent方法，指定事件名，detail对象和事件选项。
+
+```
+<button bindtap="onTap">点击这个按钮触发myevent事件</button>
+```
+```
+Component({
+    properties:{},
+    method:{
+        onTap:function(){
+            var myEventDetail={}
+            var myEventOption={}
+            this.tiggerEvent('myevent',myEventDetail,myEventOption)        
+        }    
+    }
+})
+```

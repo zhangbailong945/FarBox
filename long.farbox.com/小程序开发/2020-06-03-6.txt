@@ -1,0 +1,51 @@
+---
+date: 2020-06-03 16:14
+status: public
+title: 2020-06-03-6 WXS
+---
+
+一、WXS
+    WXS是小程序的一套脚步语言，结合WXML,可以构建出页面的结构。
+
+二、注意
+    1.WXS不依赖运行时的基础库版本，可以在所有版本的小程序运行。
+    2.WXS与JavaScript是不同的语言，有自己的语法，并不和JavaScript一致。
+    3.WXS的运行坏境和其他JavaScript代码是隔离的，WXS中不能调用其他JavaScript文件中定义的函数，也不能调用小程序提供的API。
+    4.WXS函数不能作为组件的事件回调。
+    5.由于运行坏境的差异，在IOS设备上小程序内的WXS会比JavaScript代码块2-20倍。
+
+三、页面渲染
+```
+<wxs module='m1'>
+var msg=""hello world;
+module.exports.message=msg;
+</wxs>
+<view>
+{{m1.message}}
+</view>
+```
+
+四、数据处理
+```
+//page.js
+page({
+    data:{
+        array:[1,2,34,5,1,2,3,4]    
+    }
+})
+```
+```
+<wxs module="m1">
+var getMax=function(array){
+    var max=undefind;
+    for(var i=0;i<array.length,++i){
+        max=max===undefind?
+        array[i]:
+        (max>=array[i]?max:array[i]);    
+    }
+    return max;
+}
+module.exports.getMax=getMax;
+</wxs>
+<view>{{m1.getMax(array)}}</view>
+```

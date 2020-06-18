@@ -1,0 +1,24 @@
+---
+date: 2020-06-15 13:27
+status: public
+title: '2020-06-15-1 behavior'
+---
+
+一、behavior
+    behavior是用于组件间代码共享的特性，类似于一些编程语言中的"mixins"或"traits"。
+    每个behavior可以包含一组属性、数据、生命周期函数和方法。组件引用它时，它的属性、数据和方法会被合并到组件中，生命周期函数也会在对于时机被调用。组件可以引用多个behavior，behavior也可以引用其他的behavior。
+
+二、组件中使用
+    组件引用时，在behavior定义段中将他们逐个列出即可。
+```
+var myBehavior=requie('my-behavior')
+Component({
+    behavior:[myBeahvior],
+    properties:{
+        myProperty:{
+            type:String        
+        }    
+    },
+    dat
+})
+```

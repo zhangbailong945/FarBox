@@ -1,0 +1,120 @@
+---
+date: 2020-06-18 15:19
+status: public
+title: '2020-06-18 组件间的关系'
+---
+
+一、定义组件和使用组件间关系
+```
+<custom-ul>
+    <custom-li>item1</custom-li>
+    <custom-li>item2</custom-li>    
+</custom-ul>
+```
+
+这个例子中，custom-ul和custom-li都是自定义组件，他们有相互间的关系，相互间的通信往往比较复杂。此时在组件时加入relations定义段。可以解决这样的问题。
+```
+//path/to/custom-ul.js
+Component({
+    relations:{
+        './custom-li':{
+            type:'child',
+            linked:function(target){
+                        //每次有custom-li被插入时执行
+            },
+            linkChanged:function(target){
+                //每次有custom-li被移动后执行            
+            },
+            unlinked:function(target){
+                //每次有custom-li被移除时只需            
+            }     
+        }    
+    },
+    method:{
+    _getAllLi:function(){
+        var nodes=this.getRelationNodes('/path/to/custom-li')    
+    }    
+    },
+    ready:function(){
+        this._getAllLi()    
+    }
+})
+```
+```
+//path/to/custom-li.js
+Component({
+    relations:{
+        './custom-ul':{
+            type:'parent', //关联的目标节点应为父节点
+            linked:function(target){
+            
+            },
+            linkChanged:function(target){
+            
+            } ,
+            unlinked:function(target){
+            
+            }       
+        }    
+    }
+})
+```
+注意：必须在两个组件定义中都加入relation定义，否则不会生效。
+
+二、关联一类组件
+有时，需要关联的是一类组件，如：
+```
+<custom-form>
+    <view>
+        input
+        <custom-input></custom-input>
+    </view>
+    <custom-submit>submit</custom-submit>
+    </view>
+</custom-form>
+```
+
+custom-form 组件想要关联cusotm-input和custom-submit两个组件。此时，如果这两个组件都有同一个behavior:
+```
+//path/to/costom-form-controls.js
+module.exports=Behavior({
+})
+```
+```
+var cusotmFormControls=require('./custom-form-controls')
+Component({
+    behaviors:[customFormControls],
+    relations:{
+        './custom-form' :{
+            type:'ancestor', //关联的目标节点应为祖先节点        
+        }   
+    }
+})
+```
+
+```
+//path/to/custom-submit.js
+var customFormControls=require('./custom-form-controls')
+Component({
+    behaviors:[customFormControls],
+    relations:{
+        './custom-form':{
+            type:'ancestor',  //关联的目标节点应为祖先节点       
+        }    
+    }
+})
+```
+
+则在relations关系定义中，可以使用这个behavior来代替组件路径作为关联的目标节点
+```
+//path/to/custom-form/js
+var customFormControls=require('./custom-form-controls')
+Component({
+    relations:{
+            'customFormControls':{
+                type:'descendant', //关联的目标节点应为子孙节点
+                target:customFormControls            
+            }    
+    }
+})
+```

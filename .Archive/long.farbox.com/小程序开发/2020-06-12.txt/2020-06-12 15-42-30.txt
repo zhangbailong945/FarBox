@@ -1,0 +1,48 @@
+---
+date: 2020-06-12 14:52
+status: public
+title: '2020-06-12 Component构造器'
+---
+
+一、Component构造器
+    Component构造器可用于定义组件，调用Component构造器可以指定组件的属性、数据、方法等。
+```
+Component({
+    behaviors:[],
+    properties:{
+        myProperty:{
+            type:String,
+            value:''        
+        },
+        myProperty:String
+    },
+    data:{},
+    lifetimes:{
+        attched:function(){},
+        moved:function(){},
+        detached:function(){}            
+    },
+    ready:function(){},
+    pageLifeTimes:{
+        show:function(){},
+        hide:function(){},
+        resize:function(){},    
+    },
+    methods:{
+        onMyButtonTap:function(){
+            this.setData({
+            
+            })        
+        },
+        _myPrivateMethod:function(){
+            this.setData({
+                            
+            })
+        },    
+    }
+})
+```
+二、使用Component构造器构造页面
+    小程序的页面也可以视为自定义组件。因而，页面也可以使用Component构造器，拥有与普通组件一样的定义段与实例方法。但此时要求对应json文件中包含usingComponents定义段。
+    此时，组件的属性可以用于接受页面的参数，如访问页面的/pages/index/index?paramA=123&paramB=xyz，如果声明有属性paramA或paramB,则他们会被赋值为123或xyz。
+    页面的声明周期

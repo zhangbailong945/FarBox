@@ -1,0 +1,33 @@
+---
+date: 2020-06-02 17:08
+status: public
+title: '2020-06-02-6 注册小程序'
+---
+
+一、注册小程序
+    每个小程序都需要在app.js中调用app方法注册小程序实例，绑定生命周期回调函数、错误监听和页面不存在监听函数等。
+    
+```
+   App({
+    onLaunch(options){
+      //do something initial when launch
+    },    
+    onShow(options){
+    },
+    onHide(){
+    },
+    onError(msg){
+    console.log(msg)
+    },
+    globalData:'i am global data'
+    })
+    
+```
+    
+二、实例共享
+        整个小程序只有一个App实例，时全部页面共享的。开发者可以通过getApp方法获取全局唯一的App实例，获取App上的数据或者调用开发者注册在app上的函数。
+    
+```
+const appInstance=getApp()
+console.log(appInstance.globalData)
+```

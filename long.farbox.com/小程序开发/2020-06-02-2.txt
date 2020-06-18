@@ -1,0 +1,22 @@
+---
+date: 2020-06-02 16:12
+status: public
+title: '2020-06-02-2 3、app.json文件'
+---
+
+1、源代码
+``` json
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#ccc",
+    "navigationBarTitleText": "小程序标题",
+    "navigationBarTextStyle":"black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
+```

@@ -1,0 +1,93 @@
+---
+date: 2020-06-15 13:27
+status: public
+title: '2020-06-15-1 behavior'
+---
+
+一、behavior
+    behavior是用于组件间代码共享的特性，类似于一些编程语言中的"mixins"或"traits"。
+    每个behavior可以包含一组属性、数据、生命周期函数和方法。组件引用它时，它的属性、数据和方法会被合并到组件中，生命周期函数也会在对于时机被调用。组件可以引用多个behavior，behavior也可以引用其他的behavior。
+
+二、组件中使用
+    组件引用时，在behavior定义段中将他们逐个列出即可。
+```
+var myBehavior=requie('my-behavior')
+Component({
+    behavior:[myBeahvior],
+    properties:{
+        myProperty:{
+            type:String        
+        }    
+    },
+    data:{
+            myData:'my-component-data'    
+    },
+    created:function(){
+        console.log('[my-component] created')    
+    },
+    attached:function(){
+        console.log('my-component ready')    
+    },
+    methods:{
+            myMethod:function(){
+                console.log('[my-component] log by myMethod')            
+            }   
+    },
+})
+```
+在上例中，my-component组件定义中加入了my-behavior。
+my-behavior结构如下：
+* 属性：myBehaviorProperty
+* 数据字段：myBehaviorData
+* 方法：myBehaviorMethod
+* 生命周期函数：attached,created,ready
+
+这将是my-component最终结构为：
+* 属性：myBehaviorProperty、myProperty
+* 数据字段：myBehaviorData、myData
+* 方法：myBehaviorMethod、myMethod
+* 生命周期函数：attached、created、ready
+
+当组件触发生命周期时，上例生命手气函数执行的顺序为：
+1.[my-behavior] created
+2.[my-component] created
+3.[my-behavior] attached
+4.[my-component] attached
+5.[my-behavior] ready
+6.[my-component] ready
+
+三、同名字段的覆盖和组合规则
+    组件和它引用的behavior中可以包含同名的字段、对这些字段的处理方法如下：
+* 如果有同名的属性(properties)或方法(methods):
+    1.若组件本身有这个属性或方法，则组件的属性或方法会覆盖behavior中的同名属性或方法
+    2.若组件本身无这个属性或方法、则组件的behavior字段中定义靠后的behavior的属性或方法覆盖靠前的同名属性或方法。
+    3、在2的基础上，若存在嵌套引用behavior的情况，则规则为：父behavior覆盖子behavior中的同名属性或方法。
+    
+* 如果有同名的数据字段(data):
+    1.若同名的数据字段都是对象类型，和进行对象合并
+    2.若其余情况会进行数据覆盖，覆盖规则为：组件>父behavior>子behavior、靠后的behavior>靠前的behavior。（优先级高的覆盖优先级低的，最大的为优先级最高）
+
+* 生命周期函数不会相互覆盖，而是在对于触发时机被逐个调用。
+    1.对于不同的生命周期函数之间，遵循组件生命周期函数的执行顺序；
+    2.对于同种生命周期函数，遵循如下规则：
+        * behavior优先于组件执行
+        * 子behavior优先于父behavior执行
+        * 靠前的behavior优先于靠后的behavior执行
+    3.如果同一个behavior被一个组件多次引用，它定义的生命周期函数只会被执行一次
+
+四、内置behavior
+    自定义组件可以通过引用内置的behavior来获取内置组件的一些行为
+```
+Component({
+    behavior:['wx://form-field']
+})
+```
+
+* wx://form-field
+    使自定义组件有类似表单控件的行为。form组件可以识别这些自定义组件，并在submit事件中返回组件的字段名以及对应字段值。
+
+* wx://form-field-group
+    使from组件可以识别到这个自定义组件内部的所有表单空间。
+
+* wx://form-field-button
+    使    

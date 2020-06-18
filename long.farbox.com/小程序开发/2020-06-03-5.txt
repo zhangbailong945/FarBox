@@ -1,0 +1,65 @@
+---
+date: 2020-06-03 15:30
+status: public
+title: '2020-06-03-5 WXSS'
+---
+
+一、WXSS
+    WXSS是一套样式语言，用于描述WXML的组件样式。
+    WXSS用来决定WXML的组件该怎么显示。
+    为了适应广大的前端开发者，WXSS具有CSS大部分特性。同时为了更适合开发微信小程序，WXSS对CSS进行了扩充以及修改。
+    * 尺寸单位
+    * 样式导入
+
+二、尺寸单位
+    rpx(responsive pixel):可以根据屏幕宽度进行自适应。规定屏幕宽为750rpx。如果在iphone6上，屏幕宽度为375rpx，共有750个物理像素，则750rpx=375px=750物理像素，1rpx=0.5px=1物理像素。
+
+设备	|rpx换算px (屏幕宽度/750)	|px换算rpx (750/屏幕宽度)
+---|---|---
+iPhone5	|1rpx = 0.42px	|1px = 2.34rpx
+iPhone6	|1rpx = 0.5px	|1px = 2rpx
+iPhone6 |Plus	1rpx = 0.552px	|1px = 1.81rpx
+
+三、样式导入
+    使用@import语句可以导入外联样式表，@import后跟需要导入的外联样式表的相对路径，用;表示语句结束。
+
+```
+//common.wxss
+.samll-p{
+  padding:5px;
+}
+```
+```
+//app.wxss
+@import "common.wxss";
+.middle-p{
+    padding:15px;
+}
+```
+
+四、内联样式
+    框架组件上支持使用它style,class属性来控制组件的样式。
+* style:镜头的样式统一写到class中。style接受动态的样式，在允许时会进行解析，请进来避免将平台样式写进style中，以免影响渲染速度。
+```
+<view style="color:{{color}}"/>
+```
+
+* class：用于指定样式规则，其属性值是样式规则中的类选择器名的集合，样式累吗不需要带上.，样式类名之间空格分隔。
+```
+<view class="normal_view"/>
+```
+
+五、选择器
+
+选择器	|样例	|样例描述
+---|---|---
+.class	|.intro	|选择所有拥有 class="intro" 的组件
+#id	|#firstname	|选择拥有 id="firstname" 的组件
+element	|view	|选择所有 view 组件
+element, element|	view, checkbox|	选择所有文档的 view 组件和所有的 checkbox 组件
+::after|	view::after|	在 view 组件后边插入内容
+::before	|view::before|	在 view 组件前边插入内容
+
+六、全局样式与局部样式
+    定义在app.wxss中的样式为全局样式，作用于每一个页面。在page的wxss文件中定义的样式为局部样式，之作用在对于的页面，并会覆盖app.wxss中相同的选择器。
+    

@@ -1,0 +1,56 @@
+---
+date: 2020-06-03 15:01
+status: public
+title: '2020-06-03-3 视图层'
+---
+
+一、视图层
+    框架的视图层由WXML与WXSS编写，由组件来进行展示。
+    将逻辑层的数据反应成视图，同时将视图层的时间发送给逻辑层。
+    WXML（weixin markup language）用于描述页面的机构。
+    WXS(weixin script)是小程序的一套脚步语音，结合WXML，可以构造出页面的结构。
+    WXSS(weixin style sheet) 用于描述页面的样式。
+    组件(Component)是视图的基本组成单元。
+    
+二、WXML
+    WXML是框架设计的一套标签语言，结合基础组件、事件系统、可以构造出页面的结构。
+
+1、数据绑定
+```
+//wxml
+<view>
+{{message}}
+</view>
+```
+
+```
+//page.js
+page({
+    data:{
+        message:'Hello MINA!'    
+    }
+})
+```
+
+2、列表渲染
+```
+//wxml
+<view wx:for="{{array}}">{{item}}</view>
+```
+```
+//page.js
+Page({
+    data:{
+            array:[1,2,3,4,5]    
+    }
+})
+```
+
+3、条件渲染
+```
+//wxml
+<view wx:if="{{view=='WEBVIEW'}}">WEBVIEW</view>
+<view wx:elif="{{view=='APP'}}">APP</view>
+<view wx:else="{{view=='MINA'}}">MINA</view>
+```
+```

@@ -1,0 +1,43 @@
+---
+date: 2020-06-18 15:19
+status: public
+title: '2020-06-18 组件间的关系'
+---
+
+一、定义组件和使用组件间关系
+```
+<custom-ul>
+    <custom-li>item1</custom-li>
+    <custom-li>item2</custom-li>    
+</custom-ul>
+```
+
+这个例子中，custom-ul和custom-li都是自定义组件，他们有相互间的关系，相互间的通信往往比较复杂。此时在组件时加入relations定义段。可以解决这样的问题。
+```
+//path/to/custom-ul.js
+Component({
+    relations:{
+        './custom-li':{
+            type:'child',
+            linked:function(target){
+                        //每次有custom-li被插入时执行
+            },
+            linkChanged:function(target){
+                //每次有custom-li被移动后执行            
+            },
+            unlinked:function(target){
+                //每次有custom-li被移除时只需            
+            }     
+        }    
+    },
+    method:{
+    _getAllLi:function(){
+     
+        var nodes=this.getRelationNodes('/path/to/custom-li')    
+    }    
+    },
+    ready:function(){
+        this._getAllLi()    
+    }
+})
+```

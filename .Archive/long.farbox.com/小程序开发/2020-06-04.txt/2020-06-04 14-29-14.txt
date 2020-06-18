@@ -1,0 +1,15 @@
+---
+date: 2020-06-04 14:25
+status: public
+title: '2020-06-04 简易双向绑定'
+---
+
+一、双向绑定语法
+    在WXML中，普通的属性的绑定是单向的。
+    
+    ```
+    <input value="{{value}}"/>
+    ```
+    
+        如果使用this.setData({value:'leaf'})来更新value,this.data.value和输入框显示的值被会更新为leaf；但如果用户修改了输入框的值，却不会同时改变this.data.value。
+        如果需要用户在输入的同时改变this.data.value,则需要借助简易双向绑定机制，

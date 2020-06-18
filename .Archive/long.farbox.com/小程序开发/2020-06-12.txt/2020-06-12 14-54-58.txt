@@ -1,0 +1,22 @@
+---
+date: 2020-06-12 14:52
+status: public
+title: '2020-06-12 Component构造器'
+---
+
+一、Component构造器
+    Component构造器可用于定义组件，调用Component构造器可以指定组件的属性、数据、方法等。
+```
+Component({
+    behaviors:[],
+    properties:{
+        myProperty:{
+            type:String,
+            value:''        
+        },
+        myProperty:{
+        
+        }
+    },
+})
+```

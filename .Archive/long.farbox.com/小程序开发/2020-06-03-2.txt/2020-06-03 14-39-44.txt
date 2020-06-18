@@ -1,0 +1,28 @@
+---
+date: 2020-06-03 14:33
+status: public
+title: '2020-06-03-2 API'
+---
+
+一、API
+    小程序开发框架提供丰富的微信原生API，可以方便的条用微信提供的能力。如获取用户信息，本地存储，支付功能等。
+    
+二、事件监听API
+    我们约定，以on开头的API用来监听某个事件是否触发。如：wx.onSocketOpen、wx.onCompassChange等。这类API接受一个回调函数作为参数，当事件触发时会调用这个回调函数，并经相关数据以参数形式传入。
+
+```
+wx.onCompasssChange(function(res){
+        console.log(res.direction)
+})
+```
+
+三、同步API
+    我们约定，以Sync结尾的API都是同步API，如：wx.setStorageSync,wx.getSystemInfoSync等。同步API的执行结果可以通过函数返回值直接获取，如果执行错误会抛出异常。
+
+```
+try{
+}
+catch(e){
+
+}
+```

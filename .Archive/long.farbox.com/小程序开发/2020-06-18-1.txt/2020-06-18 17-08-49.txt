@@ -1,0 +1,37 @@
+---
+date: 2020-06-18 16:11
+status: public
+title: '2020-06-18-1 数据监听器'
+---
+
+一、数据监听器
+    数据监听器可以用于监听和响应任何属性和数据字段的变化。
+
+二、使用数据监听器
+    有时，在一些数据字段被setData设置时，需要执行一些操作。
+    例如,this.data.sum用于是this.data.numberA与this.data.numberB的和，可以使用数据监听器进行如下实现。
+```
+Component({
+    attached:function(){
+        this.setData({
+                numberA:1,
+                numberB:2,        
+        })    
+    },
+    observers:{
+        'numberA,numberB':function(numberA,numberB){
+            this.setData({
+                    sum:numberA+numberB            
+            })        
+        }    
+    }
+})
+```
+
+三、监听字段语法
+    数据监听器支持监听属性或内部数据的变化，可以同时监听多个。一次setData最多触发每个监听器一次。同时，监听器可以监听子数据字段，如下列所示。
+```
+Component({
+    
+})
+```

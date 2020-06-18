@@ -1,0 +1,82 @@
+---
+date: 2020-06-03 16:25
+status: public
+title: 2020-06-03-7 事件系统
+---
+
+一、事件系统
+    事件是视图层到逻辑层的通讯方式
+    事件可以将用户的行为反馈到逻辑层进行处理。
+    事件可以绑定在组件上，当达到触发事件，就会执行逻辑层中对应事件处理函数。
+    事件对象可以携带额外信息，如id,dataset,touches.
+
+二、事件的使用方式
+    在组件中绑定一个事件处理函数。
+    如bindtap,当用户点击该组件的时候回在该页面的Page中找到相应的处理函数。
+ 
+```
+<view id="tapTest" data-hi="WeChat" bindtap="tapName">Clik me!</view>
+```
+
+```
+Page({
+    tapName:function(event){
+        console.log(event)    
+    }
+})
+```
+
+三、使用WXS函数响应事件
+    WXS函数接受2个参数，第一个是event，在原有的event的基础上加了event.instance对象，第二个参数是owerInstance,和event.instance一样是一个ComponentDescriptor对象。
+
+* 在组件中绑定和注册事件处理的WXS函数。
+```
+<wxs module="wxs" src="./test.wxs"></wxs>
+<view id="tapTest" data-hi="WeChat" bindtap="{{wxs.tapName}}">Clik me!</view>
+```
+
+* test.wxs文件实现tapName函数
+function tapName(event,owerInstance){
+    console.log('tap wechat',JSON.stringify(event))
+}
+
+module.exports={
+    tapName:tapName
+}
+
+
+四、事件分类
+    1.冒泡事件：当一个组件上的事件触发后，该事件会向父节点传递。
+    2.非冒泡事件：当一个组件上的事件被触发后，该事件不会向父节点传递。
+
+* WXML的冒泡事件列表:
+
+类型	|触发条件	|最低版本
+---|---|---
+touchstart	|手指触摸动作开始	|-
+touchmove	|手指触摸后移动	|-
+touchcancel	|手指触摸动作被打断，如来电提醒，弹窗	|-
+touchend	|手指触摸动作结束	|-
+tap	|手指触摸后马上离开	|-
+longpress	|手指触摸后，超过350ms再离开，如果指定了事件回调函数并触发了这个事件，tap事件将不被触|发	1.5.0
+longtap	|手指触摸后，超过350ms再离开（推荐使用longpress事件代替）	|-
+transitionend	|会在 WXSS transition 或 wx.createAnimation 动画结束后触发	|-
+animationstart	|会在一个 WXSS animation 动画开始时触发	|-
+animationiteration	|会在一个 WXSS animation 一次迭代结束时触发	|-
+animationend	|会在一个 WXSS animation 动画完成时触发	|-
+touchforcechange	|在支持 3D Touch 的 iPhone 设备，重按时会触发|	1.9.90
+
+五、普通事件绑定
+    事件绑定的写法类似于组件的属性。
+    ```
+    <view bindtap="handleTap">Click Here!</view>
+    ```
+
+六、绑定并阻止事件冒泡
+    除了bind外，也可以用catch来绑定事件。于bind不同，catch会阻止事件向上冒泡。
+```
+<view id="outer" bindtap="handleTap1">
+outer view
+</view>
+```
+    

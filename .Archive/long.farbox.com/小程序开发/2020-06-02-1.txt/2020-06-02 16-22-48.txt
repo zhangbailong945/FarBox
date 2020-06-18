@@ -1,0 +1,12 @@
+---
+date: 2020-06-02 16:04
+status: public
+title: '2020-06-02-1 2、目录详解'
+---
+
+一、
+1、app.wxss 小程序公共样式
+2、app.json 小程序公共配置
+3、app.js 小程序公共逻辑
+4、pages 页面集合
+5、utils 工具集合
